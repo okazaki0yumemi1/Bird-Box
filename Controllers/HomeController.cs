@@ -24,8 +24,9 @@ public class HomeController : Controller
         Audio.FFMpegSettings newSettings = new Audio.FFMpegSettings();
         var inputDevices = bash.GetAudioDevices();
         Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceId == "1").First(), newSettings);
-        //recordingObj.RecordAudio();
-        bash.ExecuteCommand($"python3 /home/m918/Bird-Box/BirdNET-Analyzer/analyze.py --i {newSettings.outputPath} --o ./recordings/");
+        var file = recordingObj.RecordAudio();
+        Audio.AudioProcessing audio = new Audio.AudioProcessing("/Recordings");
+        audio.ProcessAudio(file);
         return View();
     }
 
