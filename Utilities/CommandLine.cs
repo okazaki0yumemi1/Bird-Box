@@ -19,7 +19,9 @@ namespace Bird_Box.Utilities
                 if (line == "") return devices;
                 line.Trim();
                 string info = ExecuteCommand($"arecord -l | grep 'card {line}'");
-                devices.Add(new Audio.Microphone(line.TrimEnd(':'), info));
+                var devId = ExecuteCommand($"arecord -l | grep 'card {line}' | grep -o 'device [0-9]'").Split(" ")[1];
+                devId = line.Replace(":", ",") + devId.Replace(Environment.NewLine, "");
+                devices.Add(new Audio.Microphone(devId, info));
                 //Test devices here!
             }
             return devices;
