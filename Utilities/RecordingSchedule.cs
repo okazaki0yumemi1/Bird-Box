@@ -10,10 +10,10 @@ namespace Bird_Box.Utilities
         readonly int cpuThreads = 2;
         TimeSpan timer { get; set; }
         Queue<string> UnprocessedRecordings {get; set;} = new Queue<string>();
-        public RecordingSchedule(int threads, int seconds)
+        public RecordingSchedule(int threads, TimeSpan timespan)
         {
             cpuThreads = threads;
-            timer = TimeSpan.FromSeconds(seconds);
+            timer = timespan;
         }
         public async Task<int> RecordAndRecognize()
         {
