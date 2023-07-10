@@ -7,8 +7,4 @@
     <RootNamespace>Bird_Box</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="xFFmpeg.NET" Version="7.1.3" />
-  </ItemGroup>
-
 </Project>
