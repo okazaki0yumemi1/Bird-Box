@@ -36,7 +36,14 @@ namespace Bird_Box.Audio
                     return;
                 }  
             }
+            if (ffmpegExecutable == "")
+            {
+                //no ffmpeg found, falling back to ffmpeg
+                ffmpegExecutable = "ffmpeg";
+            }
+            return;
         }
+
         public void SetFFmpegExecPath(string newPath)
         {
             ffmpegExecutable = newPath;
