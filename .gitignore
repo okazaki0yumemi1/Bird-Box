@@ -41,4 +41,4 @@ obj/Debug/net7.0/staticwebassets/msbuild.Bird-Box.Microsoft.AspNetCore.StaticWeb
 obj/Debug/net7.0/staticwebassets/msbuild.build.Bird-Box.props
 obj/Debug/net7.0/staticwebassets/msbuild.buildMultiTargeting.Bird-Box.props
 obj/Debug/net7.0/staticwebassets/msbuild.buildTransitive.Bird-Box.props
-recordings/out.BirdNET.selection.table.txt
+Recordings/
