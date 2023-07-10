@@ -15,12 +15,12 @@ namespace Bird_Box.Audio
             inputDevice = newInputDevice;
             settings = newSettings;
         }
-        public bool RecordAudio()
+        public string RecordAudio()
         {
+            var fileName = Guid.NewGuid().ToString();
             var outputFile = settings.outputPath;
-            var result = ExecuteCommand($"{settings.ffmpegExecutable} -f alsa -i hw:{inputDevice.deviceId} -t 10 {settings.outputPath}/out.wav");
-            //Thread.Sleep(TimeSpan.FromSeconds(11));
-            return true;
+            var result = ExecuteCommand($"{settings.ffmpegExecutable} -f alsa -i hw:{inputDevice.deviceId} -t 10 {settings.outputPath}/{fileName}.wav");
+            return fileName;
         }
         async Task<string> ExecuteCommandAsync(string parameters)
         {
@@ -49,4 +49,5 @@ namespace Bird_Box.Audio
             return processOutput;
         }
     }
+    
 }

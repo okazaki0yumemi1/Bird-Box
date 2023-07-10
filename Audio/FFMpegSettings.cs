@@ -50,7 +50,7 @@ namespace Bird_Box.Audio
         }
         public FFMpegSettings()
         {
-            this.outputPath = "./recordings";
+            this.outputPath = "./Recordings";
             this.ffmpegExecutable = "ffmpeg";
         }
     }
