@@ -18,15 +18,10 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
+    public async Task<IActionResult> Privacy()
     {
-        Utilities.CommandLine bash = new Utilities.CommandLine();
-        Audio.FFMpegSettings newSettings = new Audio.FFMpegSettings();
-        var inputDevices = bash.GetAudioDevices();
-        Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceInfo.Contains("USB")).First(), newSettings);
-        var file = recordingObj.RecordAudio();
-        Audio.AudioProcessing audio = new Audio.AudioProcessing("/Recordings");
-        audio.ProcessAudio(file);
+        Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(1, 30);
+        schedule30sec.RecordAndRecognize();
         return View();
     }
 
