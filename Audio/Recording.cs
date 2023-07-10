@@ -19,7 +19,7 @@ namespace Bird_Box.Audio
         {
             var fileName = Guid.NewGuid().ToString();
             var outputFile = settings.outputPath;
-            var result = ExecuteCommand($"{settings.ffmpegExecutable} -f alsa -i hw:{inputDevice.deviceId} -t 10 {settings.outputPath}/{fileName}.wav");
+            var result = ExecuteCommand($"{settings.ffmpegExecutable} -f pulse -i hw:{inputDevice.deviceId} -ac 2 -t 10 {settings.outputPath}/{fileName}.wav");
             return fileName;
         }
         async Task<string> ExecuteCommandAsync(string parameters)
