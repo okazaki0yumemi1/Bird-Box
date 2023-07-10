@@ -1,0 +1,15 @@
+obj/Bird-Box.csproj.nuget.dgspec.json
+obj/Bird-Box.csproj.nuget.g.props
+obj/Bird-Box.csproj.nuget.g.targets
+obj/project.assets.json
+obj/project.nuget.cache
+obj/Debug/net7.0/.NETCoreApp,Version=v7.0.AssemblyAttributes.cs
+obj/Debug/net7.0/Bird-Box.AssemblyInfo.cs
+obj/Debug/net7.0/Bird-Box.AssemblyInfoInputs.cache
+obj/Debug/net7.0/Bird-Box.assets.cache
+obj/Debug/net7.0/Bird-Box.csproj.AssemblyReference.cache
+obj/Debug/net7.0/Bird-Box.GeneratedMSBuildEditorConfig.editorconfig
+obj/Debug/net7.0/Bird-Box.GlobalUsings.g.cs
+obj/Debug/net7.0/Bird-Box.RazorAssemblyInfo.cache
+obj/Debug/net7.0/Bird-Box.RazorAssemblyInfo.cs
+obj/Debug/net7.0/project.razor.json
