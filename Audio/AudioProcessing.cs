@@ -13,6 +13,20 @@ namespace Bird_Box.Audio
         public AudioProcessing(string recordingsPath)
         {
             pathToAudio = recordingsPath;
+            cpuThreads = GetCPUThreads();
+        }
+        string GetCPUThreads()
+        {
+            string processOutput;
+            var processInfo = new System.Diagnostics.ProcessStartInfo();
+            processInfo.FileName = "/bin/bash";
+            processInfo.Arguments = $"-c \"nproc";
+            processInfo.RedirectStandardOutput = true;
+            using (var process = System.Diagnostics.Process.Start(processInfo))
+            {
+                processOutput = process.StandardOutput.ReadToEnd();
+            }
+            return processOutput;
         }
         public async Task<bool> ProcessAudioAsync(string fileName)
         {
