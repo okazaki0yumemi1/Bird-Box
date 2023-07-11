@@ -22,6 +22,7 @@ public class HomeController : Controller
     {
         Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(TimeSpan.FromHours(3));
         schedule30sec.RecordAndRecognize();
+        schedule30sec.WriteResultsToDB();
         return View();
     }
 
