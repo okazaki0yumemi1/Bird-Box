@@ -20,7 +20,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Privacy()
     {
-        Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(1, 30);
+        Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(TimeSpan.FromHours(3));
         schedule30sec.RecordAndRecognize();
         return View();
     }
