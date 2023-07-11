@@ -7,12 +7,11 @@ namespace Bird_Box.Utilities
 {
     public class RecordingSchedule
     {
-        readonly int cpuThreads = 2;
         TimeSpan timer { get; set; }
         Queue<string> UnprocessedRecordings {get; set;} = new Queue<string>();
-        public RecordingSchedule(int threads, TimeSpan timespan)
+        List<Task> ProcessingAudio {get; set;} = new List<Task>();
+        public RecordingSchedule(TimeSpan timespan)
         {
-            cpuThreads = threads;
             timer = timespan;
         }
         public async Task<int> RecordAndRecognize()
@@ -21,10 +20,17 @@ namespace Bird_Box.Utilities
             int recordingsMade = 0;
             while (await periodicTimer.WaitForNextTickAsync())
             {
+                //Remove completed tasks:
+                ProcessingAudio.RemoveAll(x => x.IsCompleted);
+                //If there are more than 5 tasks, they should be finished first:
+                if (ProcessingAudio.Count >= 5)
+                {
+                    Task.WaitAll(ProcessingAudio.ToArray());
+                }
                 Record();
                 recordingsMade++;
-                RecognizeBird();
-                if ((recordingsMade * 10) > timer.Seconds) break;
+                ProcessingAudio.Add(RecognizeBird());
+                if (TimeSpan.FromSeconds(recordingsMade * 10).Hours >= timer.Hours) break;
             }
             return recordingsMade;
         }
@@ -39,7 +45,6 @@ namespace Bird_Box.Utilities
         public Task<bool> RecognizeBird()
         {
             Audio.AudioProcessing audio = new Audio.AudioProcessing("/Recordings");
-            audio.cpuThreads = cpuThreads.ToString();
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
     }
