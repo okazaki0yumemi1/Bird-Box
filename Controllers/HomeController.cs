@@ -20,8 +20,9 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Privacy()
     {
-        Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(TimeSpan.FromHours(3));
-        schedule30sec.RecordAndRecognize();
+        Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(TimeSpan.FromSeconds(30));
+        Task listening = schedule30sec.RecordAndRecognize();
+        //Task.WaitAll(listening);
         schedule30sec.WriteResultsToDB();
         return View();
     }
