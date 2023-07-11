@@ -17,23 +17,10 @@ namespace Bird_Box.Audio
         }
         public string RecordAudio()
         {
-            var fileName = Guid.NewGuid().ToString();
+            var fileName = DateTime.Now.ToString();
             var outputFile = settings.outputPath;
             var result = ExecuteCommand($"{settings.ffmpegExecutable} -f pulse -i hw:{inputDevice.deviceId} -ac 2 -t 10 {settings.outputPath}/{fileName}.wav");
             return fileName+".wav";
-        }
-        async Task<string> ExecuteCommandAsync(string parameters)
-        {
-            Task<string> processOutput;
-            var processInfo = new System.Diagnostics.ProcessStartInfo();
-            processInfo.FileName = "/bin/bash";
-            processInfo.Arguments = $"-c \"{parameters}";
-            processInfo.RedirectStandardOutput = true;
-            using (var process = System.Diagnostics.Process.Start(processInfo))
-            {
-                processOutput = process.StandardOutput.ReadToEndAsync();
-            }
-            return processOutput.Result;
         }
         string ExecuteCommand(string parameters)
         {

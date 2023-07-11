@@ -57,7 +57,7 @@ namespace Bird_Box.Utilities
         {
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(recordingsPath);
             var results = rrp.ProcessAllFiles();
-            return 1;
+            return results.Count;
         }
     }
 }

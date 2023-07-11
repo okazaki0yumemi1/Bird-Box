@@ -39,6 +39,7 @@ namespace Bird_Box.Audio
             {
                 processOutput = process.StandardOutput.ReadToEnd();
             }
+            
             if (processOutput.Contains("Finished")) return true;
             else return false;
         }
