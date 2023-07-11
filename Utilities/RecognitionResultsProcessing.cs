@@ -20,20 +20,23 @@ namespace Bird_Box.Utilities
             foreach (var line in lines)
             {
                 if (line == "") break;
-                result.Add(line.Replace("\n", ""));
+                var fileName = line.Replace($"{textResultsPath}/", "");
+                result.Add(fileName.Replace("\n", ""));
             }
             return result;
         }
         Models.IdentifiedBird ProcessTextFile(string fileName)
         {
             CommandLine bash = new CommandLine();
-            var lines = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1").Split("\t").ToList();
-            if (lines.Count <= 1) return (new Models.IdentifiedBird("No detection"));
+            var lines = bash.ExecuteCommand($" cat {textResultsPath}/{fileName} | head -n 2 | tail -n 1").Split("\t").ToList();
+            if (lines[0] != "1") return (new Models.IdentifiedBird("No detection"));
             else 
             {
                 var threshold = lines.Last();
                 lines.RemoveAt(lines.Count - 1);
-                var newBird = new Models.IdentifiedBird(lines.Last(), threshold.Replace("\n", ""), Convert.ToDateTime(fileName));
+                var fileNameTrimmed = fileName.Substring(0, 19);
+                var time = DateTime.ParseExact(fileNameTrimmed, "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss", null);
+                var newBird = new Models.IdentifiedBird(lines.Last(), threshold.Replace("\n", ""), time);
                 return newBird;
             }
         }

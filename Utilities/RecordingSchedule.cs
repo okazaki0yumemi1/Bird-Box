@@ -36,7 +36,7 @@ namespace Bird_Box.Utilities
                 Record();
                 recordingsMade++;
                 ProcessingAudio.Add(RecognizeBird());
-                if (TimeSpan.FromSeconds(recordingsMade * 10).Hours >= timer.Hours) break;
+                if (TimeSpan.FromSeconds(recordingsMade * 10).Seconds >= timer.Seconds) break;
             }
             return recordingsMade;
         }

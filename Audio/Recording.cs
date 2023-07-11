@@ -17,7 +17,7 @@ namespace Bird_Box.Audio
         }
         public string RecordAudio()
         {
-            var fileName = DateTime.Now.ToString();
+            var fileName = DateTime.Now.ToString("yyyy'-'MM'-'dd'-'HH'-'mm'-'ss-ffff");//DateTime.Now.ToString();
             var outputFile = settings.outputPath;
             var result = ExecuteCommand($"{settings.ffmpegExecutable} -f pulse -i hw:{inputDevice.deviceId} -ac 2 -t 10 {settings.outputPath}/{fileName}.wav");
             return fileName+".wav";
