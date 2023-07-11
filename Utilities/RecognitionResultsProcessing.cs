@@ -33,7 +33,7 @@ namespace Bird_Box.Utilities
             {
                 var threshold = lines.Last();
                 lines.RemoveAt(lines.Count - 1);
-                var newBird = new Models.IdentifiedBird(lines.Last(), threshold.Replace("\n", ""));
+                var newBird = new Models.IdentifiedBird(lines.Last(), threshold.Replace("\n", ""), Convert.ToDateTime(fileName));
                 return newBird;
             }
         }

@@ -16,11 +16,12 @@ namespace Bird_Box.Models
             objId = Guid.NewGuid();
             birdName = detectedBirdName;
         }
-        public IdentifiedBird(string detectedBirdName, string threshold)
+        public IdentifiedBird(string detectedBirdName, string threshold, DateTime recDate)
         {
             objId = Guid.NewGuid();
             birdName = detectedBirdName;
             detectionThreshold = threshold;
+            recodingDate = recDate;
         }
     }
 }
