@@ -10,9 +10,15 @@ namespace Bird_Box.Utilities
         TimeSpan timer { get; set; }
         Queue<string> UnprocessedRecordings {get; set;} = new Queue<string>();
         List<Task> ProcessingAudio {get; set;} = new List<Task>();
+        string recordingsPath { get; set;} = "Recordings";
         public RecordingSchedule(TimeSpan timespan)
         {
             timer = timespan;
+        }
+        public RecordingSchedule(TimeSpan timespan, string resultsPath)
+        {
+            timer = timespan;
+            recordingsPath = resultsPath;
         }
         public async Task<int> RecordAndRecognize()
         {
@@ -44,8 +50,14 @@ namespace Bird_Box.Utilities
         }
         public Task<bool> RecognizeBird()
         {
-            Audio.AudioProcessing audio = new Audio.AudioProcessing("/Recordings");
+            Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath);
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
+        }
+        public int WriteResultsToDB()
+        {
+            RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(recordingsPath);
+            var results = rrp.ProcessAllFiles();
+            return 1;
         }
     }
 }
