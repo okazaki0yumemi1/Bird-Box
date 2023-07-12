@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Bird_Box.Utilities
@@ -20,7 +21,7 @@ namespace Bird_Box.Utilities
             timer = timespan;
             recordingsPath = resultsPath;
         }
-        public async Task<int> RecordAndRecognize()
+        public async Task<int> RecordAndRecognize(string minConfidence)
         {
             //var secondsElapsed = new TimeSpan(0, 0, 0);
             var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
@@ -36,7 +37,7 @@ namespace Bird_Box.Utilities
                 }
                 Record();
                 recordingsMade++;
-                ProcessingAudio.Add(RecognizeBird());
+                ProcessingAudio.Add(RecognizeBird(minConfidence));
                 if ((recordingsMade*10) >= timer.TotalSeconds) break;
             }
             return recordingsMade;
@@ -49,9 +50,12 @@ namespace Bird_Box.Utilities
             Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceInfo.Contains("USB")).First(), newSettings);
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
-        public Task<bool> RecognizeBird()
+        public Task<bool> RecognizeBird(string minConfidence)
         {
+            var regexIsDouble = new Regex("\\[0,1].[3-9]{3}");
             Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath);
+            Match m = regexIsDouble.Match(minConfidence);
+            if (m.Success) audio.minConfidence = minConfidence;
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
     }

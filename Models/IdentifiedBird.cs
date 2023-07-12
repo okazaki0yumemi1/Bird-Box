@@ -8,7 +8,7 @@ namespace Bird_Box.Models
         public Guid objId {get; private set;}
         public string birdName {get; private set;} = "";
         public string detectionThreshold {get; private set;} = "0";
-        DateTime recodingDate {get; set;} = DateTime.Now;
+        public DateTime recodingDate {get; set;} = DateTime.Now;
         public IdentifiedBird(string detectedBirdName)
         {
             objId = Guid.NewGuid();
