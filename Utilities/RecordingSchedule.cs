@@ -22,6 +22,7 @@ namespace Bird_Box.Utilities
         }
         public async Task<int> RecordAndRecognize()
         {
+            //var secondsElapsed = new TimeSpan(0, 0, 0);
             var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
             int recordingsMade = 0;
             while (await periodicTimer.WaitForNextTickAsync())
@@ -36,7 +37,7 @@ namespace Bird_Box.Utilities
                 Record();
                 recordingsMade++;
                 ProcessingAudio.Add(RecognizeBird());
-                if (TimeSpan.FromSeconds(recordingsMade * 10).Seconds >= timer.Seconds) break;
+                if ((recordingsMade*10) >= timer.TotalSeconds) break;
             }
             return recordingsMade;
         }
@@ -52,12 +53,6 @@ namespace Bird_Box.Utilities
         {
             Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath);
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
-        }
-        public int WriteResultsToDB()
-        {
-            RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(recordingsPath);
-            var results = rrp.ProcessAllFiles();
-            return results.Count;
         }
     }
 }

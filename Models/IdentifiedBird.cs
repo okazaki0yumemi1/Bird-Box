@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bird_Box.Models
 {
     public class IdentifiedBird
     {
+        [Key]
         public Guid objId {get; private set;}
         public string birdName {get; private set;} = "";
         public string detectionThreshold {get; private set;} = "0";
@@ -22,6 +20,10 @@ namespace Bird_Box.Models
             birdName = detectedBirdName;
             detectionThreshold = threshold;
             recodingDate = recDate;
+        }
+        public IdentifiedBird()
+        {
+             objId = Guid.NewGuid();
         }
     }
 }
