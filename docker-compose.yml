@@ -1,0 +1,35 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  birdbox:
+    image: birdbox
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 5266:5266
+    depends_on:
+     - postgres
+    restart: unless-stopped
+    networks:
+      - birdBoxNetwork
+
+  postgres:
+    container_name: postgres-birdbox
+    image: postgres
+    environment:
+      POSTGRES_USER: birdcatcher
+      POSTGRES_PASSWORD: birdboxdb
+      PGDATA: /data/postgres
+    volumes:
+      - postgres-birdBox:/data/postgres
+    restart: unless-stopped
+    networks:
+      - birdBoxNetwork
+volumes:
+  postgres-birdBox:
+
+networks:
+  birdBoxNetwork:
