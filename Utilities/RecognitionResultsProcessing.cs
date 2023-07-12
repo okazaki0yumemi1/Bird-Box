@@ -36,7 +36,7 @@ namespace Bird_Box.Utilities
                 lines.RemoveAt(lines.Count - 1);
                 var fileNameTrimmed = fileName.Substring(0, 19);
                 var time = DateTime.ParseExact(fileNameTrimmed, "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss", null);
-                var newBird = new Models.IdentifiedBird(lines.Last(), threshold.Replace("\n", ""), time);
+                var newBird = new Models.IdentifiedBird(lines.Last(), threshold.Replace("\n", ""), time.ToUniversalTime());
                 return newBird;
             }
         }

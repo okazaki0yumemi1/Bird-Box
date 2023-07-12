@@ -8,7 +8,7 @@ namespace Bird_Box.Audio
     public class AudioProcessing
     {
         string pathToAudio {get; set;}
-        string minConfidence {get; set;} = "0.5";
+        public string minConfidence {get; set;} = "0.5";
         public string cpuThreads { get; set; } = "1";
         public AudioProcessing(string recordingsPath)
         {

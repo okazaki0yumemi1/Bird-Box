@@ -39,11 +39,11 @@ namespace Bird_Box.Controllers
             if (records == null) return NotFound();
             return Ok(records);
         }
-        [HttpPost("results/start/{hours}")]
-        public async Task<IActionResult> StartRecordingForHours([FromRoute]double hours)
+        [HttpPost("results/start")]
+        public async Task<IActionResult> StartRecordingForHours([FromRoute]double hours, [FromRoute] string? confidenceThreshold)
         {
             Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(TimeSpan.FromHours(hours));
-            ListeningTask = schedule30sec.RecordAndRecognize();
+            ListeningTask = schedule30sec.RecordAndRecognize(confidenceThreshold);
             return Ok();
         }
         [HttpGet("results/process")]
