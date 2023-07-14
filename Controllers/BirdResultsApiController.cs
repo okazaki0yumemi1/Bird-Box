@@ -30,20 +30,32 @@ namespace Bird_Box.Controllers
         public async Task<IActionResult> GetAll()
         {
             var results = _dbOperations.GetAll();
+            results.OrderByDescending(x => x.recodingDate);
             return Ok(results);
         }
-        [HttpGet("results/{birdName}")]
+        [HttpPost("results/byDate")]
+        public async Task<IActionResult> GetAllDetectionsByDay([FromBody] DateTime yyyyMMdd)
+        {
+            DateTime date = yyyyMMdd;
+            //DateTime.TryParse(yyyyMMdd, out date);
+            var results = _dbOperations.GetByDate(date);
+            results.OrderByDescending(x => x.recodingDate);
+            return Ok(results);
+        }
+        [HttpGet("results/bird/{birdName}")]
         public async Task<IActionResult> GetBirdByName([FromRoute] string birdName)
         {
             var records = _dbOperations.GetByBirdName(birdName);
             if (records == null) return NotFound();
             return Ok(records);
         }
-        [HttpPost("results/start")]
-        public async Task<IActionResult> StartRecordingForHours([FromRoute]double hours, [FromRoute] string? confidenceThreshold)
+        [HttpPost("results/start/{confidenceThreshold}")]
+        public async Task<IActionResult> StartRecording([FromRoute] string? confidenceThreshold, [FromBody] string recordingTimeInHours)
         {
-            Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(TimeSpan.FromHours(hours));
-            ListeningTask = schedule30sec.RecordAndRecognize(confidenceThreshold);
+            TimeSpan hours;
+            if(!TimeSpan.TryParse(recordingTimeInHours, out hours)) hours = TimeSpan.FromHours(1); //default value - 1 hour
+            Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(hours);
+            ListeningTask = scheduleRecording.RecordAndRecognize(confidenceThreshold);
             return Ok();
         }
         [HttpGet("results/process")]
@@ -54,6 +66,14 @@ namespace Bird_Box.Controllers
             _dbOperations.CreateRange(results);
             return Ok();
         }
+        /*
+        [HttpGet("results/process/deleteJunk")]
+        public async Task<IActionResult> DeleteJunk()
+        {
+            _dbOperations.DeleteJunk();
+            return Ok();
+        }
+        */
     }
 }
 /*
