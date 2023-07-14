@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
 {
@@ -25,20 +26,29 @@ namespace Bird_Box.Utilities
             }
             return result;
         }
-        Models.IdentifiedBird ProcessTextFile(string fileName)
+        List<Models.IdentifiedBird> ProcessTextFile(string fileName)
         {
+            var birds = new List<IdentifiedBird>();
             CommandLine bash = new CommandLine();
-            var lines = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1").Split("\t").ToList();
-            if (lines[0] != "1") return (new Models.IdentifiedBird("No detection"));
-            else 
+            var linesTotal = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1").Split("\t");
+            if (linesTotal[0] != "1") 
             {
-                var threshold = lines.Last();
-                lines.RemoveAt(lines.Count - 1);
+                birds.Add(new IdentifiedBird("No detection"));
+                return birds;
+            }
+            //linesTotal.RemoveAt(0);
+            int birdsAdded = 0;
+            while (linesTotal.Length > birdsAdded*10)
+            {
+                birdsAdded++;
+                var threshold = linesTotal[9*birdsAdded];
+                var birdName = linesTotal[8*birdsAdded];
                 var fileNameTrimmed = fileName.Replace("Recordings/", "").Substring(0, 19);
                 var time = DateTime.ParseExact(fileNameTrimmed, "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss", null);
-                var newBird = new Models.IdentifiedBird(lines.Last(), threshold.Replace("\n", ""), time.ToUniversalTime());
-                return newBird;
+                var newBird = new Models.IdentifiedBird(birdName, threshold.Replace("\n", ""), time.ToUniversalTime());
+                birds.Add(newBird);
             }
+            return birds;
         }
         public List<Models.IdentifiedBird> ProcessAllFiles()
         {
@@ -48,13 +58,15 @@ namespace Bird_Box.Utilities
             var bash = new CommandLine();
             foreach (var file in files)
             {
-                var bird = ProcessTextFile(file);
-                if ((bird.birdName == "No detection") || (bird.detectionThreshold == "0") || (bird.birdName.Contains("Human"))) 
+                var birdsInASingleFile = ProcessTextFile(file);
+                foreach (var birdEntity in birdsInASingleFile)
                 {
-                    bash.ExecuteCommand($"rm {file}");
-                    break;
+                    if ((birdEntity.birdName == "No detection") || (birdEntity.detectionThreshold == "0") || (birdEntity.birdName.Contains("Human")))
+                    {
+                        break;
+                    }
+                    birds.Add(birdEntity);
                 }
-                birds.Add(bird);
                 bash.ExecuteCommand($"rm {file}");
                 detections++;
             }
