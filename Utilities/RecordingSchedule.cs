@@ -52,11 +52,17 @@ namespace Bird_Box.Utilities
         }
         public Task<bool> RecognizeBird(string minConfidence)
         {
-            var regexIsDouble = new Regex("[0,1].[0-9]{3}");
+            double confidenceInput = 0.7d;
             Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath);
-            Match m = regexIsDouble.Match(minConfidence);
-            if (m.Success) audio.minConfidence = minConfidence;
-            audio.minConfidence = "0.5";
+            if (Double.TryParse(minConfidence, out confidenceInput)) 
+            {
+                if ((confidenceInput < 1) && (confidenceInput > 0.01))
+                {
+                    audio.minConfidence = confidenceInput.ToString();
+                }
+                else audio.minConfidence = 0.75d.ToString();
+            }
+            else audio.minConfidence = 0.75d.ToString();
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
     }
