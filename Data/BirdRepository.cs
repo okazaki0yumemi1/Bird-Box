@@ -26,9 +26,9 @@ namespace Bird_Box.Data
         }
         public List<Models.IdentifiedBird> GetByDate(DateTime exactDate)
         {
-            var exactDateToUTC = exactDate.ToUniversalTime().Date;
+            //var exactDateToUTC = exactDate.ToUniversalTime().Date;
             return _context.BirdRecords
-            .Where(x => x.recodingDate.Date == exactDateToUTC)
+            .Where(x => (x.recodingDate.Date == exactDate.Date) && (x.recodingDate.Hour == exactDate.Hour))
             .ToList();
         }
         public int Create(Models.IdentifiedBird newBird)
