@@ -47,15 +47,16 @@ namespace Bird_Box.Utilities
             Utilities.CommandLine bash = new Utilities.CommandLine();
             Audio.FFMpegSettings newSettings = new Audio.FFMpegSettings();
             var inputDevices = bash.GetAudioDevices();
-            Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceInfo.Contains("USB")).First(), newSettings);
+            Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault(), newSettings);
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
         public Task<bool> RecognizeBird(string minConfidence)
         {
-            var regexIsDouble = new Regex("\\[0,1].[3-9]{3}");
+            var regexIsDouble = new Regex("[0,1].[0-9]{3}");
             Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath);
             Match m = regexIsDouble.Match(minConfidence);
             if (m.Success) audio.minConfidence = minConfidence;
+            audio.minConfidence = "0.5";
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
     }

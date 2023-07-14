@@ -16,7 +16,7 @@ namespace Bird_Box.Utilities
         {
             var result = new List<string>();
             CommandLine bash = new CommandLine();
-            var lines = bash.ExecuteCommand($"ls -A {textResultsPath}/*.txt").Split("\n").ToList();;
+            var lines = bash.ExecuteCommand($"ls -A {textResultsPath}*.txt").Split("\n").ToList();;
             foreach (var line in lines)
             {
                 if (line == "") break;
@@ -28,13 +28,13 @@ namespace Bird_Box.Utilities
         Models.IdentifiedBird ProcessTextFile(string fileName)
         {
             CommandLine bash = new CommandLine();
-            var lines = bash.ExecuteCommand($" cat {textResultsPath}/{fileName} | head -n 2 | tail -n 1").Split("\t").ToList();
+            var lines = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1").Split("\t").ToList();
             if (lines[0] != "1") return (new Models.IdentifiedBird("No detection"));
             else 
             {
                 var threshold = lines.Last();
                 lines.RemoveAt(lines.Count - 1);
-                var fileNameTrimmed = fileName.Substring(0, 19);
+                var fileNameTrimmed = fileName.Replace("Recordings/", "").Substring(0, 19);
                 var time = DateTime.ParseExact(fileNameTrimmed, "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss", null);
                 var newBird = new Models.IdentifiedBird(lines.Last(), threshold.Replace("\n", ""), time.ToUniversalTime());
                 return newBird;
@@ -45,14 +45,18 @@ namespace Bird_Box.Utilities
             var birds = new List<Models.IdentifiedBird>();
             int detections = 0;
             var files = GetAllTextFiles();
+            var bash = new CommandLine();
             foreach (var file in files)
             {
                 var bird = ProcessTextFile(file);
-                if (bird.birdName != "No detection") 
+                if ((bird.birdName == "No detection") || (bird.detectionThreshold == "0") || (bird.birdName.Contains("Human"))) 
                 {
-                    birds.Add(bird); 
-                    detections++;
+                    bash.ExecuteCommand($"rm {file}");
+                    break;
                 }
+                birds.Add(bird);
+                bash.ExecuteCommand($"rm {file}");
+                detections++;
             }
             return birds;
         }
