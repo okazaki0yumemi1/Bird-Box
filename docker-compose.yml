@@ -9,10 +9,16 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 5266:5266
+      - 5266:5001
     depends_on:
-     - postgres
+      - postgres
     restart: unless-stopped
+    #devices:
+    #  - /dev/snd:/dev/snd
+    environment:
+     - PULSE_SERVER=unix:/run/user/1000/pulse/native=value
+    volumes:
+     - /run/user/1000/pulse/native:/run/user/1000/pulse/native
     networks:
       - birdBoxNetwork
 
