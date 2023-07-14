@@ -34,6 +34,7 @@ RUN dotnet publish "Bird-Box.csproj" -c Release -o /app/publish /p:UseAppHost=fa
 
 FROM base AS final
 WORKDIR /app
+RUN mkdir Data
 RUN mkdir Recordings
 COPY --from=publish /app/publish .
 
