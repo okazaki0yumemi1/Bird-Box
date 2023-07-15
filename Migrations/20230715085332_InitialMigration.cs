@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bird_Box.Migrations
 {
     /// <inheritdoc />
-    public partial class AlphaMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,9 +15,10 @@ namespace Bird_Box.Migrations
                 name: "BirdRecords",
                 columns: table => new
                 {
-                    objId = table.Column<Guid>(type: "uuid", nullable: false),
-                    birdName = table.Column<string>(type: "text", nullable: false),
-                    detectionThreshold = table.Column<string>(type: "text", nullable: false)
+                    objId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    birdName = table.Column<string>(type: "TEXT", nullable: false),
+                    detectionThreshold = table.Column<string>(type: "TEXT", nullable: false),
+                    recodingDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
