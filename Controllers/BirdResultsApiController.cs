@@ -52,28 +52,20 @@ namespace Bird_Box.Controllers
         [HttpPost("results/start/{confidenceThreshold}")]
         public async Task<IActionResult> StartRecording([FromRoute] string? confidenceThreshold, [FromBody] string recordingTimeInHours)
         {
+            if (!ListeningTask.IsCompleted) return Conflict("Listening task is already running!");
             TimeSpan hours;
             if(!TimeSpan.TryParse(recordingTimeInHours, out hours)) hours = TimeSpan.FromHours(1); //default value - 1 hour
             Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(hours);
             ListeningTask = scheduleRecording.RecordAndRecognize(confidenceThreshold);
-            return Ok();
+            return Ok($"The task will be run for {hours} hours.");
         }
         [HttpGet("results/process")]
         public async Task<IActionResult> WriteToDB()
         {
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
             var results = rrp.ProcessAllFiles();
-            _dbOperations.CreateRange(results);
-            return Ok();
+            return Ok($"Added {_dbOperations.CreateRange(results)} results");
         }
-        /*
-        [HttpGet("results/process/deleteJunk")]
-        public async Task<IActionResult> DeleteJunk()
-        {
-            _dbOperations.DeleteJunk();
-            return Ok();
-        }
-        */
     }
 }
 /*
