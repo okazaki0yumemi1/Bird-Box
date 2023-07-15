@@ -61,7 +61,19 @@ namespace Bird_Box.Utilities
                 var birdsInASingleFile = ProcessTextFile(file);
                 foreach (var birdEntity in birdsInASingleFile)
                 {
-                    if ((birdEntity.birdName == "No detection") || (birdEntity.detectionThreshold == "0") || (birdEntity.birdName.Contains("Human")))
+                    //Filtering background noise
+                    if (
+                        (birdEntity.birdName == "No detection") || 
+                        (birdEntity.detectionThreshold == "0") || 
+                        (birdEntity.birdName.Contains("Human")) ||
+                        (birdEntity.birdName == "Power tools") ||
+                        (birdEntity.birdName == "Siren") ||
+                        (birdEntity.birdName == "Engine") ||
+                        (birdEntity.birdName == "Gun") ||
+                        (birdEntity.birdName == "Fireworks") ||
+                        (birdEntity.birdName == "Environmental") ||
+                        (birdEntity.birdName == "Noise")
+                        )
                     {
                         break;
                     }
