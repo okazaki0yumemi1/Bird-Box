@@ -6,17 +6,13 @@ name: .NET web app
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
     
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -27,7 +23,6 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Publish
     - name: Create release for aarm64
       run: |
           dotnet publish -r linux-arm64 --self-contained --output releases/linux-arm64
