@@ -52,7 +52,6 @@ namespace Bird_Box.Controllers
         [HttpPost("results/start/{confidenceThreshold}")]
         public async Task<IActionResult> StartRecording([FromRoute] string? confidenceThreshold, [FromBody] string recordingTimeInHours)
         {
-            if (!ListeningTask.IsCompleted) return Conflict("Listening task is already running!");
             TimeSpan hours;
             if(!TimeSpan.TryParse(recordingTimeInHours, out hours)) hours = TimeSpan.FromHours(1); //default value - 1 hour
             Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(hours);
@@ -68,8 +67,3 @@ namespace Bird_Box.Controllers
         }
     }
 }
-/*
-        Utilities.RecordingSchedule schedule30sec = new Utilities.RecordingSchedule(TimeSpan.FromHours(3));
-        Task listening = schedule30sec.RecordAndRecognize();
-        Task.WaitAll(listening);
-*/
