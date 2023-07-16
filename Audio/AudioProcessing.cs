@@ -33,7 +33,7 @@ namespace Bird_Box.Audio
             string processOutput = "";
             var processInfo = new System.Diagnostics.ProcessStartInfo();
             processInfo.FileName = "/bin/bash";
-            processInfo.Arguments = $"-c \"python3 BirdNET-Analyzer/analyze.py --min_conf {minConfidence} --sensitivity 1.3 --threads {cpuThreads.Replace("\n", "")} --i Recordings/{fileName} --o /home/m918/Bird-Box/Recordings/{fileName}-result.txt";
+            processInfo.Arguments = $"-c \"python3 BirdNET-Analyzer/analyze.py --min_conf {minConfidence} --sensitivity 1.3 --threads {cpuThreads.Replace("\n", "")} --i Recordings/{fileName} --o Recordings/{fileName}-result.txt";
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
