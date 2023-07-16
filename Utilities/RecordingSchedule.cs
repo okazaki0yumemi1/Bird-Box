@@ -47,7 +47,7 @@ namespace Bird_Box.Utilities
             Utilities.CommandLine bash = new Utilities.CommandLine();
             Audio.FFMpegSettings newSettings = new Audio.FFMpegSettings();
             var inputDevices = bash.GetAudioDevices();
-            Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault(), newSettings);
+            Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault() ?? inputDevices.FirstOrDefault(), newSettings);
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
         public Task<bool> RecognizeBird(string minConfidence)
