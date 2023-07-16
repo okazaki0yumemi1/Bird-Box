@@ -12,6 +12,8 @@ RUN pulseaudio --start
 FROM base AS build-env
 RUN mkdir app
 WORKDIR /app
+RUN mkdir Data
+RUN mkdir Recordings
 EXPOSE 5001
 
 ENV ASPNETCORE_URLS=http://+:5001
@@ -34,8 +36,6 @@ RUN dotnet publish "Bird-Box.csproj" -c Release -o /app/publish /p:UseAppHost=fa
 
 FROM base AS final
 WORKDIR /app
-RUN mkdir Data
-RUN mkdir Recordings
 COPY --from=publish /app/publish .
 
 

@@ -10,32 +10,9 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 5266:5001
-    depends_on:
-      - postgres
     restart: unless-stopped
-    #devices:
-    #  - /dev/snd:/dev/snd
     environment:
      - PULSE_SERVER=unix:/run/user/1000/pulse/native=value
     volumes:
      - /run/user/1000/pulse/native:/run/user/1000/pulse/native
-    networks:
-      - birdBoxNetwork
-
-  postgres:
-    container_name: postgres-birdbox
-    image: postgres
-    environment:
-      POSTGRES_USER: birdcatcher
-      POSTGRES_PASSWORD: birdboxdb
-      PGDATA: /data/postgres
-    volumes:
-      - postgres-birdBox:/data/postgres
-    restart: unless-stopped
-    networks:
-      - birdBoxNetwork
-volumes:
-  postgres-birdBox:
-
-networks:
-  birdBoxNetwork:
+     - ./Data:/app/Data
