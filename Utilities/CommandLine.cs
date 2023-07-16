@@ -11,7 +11,7 @@ namespace Bird_Box.Utilities
         public List<Audio.Microphone> GetAudioDevices()
         {
             var devices = new List<Audio.Microphone>();
-            var result = ExecuteCommand("arecord -l | awk '{print $2}' | grep -Eo '[1-9]:{1,2}'");
+            var result = ExecuteCommand("arecord -l | awk '{print $2}' | grep -Eo '[1-9]'");
             if (String.IsNullOrEmpty(result)) return devices;
             var lines = result.Split("\n");
             foreach (var line in lines)
@@ -19,8 +19,8 @@ namespace Bird_Box.Utilities
                 if (line == "") return devices;
                 line.Trim();
                 string info = ExecuteCommand($"arecord -l | grep 'card {line}'");
-                var devId = ExecuteCommand($"arecord -l | grep 'card {line}' | grep -o 'device [0-9]'").Split(" ")[1];
-                devId = line.Replace(":", ",") + devId.Replace(Environment.NewLine, "");
+                var devId = ExecuteCommand($"arecord -l | grep -o 'card {line}' | grep -o '[0-9]'");
+                devId = devId.Replace(Environment.NewLine, "");
                 //var devId = ExecuteCommand($"arecord -l | grep -o 'card 1' | grep -o '[1-9]'");
                 devices.Add(new Audio.Microphone(devId, info));
                 //Test devices here!
