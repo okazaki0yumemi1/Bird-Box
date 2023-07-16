@@ -1,8 +1,3 @@
-obj/Bird-Box.csproj.nuget.dgspec.json
-obj/Bird-Box.csproj.nuget.g.props
-obj/Bird-Box.csproj.nuget.g.targets
-obj/project.assets.json
-obj/project.nuget.cache
 obj/
 BirdNET-Analyzer/
 Recordings/
