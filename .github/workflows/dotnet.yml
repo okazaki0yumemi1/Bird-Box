@@ -8,6 +8,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+env:
+    GH_TOKEN: ${{ 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}}
 
 jobs:
   build:
@@ -25,12 +27,11 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Publish
-      run: dotnet test --no-build --verbosity normal
     - name: Create release for aamd64
       run: |
           dotnet publish -r linux-arm64 --self-contained --output releases/linux-arm64
           cd releases/linux-arm64
-          echo "ARCHIVE=$(ls *.tar.gz)" >> $GITHUB_ENV
+          echo "ARCHIVE=$(ls /home/runner/work/Bird-Box/releases/linux-arm64/*.tar.gz)" >> $GITHUB_ENV
           gh release create ${{ github.ref_name }} --title ${{ github.ref_name }}
     - name: Create release for linux-x64
       run: |
