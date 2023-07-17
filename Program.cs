@@ -34,15 +34,16 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-app.UseSwagger();
+
+app.UseSwagger(o => o.RouteTemplate = "api/swagger/{documentname}/swagger.json");
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    options.RoutePrefix = string.Empty;
+    options.SwaggerEndpoint("/api/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = "api/swagger";
 });
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();
