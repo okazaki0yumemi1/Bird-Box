@@ -6,14 +6,13 @@ name: .NET web app
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+    
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -24,22 +23,17 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Publish
     - name: Create release for aarm64
       run: |
           dotnet publish -r linux-arm64 --self-contained --output releases/linux-arm64
           cd releases/linux-arm64
           echo "ARCHIVE=$(ls /home/runner/work/Bird-Box/releases/linux-arm64/*.tar.gz)" >> $GITHUB_ENV
           gh release create ${{ github.ref_name }} --title ${{ github.ref_name }}
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Create release for linux-x64
       run: |
           dotnet publish -r linux-x64 --self-contained --output releases/linux-x64
           cd releases/linux-x64
           echo "ARCHIVE=$(ls *.tar.gz)" >> $GITHUB_ENV
           gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} 
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload archive on release
       run: gh release upload ${{ github.ref_name }} dist/$ARCHIVE
