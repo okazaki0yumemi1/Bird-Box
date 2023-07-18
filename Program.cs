@@ -39,7 +39,7 @@ app.UseSwagger(o => o.RouteTemplate = "api/swagger/{documentname}/swagger.json")
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/api/swagger/v1/swagger.json", "v1");
-    options.RoutePrefix = "api/swagger";
+    options.RoutePrefix = string.Empty;
 });
 app.MapControllers();
 
