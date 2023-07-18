@@ -23,7 +23,7 @@ namespace Bird_Box.Audio
             processInfo.Arguments = "-c \"python3 BirdNET-Analyzer/analyze.py " +
             $"--min_conf {options.minimumConfidence} --sensitivity {options.sensitivity} --threads {options.cpuThreads} " +
             $"--lat {options.latitude} --lon {options.longitude} --week {options.weekOfTheYear} --overlap {options.overlapSegments} " +
-            $"--batchsize {options.processingBatchSize} --locale {options.locale} --sf_thresh {options.speciesFrequensyThreshold} " +
+            $"--batchsize {options.processingBatchSize} --locale {options.locale} --sf_thresh {options.speciesFrequencyThreshold} " +
             $"--i Recordings/{fileName} --o Recordings/{fileName}-result.txt";
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
