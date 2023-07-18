@@ -51,13 +51,13 @@ namespace Bird_Box.Controllers
             return Ok(records);
         }
         [HttpPost("results/start/{hours}")]
-        public async Task<IActionResult> StartRecording([FromBody] AnalyzerOptions options, [FromRoute] string recordingTimeInHours)
+        public async Task<IActionResult> StartRecording([FromBody] AnalyzerOptions options, [FromRoute] string hours)
         {
-            TimeSpan hours;
-            if(!TimeSpan.TryParse(recordingTimeInHours, out hours)) hours = TimeSpan.FromHours(1); //default value - 1 hour
-            Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(hours);
+            TimeSpan _hours;
+            if(!TimeSpan.TryParse(hours, out _hours)) _hours = TimeSpan.FromHours(1); //default value - 1 hour
+            Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(_hours);
             ListeningTask = scheduleRecording.RecordAndRecognize(options);
-            return Ok($"The task will be run for {hours} hours.");
+            return Ok($"The task will be run for {_hours} hours.");
         }
         [HttpGet("results/process")]
         public async Task<IActionResult> WriteToDB()
@@ -65,6 +65,13 @@ namespace Bird_Box.Controllers
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
             var results = rrp.ProcessAllFiles();
             return Ok($"Added {_dbOperations.CreateRange(results)} results");
+        }
+        [HttpDelete("results/delete/{recordId}")]
+        public async Task<IActionResult> DeleteById([FromRoute] string recordId)
+        {
+            var deletedItems = _dbOperations.DeleteById(recordId);
+            if (deletedItems > 0) return Ok("Record deleted successfully");
+            else return NoContent();
         }
     }
 }
