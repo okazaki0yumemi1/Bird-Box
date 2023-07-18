@@ -54,17 +54,17 @@ namespace Bird_Box.Utilities
         public Task<bool> RecognizeBird(AnalyzerOptions options)
         {
             Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath, options);
-            
-            /*if (Double.TryParse(options.minConfidence, out confidenceInput)) 
+            double confidenceInput = 0;
+            if (Double.TryParse(options.minimumConfidence, out confidenceInput)) 
             {
                 if ((confidenceInput < 1) && (confidenceInput > 0.01))
                 {
-                    audio.minConfidence = confidenceInput.ToString();
+                    options.minimumConfidence = confidenceInput.ToString();
                 }
-                else audio.minConfidence = 0.75d.ToString();
+                else options.minimumConfidence = 0.75d.ToString();
             }
-            else audio.minConfidence = 0.75d.ToString();
-            */
+            else options.minimumConfidence = 0.75d.ToString();
+            
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
     }
