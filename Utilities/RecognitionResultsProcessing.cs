@@ -84,11 +84,5 @@ namespace Bird_Box.Utilities
             }
             return birds;
         }
-        public int ReturnProcessedResults(string path)
-        {
-            RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(path);
-            var results = rrp.ProcessAllFiles();
-            return results.Count;
-        }
     }
 }
