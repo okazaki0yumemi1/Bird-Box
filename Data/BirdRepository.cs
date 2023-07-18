@@ -26,9 +26,8 @@ namespace Bird_Box.Data
         }
         public List<Models.IdentifiedBird> GetByDate(DateTime exactDate)
         {
-            //var exactDateToUTC = exactDate.ToUniversalTime().Date;
             return _context.BirdRecords
-            .Where(x => (x.recodingDate.Date == exactDate.Date) && (x.recodingDate.Hour == exactDate.Hour))
+            .Where(x => (x.recodingDate.Date == exactDate.Date))
             .ToList();
         }
         public int Create(Models.IdentifiedBird newBird)
@@ -48,11 +47,11 @@ namespace Bird_Box.Data
             _context.BirdRecords.Remove(toDelete);
             return (_context.SaveChanges());
         }
-        public int DeleteJunk()
+        public int DeleteById(string id)
         {
-            var toDelete = _context.BirdRecords.Where(x => x.birdName.Contains("Human")).ToList();
+            var toDelete = _context.BirdRecords.Where(x => x.objId.ToString() == id).FirstOrDefault();
             if (toDelete is null) return 0; 
-            _context.BirdRecords.RemoveRange(toDelete);
+            _context.BirdRecords.Remove(toDelete);
             return (_context.SaveChanges());
         }
     }
