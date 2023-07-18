@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bird_Box.Data;
 using Bird_Box.Models;
@@ -51,13 +52,99 @@ namespace Bird_Box.Controllers
             return Ok(records);
         }
         [HttpPost("results/start/{hours}")]
-        public async Task<IActionResult> StartRecording([FromBody] AnalyzerOptions options, [FromRoute] string hours)
+        public async Task<IActionResult> StartRecording([FromBody] AnalyzerOptions optionsInput, [FromRoute] string hours)
         {
             TimeSpan _hours;
+            var options = new AnalyzerOptions();
+            options = ValidModel(optionsInput);
             if(!TimeSpan.TryParse(hours, out _hours)) _hours = TimeSpan.FromHours(1); //default value - 1 hour
             Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(_hours);
             ListeningTask = scheduleRecording.RecordAndRecognize(options);
             return Ok($"The task will be run for {_hours} hours.");
+        }
+        AnalyzerOptions ValidModel(AnalyzerOptions inputModel)
+        {
+            var result = new AnalyzerOptions();
+            if ((inputModel.latitude is not null) && (inputModel.longitude is not null)) 
+            {
+                int la = -1;
+                int lo = -1;
+                if(int.TryParse(inputModel.latitude, out la) && (int.TryParse(inputModel.latitude, out lo)))
+                {
+                    if (((la >= -60) && (lo <= 60)) && ((la >= -60) && (lo <= 60)))
+                    {
+                        result.latitude = la.ToString();
+                        result.longitude = lo.ToString();
+                    }
+                    else 
+                    {
+                        result.latitude = "-1";
+                        result.longitude = "-1";
+                    }
+                }
+            }
+            if (inputModel.weekOfTheYear is not null) 
+            {
+                int w = 0;
+                if (int.TryParse(inputModel.weekOfTheYear, out w))
+                {
+                    if ((w >= 1) && (w <= 48)) result.weekOfTheYear = w.ToString();
+                }
+                else result.weekOfTheYear = "-1";
+            }
+            if (inputModel.sensitivity is not null) 
+            {
+                float s = 1;
+                if(float.TryParse(inputModel.sensitivity, out s))
+                {
+                    if ((s >= 0.5) || (s <= 1.5)) result.sensitivity = s.ToString();
+                }
+            }
+            if (inputModel.minimumConfidence is not null) 
+            {
+                float c = 0.01f;
+                if(float.TryParse(inputModel.sensitivity, out c))
+                {
+                    if ((c >= 0.01) || (c < 1)) result.sensitivity = c.ToString();
+                }
+            }
+            if (inputModel.overlapSegments is not null)
+            {
+                float oS = 0.0f;
+                if(float.TryParse(inputModel.sensitivity, out oS))
+                {
+                    if ((oS >= 0.01) || (oS < 1)) result.sensitivity = oS.ToString();
+                }
+            }
+            if (inputModel.overlapSegments is not null)
+            {
+                int t = 1;
+                if(int.TryParse(inputModel.sensitivity, out t))
+                {
+                    if ((t >= 1) || (t < 768)) result.sensitivity = t.ToString();
+                }
+            }
+            if (inputModel.processingBatchSize is not null)
+            {
+                int pBS = 1;
+                if(int.TryParse(inputModel.sensitivity, out pBS))
+                {
+                    if ((pBS >= 0.01) || (pBS < 1)) result.sensitivity = pBS.ToString();
+                }
+            }
+            if (inputModel.locale is not null)
+            {
+                if (inputModel.Locales.Contains(inputModel.locale)) result.locale = inputModel.locale;
+            }
+            if (inputModel.locale is not null)
+            {
+                float sf_thresh = 0.03f;
+                if(float.TryParse(inputModel.sensitivity, out sf_thresh))
+                {
+                    if ((sf_thresh >= 0.01) || (sf_thresh <= 0.99)) result.sensitivity = sf_thresh.ToString();
+                }
+            }
+            return result;
         }
         [HttpGet("results/process")]
         public async Task<IActionResult> WriteToDB()

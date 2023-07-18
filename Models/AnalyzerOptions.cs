@@ -7,6 +7,8 @@ namespace Bird_Box.Models
 {
     public class AnalyzerOptions
     {
+        //Locales:
+                public List<string> Locales = new List<string>{"af", "ar", "cs", "da", "de", "es", "fi", "fr", "hu", "it", "ja", "ko", "nl", "no", "pl", "pt", "ro", "ru", "sk", "sl", "sv", "th", "tr", "uk", "zh"};
         //--lat, Recording location latitude. Set -1 to ignore.
         public string? latitude {get; set;} = "-1";
         //-lon, Recording location longitude. Set -1 to ignore.
@@ -26,13 +28,13 @@ namespace Bird_Box.Models
         //--overlap, Overlap of prediction segments. Values in [0.0, 2.9]. Defaults to 0.0.
         public string? overlapSegments {get; set;} = "0";
         //--threads, Number of CPU threads.
-        public string? cpuThreads {get; set;} = "1";
+        public string? cpuThreads {get; set;} = Environment.ProcessorCount.ToString();
         //--batchsize, Number of samples to process at the same time. Defaults to 1.
         public string? processingBatchSize {get; set;} = "1";
         //--locale, Locale for translated species common names. Values in ['af', 'de', 'it', ...] Defaults to 'en'.
         public string? locale {get; set;} = "en";
         //--sf_thresh, Minimum species occurrence frequency threshold for location filter. Values in [0.01, 0.99]. Defaults to 0.03.
-        public string? speciesFrequensyThreshold {get; set;} = "0.03";
+        public string? speciesFrequencyThreshold {get; set;} = "0.03";
         //--classifier, Path to custom trained classifier. Defaults to None. If set, --lat, --lon and --locale are ignored.
         public string? classifier {get; set;} = string.Empty;
         public AnalyzerOptions(bool? setWeek = false, bool? setThreads = true)
@@ -44,7 +46,7 @@ namespace Bird_Box.Models
             }
             //Set weekOfYear:
             if (setWeek == true) weekOfTheYear = ((int)DateTime.Now.Day / 7).ToString();
-
         }
+        public AnalyzerOptions() {}
     }
 }
