@@ -103,9 +103,9 @@ namespace Bird_Box.Controllers
             if (inputModel.minimumConfidence is not null) 
             {
                 float c = 0.01f;
-                if(float.TryParse(inputModel.sensitivity, out c))
+                if(float.TryParse(inputModel.minimumConfidence, out c))
                 {
-                    if ((c >= 0.01) || (c < 1)) result.sensitivity = c.ToString();
+                    if ((c >= 0.01) || (c <= 0.99)) result.minimumConfidence = c.ToString();
                 }
             }
             if (inputModel.overlapSegments is not null)
