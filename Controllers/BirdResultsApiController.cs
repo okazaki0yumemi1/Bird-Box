@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bird_Box.Data;
+using Bird_Box.Models;
 using Bird_Box.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,13 +50,13 @@ namespace Bird_Box.Controllers
             if (records == null) return NotFound();
             return Ok(records);
         }
-        [HttpPost("results/start/{confidenceThreshold}")]
-        public async Task<IActionResult> StartRecording([FromRoute] string? confidenceThreshold, [FromBody] string recordingTimeInHours)
+        [HttpPost("results/start/{hours}")]
+        public async Task<IActionResult> StartRecording([FromBody] AnalyzerOptions options, [FromRoute] string recordingTimeInHours)
         {
             TimeSpan hours;
             if(!TimeSpan.TryParse(recordingTimeInHours, out hours)) hours = TimeSpan.FromHours(1); //default value - 1 hour
             Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(hours);
-            ListeningTask = scheduleRecording.RecordAndRecognize(confidenceThreshold);
+            ListeningTask = scheduleRecording.RecordAndRecognize(options);
             return Ok($"The task will be run for {hours} hours.");
         }
         [HttpGet("results/process")]

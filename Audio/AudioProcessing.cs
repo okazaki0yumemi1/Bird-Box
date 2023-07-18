@@ -13,6 +13,7 @@ namespace Bird_Box.Audio
         public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
         {
             pathToAudio = recordingsPath;
+            options = _options;
         }
         public async Task<bool> ProcessAudioAsync(string fileName)
         {

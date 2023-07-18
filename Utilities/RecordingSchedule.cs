@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
 {
@@ -21,7 +22,7 @@ namespace Bird_Box.Utilities
             timer = timespan;
             recordingsPath = resultsPath;
         }
-        public async Task<int> RecordAndRecognize(string minConfidence)
+        public async Task<int> RecordAndRecognize(AnalyzerOptions options)
         {
             //var secondsElapsed = new TimeSpan(0, 0, 0);
             var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
@@ -37,7 +38,7 @@ namespace Bird_Box.Utilities
                 }
                 Record();
                 recordingsMade++;
-                ProcessingAudio.Add(RecognizeBird(minConfidence));
+                ProcessingAudio.Add(RecognizeBird(options));
                 if ((recordingsMade*10) >= timer.TotalSeconds) break;
             }
             return recordingsMade;
@@ -50,11 +51,11 @@ namespace Bird_Box.Utilities
             Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault() ?? inputDevices.FirstOrDefault(), newSettings);
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
-        public Task<bool> RecognizeBird(string minConfidence)
+        public Task<bool> RecognizeBird(AnalyzerOptions options)
         {
-            double confidenceInput = 0.7d;
-            Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath);
-            if (Double.TryParse(minConfidence, out confidenceInput)) 
+            Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath, options);
+            
+            /*if (Double.TryParse(options.minConfidence, out confidenceInput)) 
             {
                 if ((confidenceInput < 1) && (confidenceInput > 0.01))
                 {
@@ -63,6 +64,7 @@ namespace Bird_Box.Utilities
                 else audio.minConfidence = 0.75d.ToString();
             }
             else audio.minConfidence = 0.75d.ToString();
+            */
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
     }
