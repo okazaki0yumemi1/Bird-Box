@@ -2,38 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bird_Box.Models;
 
 namespace Bird_Box.Audio
 {
     public class AudioProcessing
     {
+        readonly AnalyzerOptions options;
         string pathToAudio {get; set;}
-        public string minConfidence {get; set;} = "0.5";
-        public string cpuThreads { get; set; } = "1";
-        public AudioProcessing(string recordingsPath)
+        public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
         {
             pathToAudio = recordingsPath;
-            cpuThreads = GetCPUThreads();
-        }
-        string GetCPUThreads()
-        {
-            string processOutput;
-            var processInfo = new System.Diagnostics.ProcessStartInfo();
-            processInfo.FileName = "/bin/bash";
-            processInfo.Arguments = $"-c \"nproc";
-            processInfo.RedirectStandardOutput = true;
-            using (var process = System.Diagnostics.Process.Start(processInfo))
-            {
-                processOutput = process.StandardOutput.ReadToEnd();
-            }
-            return processOutput;
         }
         public async Task<bool> ProcessAudioAsync(string fileName)
         {
             string processOutput = "";
             var processInfo = new System.Diagnostics.ProcessStartInfo();
             processInfo.FileName = "/bin/bash";
-            processInfo.Arguments = $"-c \"python3 BirdNET-Analyzer/analyze.py --min_conf {minConfidence} --sensitivity 1.3 --threads {cpuThreads.Replace("\n", "")} --i Recordings/{fileName} --o Recordings/{fileName}-result.txt";
+            processInfo.Arguments = "-c \"python3 BirdNET-Analyzer/analyze.py " +
+            $"--min_conf {options.minimumConfidence} --sensitivity {options.sensitivity} --threads {options.cpuThreads} " +
+            $"--lat {options.latitude} --lon {options.longitude} --week {options.weekOfTheYear} --overlap {options.overlapSegments} " +
+            $"--batchsize {options.processingBatchSize} --locale {options.locale} --sf_thresh {options.speciesFrequensyThreshold} " +
+            $"--i Recordings/{fileName} --o Recordings/{fileName}-result.txt";
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
