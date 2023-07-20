@@ -69,9 +69,9 @@ namespace Bird_Box.Controllers
             {
                 int la = -1;
                 int lo = -1;
-                if(int.TryParse(inputModel.latitude, out la) && (int.TryParse(inputModel.latitude, out lo)))
+                if(int.TryParse(inputModel.latitude, out la) && (int.TryParse(inputModel.longitude, out lo)))
                 {
-                    if (((la >= -60) && (lo <= 60)) && ((la >= -60) && (lo <= 60)))
+                    if (((la >= 0) && (lo <= 60)) && ((la >= 0) && (lo <= 60)))
                     {
                         result.latitude = la.ToString();
                         result.longitude = lo.ToString();
