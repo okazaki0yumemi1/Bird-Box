@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Utilities;
@@ -60,7 +57,7 @@ namespace Bird_Box.Controllers
             if(!TimeSpan.TryParse(hours, out _hours)) _hours = TimeSpan.FromHours(1); //default value - 1 hour
             Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(_hours);
             ListeningTask = scheduleRecording.RecordAndRecognize(options);
-            return Ok($"The task will be run for {_hours} hours.");
+            return Ok($"The task will be run for {_hours} hours.{Environment.NewLine} The options are:{Environment.NewLine} {JsonSerializer.Serialize(options)}");
         }
         AnalyzerOptions ValidModel(AnalyzerOptions inputModel)
         {
@@ -89,8 +86,9 @@ namespace Bird_Box.Controllers
                 if (int.TryParse(inputModel.weekOfTheYear, out w))
                 {
                     if ((w >= 1) && (w <= 48)) result.weekOfTheYear = w.ToString();
+                    else if (w == -1) result.weekOfTheYear = w.ToString(); 
                 }
-                else result.weekOfTheYear = "-1";
+                else result.weekOfTheYear = ((int)DateTime.Now.Day / 7).ToString();
             }
             if (inputModel.sensitivity is not null) 
             {
@@ -116,12 +114,12 @@ namespace Bird_Box.Controllers
                     if ((oS >= 0.01) || (oS < 1)) result.sensitivity = oS.ToString();
                 }
             }
-            if (inputModel.overlapSegments is not null)
+            if (inputModel.cpuThreads is not null)
             {
                 int t = 1;
-                if(int.TryParse(inputModel.sensitivity, out t))
+                if(int.TryParse(inputModel.cpuThreads, out t))
                 {
-                    if ((t >= 1) || (t < 768)) result.sensitivity = t.ToString();
+                    if ((t >= 1) || (t < 768)) result.cpuThreads = t.ToString();
                 }
             }
             if (inputModel.processingBatchSize is not null)
@@ -136,12 +134,12 @@ namespace Bird_Box.Controllers
             {
                 if (inputModel.Locales.Contains(inputModel.locale)) result.locale = inputModel.locale;
             }
-            if (inputModel.locale is not null)
+            if (inputModel.speciesFrequencyThreshold is not null)
             {
                 float sf_thresh = 0.03f;
-                if(float.TryParse(inputModel.sensitivity, out sf_thresh))
+                if(float.TryParse(inputModel.speciesFrequencyThreshold, out sf_thresh))
                 {
-                    if ((sf_thresh >= 0.01) || (sf_thresh <= 0.99)) result.sensitivity = sf_thresh.ToString();
+                    if ((sf_thresh >= 0.01) || (sf_thresh <= 0.99)) result.speciesFrequencyThreshold = sf_thresh.ToString();
                 }
             }
             return result;
