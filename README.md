@@ -11,3 +11,14 @@ This ASP NET Core project consists of Web API + Swagger to control recording and
 The current problems are:
 - User is unable to select microphone, only first USB micro is being used.
 - The BirdNET output porocessing is extremely slow and should be completely changed.
+
+How to use:
+
+1. Download the latest release for Linux for ARM or x86_64
+2. Unzip, change directory to Bird-Box, then go to https://github.com/kahst/BirdNET-Analyzer and follow the instructions to install:
+   python3
+   tensorflow or TFLite
+   ffmpeg, resampy, librosa
+3. Clone BirdNET Analyzer to Bird-Box.
+4. Start the binary file via ./Bird-Box command.
+5. Navigate to localhost:5001 - you should see Swagger web page with endpoints.
