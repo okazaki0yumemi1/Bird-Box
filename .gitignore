@@ -8,3 +8,4 @@ Data/SqlLiteResults.db-shm
 bin/*
 .gitignore
 releases/
+Bird-Box.sln
