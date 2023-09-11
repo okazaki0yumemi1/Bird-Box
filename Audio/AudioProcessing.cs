@@ -9,28 +9,31 @@ namespace Bird_Box.Audio
     public class AudioProcessing
     {
         readonly AnalyzerOptions options;
-        string pathToAudio {get; set;}
+        string pathToAudio { get; set; }
+
         public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
         {
             pathToAudio = recordingsPath;
             options = _options;
         }
+
         public async Task<bool> ProcessAudioAsync(string fileName)
         {
             string processOutput = "";
             var processInfo = new System.Diagnostics.ProcessStartInfo();
             processInfo.FileName = "/bin/bash";
-            processInfo.Arguments = "-c \"python3 BirdNET-Analyzer/analyze.py " +
-            $"--min_conf {options.minimumConfidence} --sensitivity {options.sensitivity} --threads {options.cpuThreads} " +
-            $"--lat {options.latitude} --lon {options.longitude} --week {options.weekOfTheYear} --overlap {options.overlapSegments} " +
-            $"--batchsize {options.processingBatchSize} --locale {options.locale} --sf_thresh {options.speciesFrequencyThreshold} " +
-            $"--i Recordings/{fileName} --o Recordings/{fileName}-result.txt";
+            processInfo.Arguments =
+                "-c \"python3 BirdNET-Analyzer/analyze.py "
+                + $"--min_conf {options.minimumConfidence} --sensitivity {options.sensitivity} --threads {options.cpuThreads} "
+                + $"--lat {options.latitude} --lon {options.longitude} --week {options.weekOfTheYear} --overlap {options.overlapSegments} "
+                + $"--batchsize {options.processingBatchSize} --locale {options.locale} --sf_thresh {options.speciesFrequencyThreshold} "
+                + $"--i Recordings/{fileName} --o Recordings/{fileName}-result.txt";
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
                 processOutput = process.StandardOutput.ReadToEnd();
             }
-            if (processOutput.Contains("Finished")) 
+            if (processOutput.Contains("Finished"))
             {
                 //Remove successfully decoded audio recording
                 processInfo.Arguments = $"-c \"rm Recordings/{fileName}";
@@ -38,7 +41,8 @@ namespace Bird_Box.Audio
                 process.WaitForExit();
                 return true;
             }
-            else return false;
+            else
+                return false;
         }
     }
 }

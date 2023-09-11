@@ -7,11 +7,12 @@ namespace Bird_Box.Data
 {
     public interface IRepository
     {
-    List<Models.IdentifiedBird> GetAll();
-    Models.IdentifiedBird GetByGuid(string id);
-    Models.IdentifiedBird GetByBirdName(string species);
-    int Create(Models.IdentifiedBird bird);
-    //int Update(Models.IdentifiedBird bird);
-    int Delete(string id);
+        List<Models.IdentifiedBird> GetAll();
+        Models.IdentifiedBird GetByGuid(string id);
+        Models.IdentifiedBird GetByBirdName(string species);
+        int Create(Models.IdentifiedBird bird);
+
+        //int Update(Models.IdentifiedBird bird);
+        int Delete(string id);
     }
 }

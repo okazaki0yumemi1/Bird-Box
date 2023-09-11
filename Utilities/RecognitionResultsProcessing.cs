@@ -9,47 +9,75 @@ namespace Bird_Box.Utilities
     public class RecognitionResultsProcessing
     {
         string textResultsPath { get; set; }
+
         public RecognitionResultsProcessing(string textFilesPath)
         {
             textResultsPath = textFilesPath;
         }
+
+        /// <summary>
+        /// Get list of all text files - output of BirdNET Analyzer
+        /// </summary>
+        /// <returns>List of *.txt files</returns>
         List<string> GetAllTextFiles()
         {
             var result = new List<string>();
             CommandLine bash = new CommandLine();
-            var lines = bash.ExecuteCommand($"ls -A {textResultsPath}*.txt").Split("\n").ToList();;
+            var lines = bash.ExecuteCommand($"ls -A {textResultsPath}*.txt").Split("\n").ToList();
+            ;
             foreach (var line in lines)
             {
-                if (line == "") break;
+                if (line == "")
+                    break;
                 var fileName = line.Replace($"{textResultsPath}/", "");
                 result.Add(fileName.Replace("\n", ""));
             }
             return result;
         }
+
+        /// <summary>
+        ///Process a text file
+        /// </summary>
+        /// <param name="fileName">text file name</param>
+        /// <returns>List of identified birds</returns>
         List<Models.IdentifiedBird> ProcessTextFile(string fileName)
         {
             var birds = new List<IdentifiedBird>();
             CommandLine bash = new CommandLine();
-            var linesTotal = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1").Split("\t");
-            if (linesTotal[0] != "1") 
+            var linesTotal = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1")
+                .Split("\t");
+            if (linesTotal[0] != "1")
             {
                 birds.Add(new IdentifiedBird("No detection"));
                 return birds;
             }
             //linesTotal.RemoveAt(0);
             int birdsAdded = 0;
-            while (linesTotal.Length > birdsAdded*10)
+            while (linesTotal.Length > birdsAdded * 10)
             {
                 birdsAdded++;
-                var threshold = linesTotal[9*birdsAdded];
-                var birdName = linesTotal[8*birdsAdded];
+                var threshold = linesTotal[9 * birdsAdded];
+                var birdName = linesTotal[8 * birdsAdded];
                 var fileNameTrimmed = fileName.Replace("Recordings/", "").Substring(0, 19);
-                var time = DateTime.ParseExact(fileNameTrimmed, "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss", null);
-                var newBird = new Models.IdentifiedBird(birdName, threshold.Replace("\n", ""), time.ToUniversalTime());
+                var time = DateTime.ParseExact(
+                    fileNameTrimmed,
+                    "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
+                    null
+                );
+                var newBird = new Models.IdentifiedBird(
+                    birdName,
+                    threshold.Replace("\n", ""),
+                    time.ToUniversalTime()
+                );
                 birds.Add(newBird);
             }
             return birds;
         }
+
+        /// <summary>
+        /// Process all text files in a /Recordings directory
+        /// </summary>
+        /// <returns>List of birds</returns>
         public List<Models.IdentifiedBird> ProcessAllFiles()
         {
             var birds = new List<Models.IdentifiedBird>();
@@ -63,17 +91,17 @@ namespace Bird_Box.Utilities
                 {
                     //Filtering background noise
                     if (
-                        (birdEntity.birdName == "No detection") || 
-                        (birdEntity.detectionThreshold == "0") || 
-                        (birdEntity.birdName.Contains("Human")) ||
-                        (birdEntity.birdName == "Power tools") ||
-                        (birdEntity.birdName == "Siren") ||
-                        (birdEntity.birdName == "Engine") ||
-                        (birdEntity.birdName == "Gun") ||
-                        (birdEntity.birdName == "Fireworks") ||
-                        (birdEntity.birdName == "Environmental") ||
-                        (birdEntity.birdName == "Noise")
-                        )
+                        (birdEntity.birdName == "No detection")
+                        || (birdEntity.detectionThreshold == "0")
+                        || (birdEntity.birdName.Contains("Human"))
+                        || (birdEntity.birdName == "Power tools")
+                        || (birdEntity.birdName == "Siren")
+                        || (birdEntity.birdName == "Engine")
+                        || (birdEntity.birdName == "Gun")
+                        || (birdEntity.birdName == "Fireworks")
+                        || (birdEntity.birdName == "Environmental")
+                        || (birdEntity.birdName == "Noise")
+                    )
                     {
                         break;
                     }

@@ -8,20 +8,25 @@ namespace Bird_Box.Audio
     public class Recording
     {
         readonly Utilities.CommandLine bash = new Utilities.CommandLine();
-        FFMpegSettings settings {get; set;}
+        FFMpegSettings settings { get; set; }
         Microphone inputDevice { get; set; }
+
         public Recording(Microphone newInputDevice, FFMpegSettings newSettings)
         {
             inputDevice = newInputDevice;
             settings = newSettings;
         }
+
         public string RecordAudio()
         {
-            var fileName = DateTime.Now.ToString("yyyy'-'MM'-'dd'-'HH'-'mm'-'ss");//DateTime.Now.ToString();
+            var fileName = DateTime.Now.ToString("yyyy'-'MM'-'dd'-'HH'-'mm'-'ss"); //DateTime.Now.ToString();
             var outputFile = settings.outputPath;
-            var result = ExecuteCommand($"{settings.ffmpegExecutable} -f pulse -i default -t 10 {settings.outputPath}/{fileName}.wav");
-            return fileName+".wav";
+            var result = ExecuteCommand(
+                $"{settings.ffmpegExecutable} -f pulse -i default -t 10 {settings.outputPath}/{fileName}.wav"
+            );
+            return fileName + ".wav";
         }
+
         string ExecuteCommand(string parameters)
         {
             string processOutput;
@@ -36,5 +41,4 @@ namespace Bird_Box.Audio
             return processOutput;
         }
     }
-    
 }

@@ -10,11 +10,13 @@ namespace Bird_Box.Data
         {
             Configuration = configuration;
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(Configuration.GetConnectionString("SqliteResults"));
             //optionsBuilder.UseNpgsql(Configuration.GetConnectionString("ResultsDatabase"));
         }
+
         public DbSet<Models.IdentifiedBird> BirdRecords { get; set; } = default!;
     }
 }
