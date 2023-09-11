@@ -43,33 +43,55 @@ namespace Bird_Box.Utilities
         List<Models.IdentifiedBird> ProcessTextFile(string fileName)
         {
             var birds = new List<IdentifiedBird>();
-            CommandLine bash = new CommandLine();
-            var linesTotal = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1")
-                .Split("\t");
-            if (linesTotal[0] != "1")
+            string lines = "";
+            try
+            {
+                // Open the text file using a stream reader.
+                using (var sr = new StreamReader(fileName))
+                {
+                    // Read the stream as a string, and write the string to the console.
+                    lines = sr.ReadToEnd();
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+
+            //CommandLine bash = new CommandLine();
+            //var linesTotal = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1")
+            //    .Split("\t");
+            var linesTotal = lines.Split("\t");
+            if (linesTotal.Length < 10)
             {
                 birds.Add(new IdentifiedBird("No detection"));
                 return birds;
             }
             //linesTotal.RemoveAt(0);
             int birdsAdded = 0;
-            while (linesTotal.Length > birdsAdded * 10)
+            int i = 10;
+            while (linesTotal.Length > i)
             {
-                birdsAdded++;
-                var threshold = linesTotal[9 * birdsAdded];
-                var birdName = linesTotal[8 * birdsAdded];
-                var fileNameTrimmed = fileName.Replace("Recordings/", "").Substring(0, 19);
-                var time = DateTime.ParseExact(
+                if (linesTotal[i].Contains("Spectrogram"))
+                {
+                    var birdName = linesTotal[i + 7];
+                    var threshold = linesTotal[i + 8];
+                    var fileNameTrimmed = fileName.Replace("Recordings/", "").Substring(0, 19);
+                    var time = DateTime.ParseExact(
                     fileNameTrimmed,
                     "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
                     null
-                );
-                var newBird = new Models.IdentifiedBird(
-                    birdName,
-                    threshold.Replace("\n", ""),
-                    time.ToUniversalTime()
-                );
-                birds.Add(newBird);
+                    );
+                    var newBird = new Models.IdentifiedBird(
+                        birdName,
+                        threshold.Replace("\n", ""),
+                        time.ToUniversalTime()
+                    );
+                    birds.Add(newBird);
+                    i++;
+                }
+                else i++;       
             }
             return birds;
         }
