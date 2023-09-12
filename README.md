@@ -10,7 +10,7 @@ This ASP NET Core project consists of Web API + Swagger to control recording and
 
 The current problems are:
 - User is unable to select microphone, only first USB micro is being used.
-- The BirdNET output porocessing is extremely slow and should be completely changed.
+- The BirdNET output processing is slow and should be changed somehow.
 
 How to use:
 
