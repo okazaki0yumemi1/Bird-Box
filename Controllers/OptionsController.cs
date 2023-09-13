@@ -4,93 +4,31 @@ using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Bird_Box.Controllers
 {
+    /*
     [ApiController]
-    [Route("api/")]
-    public class BirdResultsApiController : ControllerBase
+    [Route("api/options")] */
+    public class OptionsController : ControllerBase
     {
-        Task ListeningTask;
-        private readonly BirdRepository _dbOperations;
-        private readonly AnalyzerOptions _defaultOptions;
-        private readonly IConfigurationRoot _config;
-
-        public BirdResultsApiController(BirdRepository dbOperations)
+        IConfigurationRoot _config;
+        AnalyzerOptions? _options;
+        public OptionsController()
         {
-            _dbOperations = dbOperations;
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
 
             // Get values from the config given their key and their target type.
-            _defaultOptions = _config.GetRequiredSection("BirdNETOptions:Default").Get<AnalyzerOptions>();
+            _options = _config.GetRequiredSection("BirdNETOptions").Get<AnalyzerOptions>();
         }
-
-        [HttpGet("results/{recordId}")]
-        public async Task<IActionResult> GetByID([FromRoute] string recordId)
+        public AnalyzerOptions? GetBirdNETOptions()
         {
-            var bird = _dbOperations.GetByGuid(recordId);
-            if (bird == null)
-                return NotFound();
-            return Ok(bird);
+            return _options;
         }
-
-        [HttpGet("results/")]
-        public async Task<IActionResult> GetAll()
-        {
-            var results = _dbOperations.GetAll();
-            results.OrderByDescending(x => x.recodingDate);
-            return Ok(results);
-        }
-
-        [HttpPost("results/byDate")]
-        public async Task<IActionResult> GetAllDetectionsByDay([FromBody] DateTime yyyyMMdd)
-        {
-            DateTime date = yyyyMMdd;
-            //DateTime.TryParse(yyyyMMdd, out date);
-            var results = _dbOperations.GetByDate(date);
-            results.OrderByDescending(x => x.recodingDate);
-            return Ok(results);
-        }
-
-        [HttpGet("results/bird/{birdName}")]
-        public async Task<IActionResult> GetBirdByName([FromRoute] string birdName)
-        {
-            var records = _dbOperations.GetByBirdName(birdName);
-            if (records == null)
-                return NotFound();
-            return Ok(records);
-        }
-
-        [HttpPost("results/start/{hours}")]
-        public async Task<IActionResult> StartRecording(
-            [FromBody] AnalyzerOptions optionsInput,
-            [FromRoute] string hours
-        )
-        {
-            TimeSpan _hours;
-            var options = new AnalyzerOptions();
-            if (optionsInput is null)
-            {
-                options = _defaultOptions;
-            }
-            else 
-            {
-                options = ValidModel(optionsInput);
-                if (options is null) options = _defaultOptions;
-            }
-
-            if (!TimeSpan.TryParse(hours, out _hours))
-                _hours = TimeSpan.FromHours(1); //default value - 1 hour
-            Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(_hours);
-            ListeningTask = scheduleRecording.RecordAndRecognize(options);
-            return Ok(
-                $"The task will be run for {_hours} hours.{Environment.NewLine} The options are:{Environment.NewLine} {JsonSerializer.Serialize(options)}"
-            );
-        }
-
         AnalyzerOptions ValidModel(AnalyzerOptions inputModel)
         {
             var result = new AnalyzerOptions();
@@ -189,23 +127,6 @@ namespace Bird_Box.Controllers
             }
             return result;
         }
-
-        [HttpGet("results/process")]
-        public async Task<IActionResult> WriteToDB()
-        {
-            RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
-            var results = rrp.ProcessAllFiles();
-            return Ok($"Added {_dbOperations.CreateRange(results)} results");
-        }
-
-        [HttpDelete("results/delete/{recordId}")]
-        public async Task<IActionResult> DeleteById([FromRoute] string recordId)
-        {
-            var deletedItems = _dbOperations.DeleteById(recordId);
-            if (deletedItems > 0)
-                return Ok("Record deleted successfully");
-            else
-                return NoContent();
-        }
+        
     }
 }
