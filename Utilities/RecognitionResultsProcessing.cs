@@ -108,30 +108,38 @@ namespace Bird_Box.Utilities
             var bash = new CommandLine();
             foreach (var file in files)
             {
-                var birdsInASingleFile = ProcessTextFile(file);
-                foreach (var birdEntity in birdsInASingleFile)
-                {
-                    //Filtering background noise
-                    if (
-                        (birdEntity.birdName == "No detection")
-                        || (birdEntity.detectionThreshold == "0")
-                        || (birdEntity.birdName.Contains("Human"))
-                        || (birdEntity.birdName == "Power tools")
-                        || (birdEntity.birdName == "Siren")
-                        || (birdEntity.birdName == "Engine")
-                        || (birdEntity.birdName == "Gun")
-                        || (birdEntity.birdName == "Fireworks")
-                        || (birdEntity.birdName == "Environmental")
-                        || (birdEntity.birdName == "Noise")
-                    )
-                    {
-                        break;
-                    }
-                    birds.Add(birdEntity);
-                }
-                bash.ExecuteCommand($"rm {file}");
-                detections++;
+                var birdsInAFile = ProcessSingleFile(file);
+                birds.AddRange(birdsInAFile);
             }
+            return birds;
+        }
+
+        public List<Models.IdentifiedBird> ProcessSingleFile(string file)
+        {
+            var birds = new List<Models.IdentifiedBird>();
+            var bash = new CommandLine();
+            var birdsInASingleFile = ProcessTextFile(file);
+            foreach (var birdEntity in birdsInASingleFile)
+            {
+                //Filtering background noise
+                if (
+                    (birdEntity.birdName == "No detection")
+                    || (birdEntity.detectionThreshold == "0")
+                    || (birdEntity.birdName.Contains("Human"))
+                    || (birdEntity.birdName == "Power tools")
+                    || (birdEntity.birdName == "Siren")
+                    || (birdEntity.birdName == "Engine")
+                    || (birdEntity.birdName == "Gun")
+                    || (birdEntity.birdName == "Fireworks")
+                    || (birdEntity.birdName == "Environmental")
+                    || (birdEntity.birdName == "Noise")
+                )
+                {
+                    break;
+                }
+                birds.Add(birdEntity);
+            }
+            bash.ExecuteCommand($"rm {file}");
             return birds;
         }
     }

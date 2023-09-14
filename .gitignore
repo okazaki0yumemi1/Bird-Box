@@ -9,3 +9,6 @@ bin/*
 .gitignore
 releases/
 Bird-Box.sln
+/.vs/Bird-Box/FileContentIndex
+/.vs/Bird-Box/v17
+/.vs
