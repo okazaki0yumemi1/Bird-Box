@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Bird_Box.Controllers
 {
-    /*
+
     [ApiController]
-    [Route("api/options")] */
+    [Route("api/[controller]/[action]")]
     public class OptionsController : ControllerBase
     {
         IConfigurationRoot _config;
@@ -23,8 +23,9 @@ namespace Bird_Box.Controllers
                 .Build();
 
             // Get values from the config given their key and their target type.
-            _options = _config.GetRequiredSection("BirdNETOptions").Get<AnalyzerOptions>();
+            _options = _config.GetRequiredSection("BirdNETOptions:Default").Get<AnalyzerOptions>();
         }
+        [HttpGet]
         public AnalyzerOptions? GetBirdNETOptions()
         {
             return _options;
