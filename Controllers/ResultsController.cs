@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
-    [Route("api/")]
-    public class BirdResultsApiController : ControllerBase
+    [Route("api/[controller]/[action]")]
+    public class ResultsController : ControllerBase
     {
         Task ListeningTask;
         private readonly BirdRepository _dbOperations;
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
 
-        public BirdResultsApiController(BirdRepository dbOperations)
+        public ResultsController(BirdRepository dbOperations)
         {
             _dbOperations = dbOperations;
             _config = new ConfigurationBuilder()
@@ -28,7 +28,7 @@ namespace Bird_Box.Controllers
             _defaultOptions = _config.GetRequiredSection("BirdNETOptions:Default").Get<AnalyzerOptions>();
         }
 
-        [HttpGet("results/{recordId}")]
+        [HttpGet("{recordId}")]
         public async Task<IActionResult> GetByID([FromRoute] string recordId)
         {
             var bird = _dbOperations.GetByGuid(recordId);
@@ -37,7 +37,7 @@ namespace Bird_Box.Controllers
             return Ok(bird);
         }
 
-        [HttpGet("results/")]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var results = _dbOperations.GetAll();
@@ -45,7 +45,7 @@ namespace Bird_Box.Controllers
             return Ok(results);
         }
 
-        [HttpPost("results/byDate")]
+        [HttpPost]
         public async Task<IActionResult> GetAllDetectionsByDay([FromBody] DateTime yyyyMMdd)
         {
             DateTime date = yyyyMMdd;
@@ -55,7 +55,7 @@ namespace Bird_Box.Controllers
             return Ok(results);
         }
 
-        [HttpGet("results/bird/{birdName}")]
+        [HttpGet("{birdName}")]
         public async Task<IActionResult> GetBirdByName([FromRoute] string birdName)
         {
             var records = _dbOperations.GetByBirdName(birdName);
@@ -64,9 +64,9 @@ namespace Bird_Box.Controllers
             return Ok(records);
         }
 
-        [HttpPost("results/start/{hours}")]
+        [HttpPost("{hours}")]
         public async Task<IActionResult> StartRecording(
-            [FromBody] AnalyzerOptions optionsInput,
+            [FromBody] AnalyzerOptions? optionsInput,
             [FromRoute] string hours
         )
         {
@@ -190,15 +190,15 @@ namespace Bird_Box.Controllers
             return result;
         }
 
-        [HttpGet("results/process")]
-        public async Task<IActionResult> WriteToDB()
+        [HttpGet]
+        public async Task<IActionResult> ProcessResults()
         {
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
             var results = rrp.ProcessAllFiles();
             return Ok($"Added {_dbOperations.CreateRange(results)} results");
         }
 
-        [HttpDelete("results/delete/{recordId}")]
+        [HttpDelete("{recordId}")]
         public async Task<IActionResult> DeleteById([FromRoute] string recordId)
         {
             var deletedItems = _dbOperations.DeleteById(recordId);
