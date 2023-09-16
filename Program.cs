@@ -11,7 +11,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Bird_Box.Data.BirdBoxContext>();
+//Database operations
 builder.Services.AddScoped<Bird_Box.Data.BirdRepository, Bird_Box.Data.BirdRepository>();
+//Options for BirdNET Analyzer
+builder.Services.AddScoped<Bird_Box.Controllers.OptionsController, Bird_Box.Controllers.OptionsController>();
+//Results 
+builder.Services.AddScoped<Bird_Box.Controllers.ResultsController, Bird_Box.Controllers.ResultsController>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
