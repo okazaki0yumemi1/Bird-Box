@@ -51,7 +51,7 @@ namespace Bird_Box.Data
 
         public int Delete(string recordId)
         {
-            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == recordId);
+            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == recordId.Remove('\"'));
             if (toDelete is null)
                 return 0;
             _context.BirdRecords.Remove(toDelete);
