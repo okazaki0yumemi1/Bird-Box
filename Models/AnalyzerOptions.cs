@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -77,7 +78,7 @@ namespace Bird_Box.Models
         //--classifier, Path to custom trained classifier. Defaults to None. If set, --lat, --lon and --locale are ignored.
         public string? classifier { get; set; } = string.Empty;
 
-        public AnalyzerOptions(bool? setWeek = false, bool? setThreads = true)
+        public AnalyzerOptions(bool setWeek, bool? setThreads = true)
         {
             //Set CPU threads:
             if (setThreads == true)
@@ -86,7 +87,17 @@ namespace Bird_Box.Models
             }
             //Set weekOfYear:
             if (setWeek == true)
-                weekOfTheYear = ((int)DateTime.Now.Day / 7).ToString();
+                {
+                    var time = DateTime.Today;
+                    DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+                    if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+                    {
+                        time = DateTime.Today.AddDays(3);
+                    }
+
+                    // Return the week of our adjusted day
+                    weekOfTheYear = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday).ToString();
+                }
         }
 
         public AnalyzerOptions() { }

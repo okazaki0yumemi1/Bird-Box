@@ -71,7 +71,7 @@ namespace Bird_Box.Controllers
         )
         {
             TimeSpan _hours;
-            var options = new AnalyzerOptions();
+            var options = new AnalyzerOptions(setWeek: true);
             if (optionsInput is null)
             {
                 options = _defaultOptions;
