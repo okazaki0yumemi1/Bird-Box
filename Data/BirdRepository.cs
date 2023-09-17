@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bird_Box.Data
 {
@@ -59,9 +60,8 @@ namespace Bird_Box.Data
 
         public int DeleteById(string id)
         {
-            var toDelete = _context.BirdRecords
-                .Where(x => x.objId.ToString() == id)
-                .FirstOrDefault();
+            
+            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == id.Replace("\\", string.Empty));
             if (toDelete is null)
                 return 0;
             _context.BirdRecords.Remove(toDelete);
