@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bird_Box.Data;
@@ -65,7 +66,13 @@ namespace Bird_Box.Controllers
                         result.weekOfTheYear = w.ToString();
                 }
                 else
-                    result.weekOfTheYear = ((int)DateTime.Now.Day / 7).ToString();
+                {
+                    var cultureInfo = Thread.CurrentThread.CurrentCulture;
+                    DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+                    CalendarWeekRule weekRule = cultureInfo.DateTimeFormat.CalendarWeekRule;
+                    Calendar cal = cultureInfo.Calendar;
+                    result.weekOfTheYear = cal.GetWeekOfYear(DateTime.Now, weekRule, firstDay).ToString();
+                }
             }
             if (inputModel.sensitivity is not null)
             {
