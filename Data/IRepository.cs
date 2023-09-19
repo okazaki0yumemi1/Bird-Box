@@ -13,6 +13,6 @@ namespace Bird_Box.Data
         int Create(Models.IdentifiedBird bird);
 
         //int Update(Models.IdentifiedBird bird);
-        int Delete(string id);
+        int DeleteById(string id);
     }
 }
