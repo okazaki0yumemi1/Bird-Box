@@ -201,7 +201,7 @@ namespace Bird_Box.Controllers
         [HttpDelete("{recordId}")]
         public async Task<IActionResult> DeleteById([FromRoute] string recordId)
         {
-            var deletedItems = _dbOperations.DeleteById(recordId);
+            var deletedItems = _dbOperations.Delete(recordId);
             if (deletedItems > 0)
                 return Ok("Record deleted successfully");
             else

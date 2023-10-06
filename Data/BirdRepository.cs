@@ -57,11 +57,20 @@ namespace Bird_Box.Data
         //    _context.BirdRecords.Remove(toDelete);
         //    return (_context.SaveChanges());
         //}
+        public int Delete(string recordId)
+        {
+            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
+            if (toDelete is null)
+                return 0;
+            _context.BirdRecords.Remove(toDelete);
+            return (_context.SaveChanges());
+        }
 
         public int DeleteById(string id)
         {
             
             var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == id.Replace("\"", String.Empty));
+            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == id.Replace("\"", string.Empty));
             if (toDelete is null)
                 return 0;
             _context.BirdRecords.Remove(toDelete);
