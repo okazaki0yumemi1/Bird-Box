@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Utilities;
@@ -25,7 +24,9 @@ namespace Bird_Box.Controllers
                 .Build();
 
             // Get values from the config given their key and their target type.
-            _defaultOptions = _config.GetRequiredSection("BirdNETOptions:Default").Get<AnalyzerOptions>();
+            _defaultOptions = _config
+                .GetRequiredSection("BirdNETOptions:Default")
+                .Get<AnalyzerOptions>();
         }
 
         [HttpGet("{recordId}")]
@@ -76,10 +77,11 @@ namespace Bird_Box.Controllers
             {
                 options = _defaultOptions;
             }
-            else 
+            else
             {
                 options = ValidModel(optionsInput);
-                if (options is null) options = _defaultOptions;
+                if (options is null)
+                    options = _defaultOptions;
             }
 
             if (!TimeSpan.TryParse(hours, out _hours))
@@ -201,7 +203,7 @@ namespace Bird_Box.Controllers
         [HttpDelete("{recordId}")]
         public async Task<IActionResult> DeleteById([FromRoute] string recordId)
         {
-            var deletedItems = _dbOperations.Delete(recordId);
+            var deletedItems = _dbOperations.DeleteById(recordId);
             if (deletedItems > 0)
                 return Ok("Record deleted successfully");
             else

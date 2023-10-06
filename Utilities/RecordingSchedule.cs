@@ -10,19 +10,21 @@ namespace Bird_Box.Utilities
     public class RecordingSchedule
     {
         TimeSpan timer { get; set; }
-        Queue<string> UnprocessedRecordings {get; set;} = new Queue<string>();
-        List<Task> ProcessingAudio {get; set;} = new List<Task>();
-        string recordingsPath { get; set;} = "Recordings";
+        Queue<string> UnprocessedRecordings { get; set; } = new Queue<string>();
+        List<Task> ProcessingAudio { get; set; } = new List<Task>();
+        string recordingsPath { get; set; } = "Recordings";
+
         public RecordingSchedule(TimeSpan timespan)
         {
             timer = timespan;
         }
+
         public RecordingSchedule(TimeSpan timespan, string resultsPath)
         {
             timer = timespan;
             recordingsPath = resultsPath;
         }
-        
+
         /// <summary>
         /// This is a task responsible for recording and analysing audio recordings.
         /// </summary>
@@ -45,10 +47,12 @@ namespace Bird_Box.Utilities
                 Record();
                 recordingsMade++;
                 ProcessingAudio.Add(RecognizeBird(options));
-                if ((recordingsMade*10) >= timer.TotalSeconds) break;
+                if ((recordingsMade * 10) >= timer.TotalSeconds)
+                    break;
             }
             return recordingsMade;
         }
+
         /// <summary>
         /// Starts recording via USB input device.
         /// </summary>
@@ -57,7 +61,11 @@ namespace Bird_Box.Utilities
             Utilities.CommandLine bash = new Utilities.CommandLine();
             Audio.FFMpegSettings newSettings = new Audio.FFMpegSettings();
             var inputDevices = bash.GetAudioDevices();
-            Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault() ?? inputDevices.FirstOrDefault(), newSettings);
+            Audio.Recording recordingObj = new Audio.Recording(
+                inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault()
+                    ?? inputDevices.FirstOrDefault(),
+                newSettings
+            );
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
 
@@ -70,7 +78,10 @@ namespace Bird_Box.Utilities
             Utilities.CommandLine bash = new Utilities.CommandLine();
             Audio.FFMpegSettings newSettings = new Audio.FFMpegSettings();
             var inputDevices = bash.GetAudioDevices();
-            Audio.Recording recordingObj = new Audio.Recording(inputDevices.Where(x => x.deviceId == deviceId).FirstOrDefault(), newSettings);
+            Audio.Recording recordingObj = new Audio.Recording(
+                inputDevices.Where(x => x.deviceId == deviceId).FirstOrDefault(),
+                newSettings
+            );
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
 
@@ -83,16 +94,18 @@ namespace Bird_Box.Utilities
         {
             Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath, options);
             double confidenceInput = 0;
-            if (Double.TryParse(options.minimumConfidence, out confidenceInput)) 
+            if (Double.TryParse(options.minimumConfidence, out confidenceInput))
             {
                 if ((confidenceInput < 1) && (confidenceInput > 0.01))
                 {
                     options.minimumConfidence = confidenceInput.ToString();
                 }
-                else options.minimumConfidence = 0.75d.ToString();
+                else
+                    options.minimumConfidence = 0.75d.ToString();
             }
-            else options.minimumConfidence = 0.75d.ToString();
-            
+            else
+                options.minimumConfidence = 0.75d.ToString();
+
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
     }

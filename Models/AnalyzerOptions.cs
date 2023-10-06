@@ -87,17 +87,19 @@ namespace Bird_Box.Models
             }
             //Set weekOfYear:
             if (setWeek == true)
+            {
+                var time = DateTime.Today;
+                DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+                if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
                 {
-                    var time = DateTime.Today;
-                    DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
-                    if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
-                    {
-                        time = DateTime.Today.AddDays(3);
-                    }
-
-                    // Return the week of our adjusted day
-                    weekOfTheYear = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday).ToString();
+                    time = DateTime.Today.AddDays(3);
                 }
+
+                // Return the week of our adjusted day
+                weekOfTheYear = CultureInfo.InvariantCulture.Calendar
+                    .GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
+                    .ToString();
+            }
         }
 
         public AnalyzerOptions() { }

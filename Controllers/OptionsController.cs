@@ -9,13 +9,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Bird_Box.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class OptionsController : ControllerBase
     {
         IConfigurationRoot _config;
         AnalyzerOptions? _options;
+
         public OptionsController()
         {
             _config = new ConfigurationBuilder()
@@ -26,11 +26,13 @@ namespace Bird_Box.Controllers
             // Get values from the config given their key and their target type.
             _options = _config.GetRequiredSection("BirdNETOptions:Default").Get<AnalyzerOptions>();
         }
+
         [HttpGet]
         public AnalyzerOptions? GetBirdNETOptions()
         {
             return _options;
         }
+
         AnalyzerOptions ValidModel(AnalyzerOptions inputModel)
         {
             var result = new AnalyzerOptions();
@@ -71,7 +73,8 @@ namespace Bird_Box.Controllers
                     DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
                     CalendarWeekRule weekRule = cultureInfo.DateTimeFormat.CalendarWeekRule;
                     Calendar cal = cultureInfo.Calendar;
-                    result.weekOfTheYear = cal.GetWeekOfYear(DateTime.Now, weekRule, firstDay).ToString();
+                    result.weekOfTheYear = cal.GetWeekOfYear(DateTime.Now, weekRule, firstDay)
+                        .ToString();
                 }
             }
             if (inputModel.sensitivity is not null)
@@ -135,6 +138,5 @@ namespace Bird_Box.Controllers
             }
             return result;
         }
-        
     }
 }

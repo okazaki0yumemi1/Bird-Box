@@ -79,9 +79,9 @@ namespace Bird_Box.Utilities
                     var threshold = linesTotal[i + 8];
                     var fileNameTrimmed = fileName.Replace("Recordings/", "").Substring(0, 19);
                     var time = DateTime.ParseExact(
-                    fileNameTrimmed,
-                    "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
-                    null
+                        fileNameTrimmed,
+                        "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
+                        null
                     );
                     var newBird = new Models.IdentifiedBird(
                         birdName,
@@ -91,7 +91,8 @@ namespace Bird_Box.Utilities
                     birds.Add(newBird);
                     i++;
                 }
-                else i++;       
+                else
+                    i++;
             }
             return birds;
         }

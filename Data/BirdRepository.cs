@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-
 namespace Bird_Box.Data
 {
     public class BirdRepository : IRepository
@@ -49,28 +43,9 @@ namespace Bird_Box.Data
             return (_context.SaveChanges());
         }
 
-        //public int Delete(string recordId)
-        //{
-        //    var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == recordId.Remove('\"'));
-        //    if (toDelete is null)
-        //        return 0;
-        //    _context.BirdRecords.Remove(toDelete);
-        //    return (_context.SaveChanges());
-        //}
-        public int Delete(string recordId)
-        {
-            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
-            if (toDelete is null)
-                return 0;
-            _context.BirdRecords.Remove(toDelete);
-            return (_context.SaveChanges());
-        }
-
         public int DeleteById(string id)
         {
-            
-            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == id.Replace("\"", String.Empty));
-            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == id.Replace("\"", string.Empty));
+            var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
             if (toDelete is null)
                 return 0;
             _context.BirdRecords.Remove(toDelete);
