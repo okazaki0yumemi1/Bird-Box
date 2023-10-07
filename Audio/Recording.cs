@@ -35,7 +35,7 @@ namespace Bird_Box.Audio
                 );
                 return fileName + ".wav";
             }
-            throw new NotImplementedException("No microphone to record with! Check arecord -l for any input devices.")
+            throw new NotImplementedException("No microphone to record with! Check arecord -l for any input devices.");
         }
 
         // public string RecordAudio(Microphone inputDevice)

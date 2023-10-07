@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
     public class ResultsController : ControllerBase
     {
         Task ListeningTask;
@@ -29,7 +28,7 @@ namespace Bird_Box.Controllers
                 .Get<AnalyzerOptions>();
         }
 
-        [HttpGet("{recordId}")]
+        [HttpGet("api/results/{recordId}")]
         public async Task<IActionResult> GetByID([FromRoute] string recordId)
         {
             var bird = _dbOperations.GetByGuid(recordId);
@@ -38,7 +37,7 @@ namespace Bird_Box.Controllers
             return Ok(bird);
         }
 
-        [HttpGet]
+        [HttpGet("api/results/")]
         public async Task<IActionResult> GetAll()
         {
             var results = _dbOperations.GetAll();
@@ -46,8 +45,8 @@ namespace Bird_Box.Controllers
             return Ok(results);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetAllDetectionsByDay([FromBody] DateTime yyyyMMdd)
+        [HttpGet("api/results/byDay/{yyyyMMdd}")]
+        public async Task<IActionResult> GetAllDetectionsByDay([FromRoute] DateTime yyyyMMdd)
         {
             DateTime date = yyyyMMdd;
             //DateTime.TryParse(yyyyMMdd, out date);
@@ -56,7 +55,7 @@ namespace Bird_Box.Controllers
             return Ok(results);
         }
 
-        [HttpGet("{birdName}")]
+        [HttpGet("api/results/byBird/{birdName}")]
         public async Task<IActionResult> GetBirdByName([FromRoute] string birdName)
         {
             var records = _dbOperations.GetByBirdName(birdName);
@@ -65,7 +64,7 @@ namespace Bird_Box.Controllers
             return Ok(records);
         }
 
-        [HttpPost("{hours}")]
+        [HttpPost("api/results/start/{hours}")]
         public async Task<IActionResult> StartRecording(
             [FromBody] AnalyzerOptions? optionsInput,
             [FromRoute] string hours
@@ -192,7 +191,7 @@ namespace Bird_Box.Controllers
             return result;
         }
 
-        [HttpGet]
+        [HttpGet("api/results/process")]
         public async Task<IActionResult> ProcessResults()
         {
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
@@ -200,7 +199,7 @@ namespace Bird_Box.Controllers
             return Ok($"Added {_dbOperations.CreateRange(results)} results");
         }
 
-        [HttpDelete("{recordId}")]
+        [HttpDelete("api/results/{recordId}")]
         public async Task<IActionResult> DeleteById([FromRoute] string recordId)
         {
             var deletedItems = _dbOperations.DeleteById(recordId);
