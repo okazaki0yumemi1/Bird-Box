@@ -43,7 +43,7 @@ namespace Bird_Box.Data
             return (_context.SaveChanges());
         }
 
-        public int DeleteById(string id)
+        public int DeleteById(string recordId)
         {
             var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
             if (toDelete is null)
