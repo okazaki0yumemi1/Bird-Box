@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Bird_Box.Audio;
 using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
@@ -76,9 +72,9 @@ namespace Bird_Box.Utilities
         public void Record(string deviceId)
         {
             Utilities.CommandLine bash = new Utilities.CommandLine();
-            Audio.FFMpegSettings newSettings = new Audio.FFMpegSettings();
+            FFMpegSettings newSettings = new FFMpegSettings();
             var inputDevices = bash.GetAudioDevices();
-            Audio.Recording recordingObj = new Audio.Recording(
+            Recording recordingObj = new Recording(
                 inputDevices.Where(x => x.deviceId == deviceId).FirstOrDefault(),
                 newSettings
             );
@@ -92,7 +88,7 @@ namespace Bird_Box.Utilities
         /// <returns></returns>
         public Task<bool> RecognizeBird(AnalyzerOptions options)
         {
-            Audio.AudioProcessing audio = new Audio.AudioProcessing(recordingsPath, options);
+            AudioProcessing audio = new AudioProcessing(recordingsPath, options);
             double confidenceInput = 0;
             if (Double.TryParse(options.minimumConfidence, out confidenceInput))
             {
