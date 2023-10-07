@@ -1,11 +1,11 @@
 obj/
 BirdNET-Analyzer/
-Recordings/
+Recordings/*
 Data/SqlLiteResults.db
 .gitignore
 Data/SqlLiteResults.db-wal
 Data/SqlLiteResults.db-shm
-bin/*
+bin/
 .gitignore
 releases/
 Bird-Box.sln
