@@ -62,6 +62,11 @@ namespace Bird_Box.Utilities
                     ?? inputDevices.FirstOrDefault(),
                 newSettings
             );
+            if (recordingObj is null)
+            {
+                Console.WriteLine("No input devices detected, no tasks will be run.");
+                return; 
+            }
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
 
@@ -78,6 +83,11 @@ namespace Bird_Box.Utilities
                 inputDevices.Where(x => x.deviceId == deviceId).FirstOrDefault(),
                 newSettings
             );
+            if (recordingObj is null)
+            {
+                Console.WriteLine("No input devices detected, no tasks will be run.");
+                return; 
+            }
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
 
