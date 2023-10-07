@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
-    [Route("/")]
     public class ResultsController : ControllerBase
     {
         Task ListeningTask;
@@ -38,7 +37,7 @@ namespace Bird_Box.Controllers
             return Ok(bird);
         }
 
-        [HttpGet("api/results/")]
+        [HttpGet("api/results")]
         public async Task<IActionResult> GetAll()
         {
             var results = _dbOperations.GetAll();
