@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
+    [Route("/")]
     public class ResultsController : ControllerBase
     {
         Task ListeningTask;
