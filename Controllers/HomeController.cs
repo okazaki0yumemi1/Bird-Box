@@ -10,16 +10,23 @@ using Microsoft.Extensions.Logging;
 namespace Bird_Box.Controllers
 {
     [ApiExplorerSettings(IgnoreApi=true)]
-    public class ViewsController : Controller
+    public class HomeController : Controller
     {
-        private readonly ILogger<ViewsController> _logger;
+        private readonly ILogger<HomeController> _logger;
         private readonly BirdRepository _dbOperations;
 
-        public ViewsController(ILogger<ViewsController> logger, BirdRepository dbOperations)
+        public HomeController(ILogger<HomeController> logger, BirdRepository dbOperations)
         {
             _dbOperations = dbOperations;
             _logger = logger;
         }
+
+        [Route("~/")]
+        public IActionResult Index()
+        {
+            return View("Views/Results/Index.cshtml");
+        }
+
 
         [Route("~/results")]
         public IActionResult Results()
