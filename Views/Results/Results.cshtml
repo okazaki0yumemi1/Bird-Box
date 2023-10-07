@@ -1,0 +1,50 @@
+@model IEnumerable<Bird_Box.Models.IdentifiedBird>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Results</title>
+</head>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayText("1st column")
+            </th>
+            <th>
+                @Html.DisplayText("2nd column")
+            </th>
+            <th>
+                @Html.DisplayText("3rd column")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.birdName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.detectionThreshold)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.recodingDate)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.objId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.objId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.objId">Delete</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
+</html>
