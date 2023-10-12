@@ -40,7 +40,7 @@ namespace Bird_Box.Controllers
         [HttpGet("api/results")]
         public async Task<IActionResult> GetAll()
         {
-            var results = _dbOperations.GetAll();
+            var results = await _dbOperations.GetAll();
             results.OrderByDescending(x => x.recodingDate);
             return Ok(results);
         }
@@ -50,8 +50,8 @@ namespace Bird_Box.Controllers
         {
             DateTime date = yyyyMMdd;
             //DateTime.TryParse(yyyyMMdd, out date);
-            var results = _dbOperations.GetByDate(date);
-            results.OrderByDescending(x => x.recodingDate);
+            var results = await _dbOperations.GetByDate(date);
+            results.OrderByDescending(x => x.recodingDate.Ticks);
             return Ok(results);
         }
 
@@ -202,7 +202,7 @@ namespace Bird_Box.Controllers
         [HttpDelete("api/results/{recordId}")]
         public async Task<IActionResult> DeleteById([FromRoute] string recordId)
         {
-            var deletedItems = _dbOperations.DeleteById(recordId);
+            var deletedItems = await _dbOperations.DeleteById(recordId);
             if (deletedItems > 0)
                 return Ok("Record deleted successfully");
             else

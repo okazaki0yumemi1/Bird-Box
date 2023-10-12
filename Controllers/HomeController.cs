@@ -29,9 +29,9 @@ namespace Bird_Box.Controllers
 
 
         [Route("~/results")]
-        public IActionResult Results()
+        public async Task<IActionResult> Results()
         {
-            var results = _dbOperations.GetAll();
+            var results = await _dbOperations.GetAll();
             results.OrderByDescending(x => x.recodingDate);
             return View("Views/Results/Results.cshtml", results);
         }
@@ -43,10 +43,28 @@ namespace Bird_Box.Controllers
             return View("Error!");
         }
 
-        [Route("~/delete/{objId}")]
-        public IActionResult Delete([FromRoute] string objId)
+
+        public async Task<IActionResult> Delete([FromRoute] string objId)
         {
-            var deletedItems = _dbOperations.DeleteById(objId);
+
+            if (objId == null)
+            {
+                return NotFound();
+            }
+
+            var bird = await _dbOperations.GetByGuid(objId);
+            if (bird == null)
+            {
+                return NotFound();
+            }
+
+            return View(bird);
+        }
+
+        [Route("~/delete/{objId}")]
+        public async Task<IActionResult> DeleteConfirmed([FromRoute] string objId)
+        {
+            var deletedItems = await _dbOperations.DeleteById(objId);
             if (deletedItems > 0)
                 return View("Views/Results/Delete.cshtml", objId);
             else
@@ -54,9 +72,9 @@ namespace Bird_Box.Controllers
             
         }
         [Route("~/results/{objId}")]
-        public IActionResult Details([FromRoute] string objId)
+        public async Task<IActionResult> Details([FromRoute] string objId)
         {
-            var bird = _dbOperations.GetByGuid(objId);
+            var bird = await _dbOperations.GetByGuid(objId);
             if (bird == null)
                 return NoContent();
             return View("Views/Results/Details.cshtml", bird);

@@ -9,41 +9,41 @@ namespace Bird_Box.Data
             _context = context;
         }
 
-        public List<Models.IdentifiedBird> GetAll()
+        public async Task<List<Models.IdentifiedBird>> GetAll()
         {
             return _context.BirdRecords.ToList();
         }
 
-        public Models.IdentifiedBird GetByGuid(string recordId)
+        public async Task<Models.IdentifiedBird> GetByGuid(string recordId)
         {
             return _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == recordId);
         }
 
-        public Models.IdentifiedBird GetByBirdName(string speciesName)
+        public async Task<Models.IdentifiedBird> GetByBirdName(string speciesName)
         {
             return _context.BirdRecords.FirstOrDefault(x => x.birdName == speciesName);
         }
 
-        public List<Models.IdentifiedBird> GetByDate(DateTime exactDate)
+        public async Task<List<Models.IdentifiedBird>> GetByDate(DateTime exactDate)
         {
             return _context.BirdRecords
                 .Where(x => (x.recodingDate.Date == exactDate.Date))
                 .ToList();
         }
 
-        public int Create(Models.IdentifiedBird newBird)
+        public async Task<int> Create(Models.IdentifiedBird newBird)
         {
             _context.Add(newBird);
             return (_context.SaveChanges());
         }
 
-        public int CreateRange(List<Models.IdentifiedBird> newBirdList)
+        public async Task<int> CreateRange(List<Models.IdentifiedBird> newBirdList)
         {
             _context.AddRange(newBirdList);
             return (_context.SaveChanges());
         }
 
-        public int DeleteById(string recordId)
+        public async Task<int> DeleteById(string recordId)
         {
             var toDelete = _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
             if (toDelete is null)
