@@ -7,7 +7,6 @@ namespace Bird_Box.Audio
 {
     public class Recording
     {
-        readonly Utilities.CommandLine bash = new Utilities.CommandLine();
         FFMpegSettings settings { get; set; }
         Microphone inputDevice { get; set; }
 

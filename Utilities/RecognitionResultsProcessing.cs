@@ -22,8 +22,8 @@ namespace Bird_Box.Utilities
         List<string> GetAllTextFiles()
         {
             var result = new List<string>();
-            CommandLine bash = new CommandLine();
-            var lines = bash.ExecuteCommand($"ls -A {textResultsPath}*.txt").Split("\n").ToList();
+            //CommandLine bash = new CommandLine();
+            var lines = CommandLine.ExecuteCommand($"ls -A {textResultsPath}*.txt").Split("\n").ToList();
             ;
             foreach (var line in lines)
             {
@@ -58,18 +58,12 @@ namespace Bird_Box.Utilities
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
             }
-
-            //CommandLine bash = new CommandLine();
-            //var linesTotal = bash.ExecuteCommand($" cat {fileName} | head -n 2 | tail -n 1")
-            //    .Split("\t");
             var linesTotal = lines.Split("\t");
             if (linesTotal.Length < 10)
             {
                 birds.Add(new IdentifiedBird("No detection"));
                 return birds;
             }
-            //linesTotal.RemoveAt(0);
-            int birdsAdded = 0;
             int i = 10;
             while (linesTotal.Length > i)
             {
@@ -101,12 +95,10 @@ namespace Bird_Box.Utilities
         /// Process all text files in a /Recordings directory
         /// </summary>
         /// <returns>List of birds</returns>
-        public List<Models.IdentifiedBird> ProcessAllFiles()
+        public List<IdentifiedBird> ProcessAllFiles()
         {
-            var birds = new List<Models.IdentifiedBird>();
-            int detections = 0;
+            var birds = new List<IdentifiedBird>();
             var files = GetAllTextFiles();
-            var bash = new CommandLine();
             foreach (var file in files)
             {
                 var birdsInAFile = ProcessSingleFile(file);
@@ -115,10 +107,9 @@ namespace Bird_Box.Utilities
             return birds;
         }
 
-        public List<Models.IdentifiedBird> ProcessSingleFile(string file)
+        public List<IdentifiedBird> ProcessSingleFile(string file)
         {
-            var birds = new List<Models.IdentifiedBird>();
-            var bash = new CommandLine();
+            var birds = new List<IdentifiedBird>();
             var birdsInASingleFile = ProcessTextFile(file);
             foreach (var birdEntity in birdsInASingleFile)
             {
@@ -140,7 +131,7 @@ namespace Bird_Box.Utilities
                 }
                 birds.Add(birdEntity);
             }
-            bash.ExecuteCommand($"rm {file}");
+            CommandLine.ExecuteCommand($"rm {file}");
             return birds;
         }
     }
