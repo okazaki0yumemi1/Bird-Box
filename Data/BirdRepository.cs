@@ -16,7 +16,7 @@ namespace Bird_Box.Data
 
         public async Task<Models.IdentifiedBird> GetByGuid(string recordId)
         {
-            return _context.BirdRecords.FirstOrDefault(x => x.objId.ToString() == recordId);
+            return _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
         }
 
         public async Task<Models.IdentifiedBird> GetByBirdName(string speciesName)
