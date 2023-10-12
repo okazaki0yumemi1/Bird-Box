@@ -1,9 +1,5 @@
 @model Bird_Box.Models.IdentifiedBird
 
-@{
-    Layout = null;
-}
-
 <!DOCTYPE html>
 
 <html>
@@ -38,7 +34,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.objId">Edit</a> |
+    <a asp-action="Details" asp-route-id="@Model?.objId">Details</a> |
     <a asp-action="Index">Back to List</a>
 </div>
 </body>
