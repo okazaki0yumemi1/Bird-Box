@@ -13,7 +13,7 @@ namespace Bird_Box.Utilities
         /// Get list of audio input devices.
         /// </summary>
         /// <returns>List of audio devices: device Id, device info</returns>
-        public List<Audio.Microphone> GetAudioDevices()
+        public static List<Audio.Microphone> GetAudioDevices()
         {
             var devices = new List<Audio.Microphone>();
             var result = ExecuteCommand("arecord -l | grep -o 'card [0-99]'").Replace("card ", "");
@@ -42,7 +42,7 @@ namespace Bird_Box.Utilities
         /// </summary>
         /// <param name="parameters">bash command</param>
         /// <returns>Command output</returns>
-        public async Task<string> ExecuteCommandAsync(string parameters)
+        public static async Task<string> ExecuteCommandAsync(string parameters)
         {
             Task<string> processOutput;
             var processInfo = new System.Diagnostics.ProcessStartInfo();
@@ -61,7 +61,7 @@ namespace Bird_Box.Utilities
         /// </summary>
         /// <param name="parameters">bash command</param>
         /// <returns>Command output</returns>
-        public string ExecuteCommand(string parameters)
+        public static string ExecuteCommand(string parameters)
         {
             string processOutput;
             var processInfo = new System.Diagnostics.ProcessStartInfo();
