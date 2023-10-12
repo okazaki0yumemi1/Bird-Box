@@ -1,4 +1,55 @@
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@model Bird_Box.Models.AppDetails
+
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+
+<body>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Input device ID")
+            </th>
+            <th>
+                @Html.DisplayName("Inpud device information")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var micro in Model.Microphones) 
+        {
+            <tr>
+                <td>
+                    @Html.DisplayName(micro.deviceId)
+                </td>
+                <td>
+                    @Html.DisplayName(micro.deviceInfo)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Unique species")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bird in Model.UniqueSpecies) 
+        {
+            <tr>
+                <td>
+                    @Html.DisplayName(bird)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</body>
