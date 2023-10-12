@@ -45,7 +45,7 @@ namespace Bird_Box.Controllers
             return Ok(results);
         }
 
-        [HttpGet("api/results/byDay/{yyyyMMdd}")]
+        [HttpGet("api/results/days/{yyyyMMdd}")]
         public async Task<IActionResult> GetAllDetectionsByDay([FromRoute] DateTime yyyyMMdd)
         {
             DateTime date = yyyyMMdd;
@@ -55,7 +55,7 @@ namespace Bird_Box.Controllers
             return Ok(results);
         }
 
-        [HttpGet("api/results/byBird/{birdName}")]
+        [HttpGet("api/results/birds/{birdName}")]
         public async Task<IActionResult> GetBirdByName([FromRoute] string birdName)
         {
             var records = _dbOperations.GetByBirdName(birdName);

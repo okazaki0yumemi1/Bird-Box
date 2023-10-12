@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Bird_Box.Data
 {
     public class BirdRepository : IRepository
@@ -50,6 +52,10 @@ namespace Bird_Box.Data
                 return 0;
             _context.BirdRecords.Remove(toDelete);
             return (_context.SaveChanges());
+        }
+        public Task<int> GetRecourdsCount()
+        {
+            return _context.BirdRecords.CountAsync();
         }
     }
 }
