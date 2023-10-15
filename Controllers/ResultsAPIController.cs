@@ -1,6 +1,8 @@
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Bird_Box.Data;
 using Bird_Box.Models;
+using Bird_Box.Services;
 using Bird_Box.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +11,13 @@ namespace Bird_Box.Controllers
     [ApiController]
     public class ResultsAPIController : ControllerBase
     {
-        Task ListeningTask;
+        // List<Task> ListeningTasks;
         private readonly BirdRepository _dbOperations;
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
+        private RecordingService _recordingService;
 
-        public ResultsAPIController(BirdRepository dbOperations)
+        public ResultsAPIController(BirdRepository dbOperations, RecordingService recordingService)
         {
             _dbOperations = dbOperations;
             _config = new ConfigurationBuilder()
@@ -26,6 +29,8 @@ namespace Bird_Box.Controllers
             _defaultOptions = _config
                 .GetRequiredSection("BirdNETOptions:Default")
                 .Get<AnalyzerOptions>();
+
+            _recordingService = recordingService;
         }
 
         [HttpGet("api/results/{recordId}")]
@@ -64,7 +69,7 @@ namespace Bird_Box.Controllers
             return Ok(records);
         }
 
-        [HttpPost("api/results/start/{hours}")]
+        [HttpPost("api/results/recordings/start/{hours}")]
         public async Task<IActionResult> StartRecording(
             [FromBody] AnalyzerOptions? optionsInput,
             [FromRoute] string hours
@@ -85,11 +90,25 @@ namespace Bird_Box.Controllers
 
             if (!TimeSpan.TryParse(hours, out _hours))
                 _hours = TimeSpan.FromHours(1); //default value - 1 hour
-            Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(_hours);
-            ListeningTask = scheduleRecording.RecordAndRecognize(options);
+            _recordingService.StartRecording(_hours, options);
+            // Utilities.RecordingSchedule scheduleRecording = new Utilities.RecordingSchedule(_hours);
+            // ListeningTask = scheduleRecording.RecordAndRecognize(options);
             return Ok(
                 $"The task will be run for {_hours} hours.{Environment.NewLine} The options are:{Environment.NewLine} {JsonSerializer.Serialize(options)}"
             );
+        }
+
+        [HttpGet("api/recordings/status/{serviceId}")]
+        public async Task<bool> RecordingStatus([FromRoute] int serviceId)
+        {
+            if (_recordingService.RecordingStatus(serviceId) == TaskStatus.Running) return true;
+            else return false;
+        }
+
+        [HttpPost("api/recordings/stop/{serviceId}")]
+        public async Task<bool> StopRecording([FromRoute] int serviceId)
+        {
+            return _recordingService.StopRecording(serviceId);
         }
 
         AnalyzerOptions ValidModel(AnalyzerOptions inputModel)
@@ -207,6 +226,12 @@ namespace Bird_Box.Controllers
                 return Ok("Record deleted successfully");
             else
                 return NoContent();
+        }
+
+        [HttpGet("api/recordings/")]
+        public async Task<List<int>> GetAllRunningServices()
+        {
+            return _recordingService.GetRunningRecordingServices();
         }
     }
 }

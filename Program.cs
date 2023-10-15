@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Bird_Box.Data.BirdBoxContext>();
 
+builder.Services.AddSingleton<Bird_Box.Services.RecordingService, Bird_Box.Services.RecordingService>();
 //Database operations
 builder.Services.AddScoped<Bird_Box.Data.BirdRepository, Bird_Box.Data.BirdRepository>();
 
@@ -25,6 +26,11 @@ builder.Services.AddScoped<
 builder.Services.AddScoped<
     Bird_Box.Controllers.ResultsController,
     Bird_Box.Controllers.ResultsController
+>();
+
+builder.Services.AddScoped<
+    Bird_Box.Controllers.ResultsAPIController,
+    Bird_Box.Controllers.ResultsAPIController
 >();
 
 

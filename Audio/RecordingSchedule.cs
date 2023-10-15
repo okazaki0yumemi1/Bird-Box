@@ -9,6 +9,7 @@ namespace Bird_Box.Utilities
         Queue<string> UnprocessedRecordings { get; set; } = new Queue<string>();
         List<Task> ProcessingAudio { get; set; } = new List<Task>();
         string recordingsPath { get; set; } = "Recordings";
+        private bool _continue = true;
 
         public RecordingSchedule(TimeSpan timespan)
         {
@@ -26,13 +27,14 @@ namespace Bird_Box.Utilities
         /// </summary>
         /// <param name="options">BirdNET Analyzer parameters</param>
         /// <returns></returns>
-        public async Task<int> RecordAndRecognize(AnalyzerOptions options)
+        public async Task<int> RecordAndRecognize(AnalyzerOptions options, CancellationToken ct)
         {
             //var secondsElapsed = new TimeSpan(0, 0, 0);
             var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
             int recordingsMade = 0;
             while (await periodicTimer.WaitForNextTickAsync())
             {
+                if (ct.IsCancellationRequested) return recordingsMade;
                 //Remove completed tasks:
                 ProcessingAudio.RemoveAll(x => x.IsCompleted);
                 //If there are more than 5 tasks, they should be finished first:
@@ -112,5 +114,7 @@ namespace Bird_Box.Utilities
 
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
+
+        public void StopTask() => _continue = false;
     }
 }
