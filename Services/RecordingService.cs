@@ -5,8 +5,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Bird_Box.Models;
 using Bird_Box.Utilities;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NuGet.Common;
 
 namespace Bird_Box.Services
 {
