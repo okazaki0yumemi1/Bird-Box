@@ -59,7 +59,7 @@ namespace Bird_Box.Controllers
 			else return false;
 		}
 
-		[HttpPost("api/recordings/stop/{serviceId}")]
+		[HttpGet("api/recordings/stop/{serviceId}")]
 		public async Task<bool> StopRecording([FromRoute] int serviceId)
 		{
 			return _recordingService.StopRecording(serviceId);
@@ -106,6 +106,11 @@ namespace Bird_Box.Controllers
 						result.weekOfTheYear = w.ToString();
 				}
 				else
+				//{
+				//                DateTime dt = DateTime.Now;
+				//                Calendar cal = new CultureInfo.GetCurrentCulture().Calendar;
+				//                int week = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+				//}
 					result.weekOfTheYear = ((int)DateTime.Now.Day / 7).ToString();
 			}
 			if (inputModel.sensitivity is not null)
