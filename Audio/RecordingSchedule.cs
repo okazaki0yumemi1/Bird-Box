@@ -68,6 +68,7 @@ namespace Bird_Box.Utilities
                 Console.WriteLine("No input devices detected, no tasks will be run.");
                 return; 
             }
+            Console.WriteLine($"Using input device with ID={recordingObj.inputDevice.deviceId}");
             UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         }
 

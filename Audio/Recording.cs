@@ -7,8 +7,8 @@ namespace Bird_Box.Audio
 {
     public class Recording
     {
-        FFMpegSettings settings { get; set; }
-        Microphone inputDevice { get; set; }
+        private FFMpegSettings settings { get; set; }
+        public Microphone inputDevice { get; private set; }
 
         public Recording(Microphone newInputDevice, FFMpegSettings newSettings)
         {
