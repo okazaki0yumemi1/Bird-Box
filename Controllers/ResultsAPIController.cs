@@ -215,7 +215,7 @@ namespace Bird_Box.Controllers
         {
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
             var results = rrp.ProcessAllFiles();
-            return Ok($"Added {_dbOperations.CreateRange(results)} results");
+            return Ok($"Results processed successfully");
         }
 
         [HttpDelete("api/results/{recordId}")]
