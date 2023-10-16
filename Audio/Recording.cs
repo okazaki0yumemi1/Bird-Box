@@ -23,7 +23,7 @@ namespace Bird_Box.Audio
             if (inputDevice is not null)
             {
                 var result = ExecuteCommand(
-                    $"{settings.ffmpegExecutable} -f pulse -i hw:{inputDevice.deviceId} -t 10 {settings.outputPath}/{fileName}.wav"
+                    $"{settings.ffmpegExecutable} -f pulse -i {inputDevice.deviceId} -t 10 {settings.outputPath}/{fileName}.wav"
                 );
                 return fileName + ".wav";
             }
