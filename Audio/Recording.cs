@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bird_Box.Utilities;
 
 namespace Bird_Box.Audio
 {
@@ -22,14 +23,14 @@ namespace Bird_Box.Audio
             var outputFile = settings.outputPath;
             if (inputDevice is not null)
             {
-                var result = ExecuteCommand(
+                var result = CommandLine.ExecuteCommand(
                     $"{settings.ffmpegExecutable} -f pulse -i {inputDevice.deviceId} -t 10 {settings.outputPath}/{fileName}.wav"
                 );
                 return fileName + ".wav";
             }
             else 
             {
-                var result = ExecuteCommand(
+                var result = CommandLine.ExecuteCommand(
                     $"{settings.ffmpegExecutable} -f pulse -i default -t 10 {settings.outputPath}/{fileName}.wav"
                 );
                 return fileName + ".wav";
@@ -47,18 +48,18 @@ namespace Bird_Box.Audio
         //     return fileName + ".wav";
         // }
 
-        string ExecuteCommand(string parameters)
-        {
-            string processOutput;
-            var processInfo = new System.Diagnostics.ProcessStartInfo();
-            processInfo.FileName = "/bin/bash";
-            processInfo.Arguments = $"-c \"{parameters}";
-            processInfo.RedirectStandardOutput = true;
-            using (var process = System.Diagnostics.Process.Start(processInfo))
-            {
-                processOutput = process.StandardOutput.ReadToEnd();
-            }
-            return processOutput;
-        }
+        // string ExecuteCommand(string parameters)
+        // {
+        //     string processOutput;
+        //     var processInfo = new System.Diagnostics.ProcessStartInfo();
+        //     processInfo.FileName = "/bin/bash";
+        //     processInfo.Arguments = $"-c \"{parameters}";
+        //     processInfo.RedirectStandardOutput = true;
+        //     using (var process = System.Diagnostics.Process.Start(processInfo))
+        //     {
+        //         processOutput = process.StandardOutput.ReadToEnd();
+        //     }
+        //     return processOutput;
+        // }
     }
 }

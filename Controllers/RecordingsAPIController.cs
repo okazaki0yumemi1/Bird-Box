@@ -12,7 +12,7 @@ namespace Bird_Box.Controllers
 	public class RecordingsAPIController : ControllerBase
 	{
 		private RecordingService _recordingService;
-		private readonly AnalyzerOptions _defaultOptions;
+		private readonly AnalyzerOptions _defaultOptions = new AnalyzerOptions();
 		private readonly IConfigurationRoot _config;
 
 		public RecordingsAPIController(RecordingService recordingService)

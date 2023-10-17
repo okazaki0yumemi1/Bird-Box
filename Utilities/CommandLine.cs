@@ -65,6 +65,11 @@ namespace Bird_Box.Utilities
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
+                if (process is null) 
+                {
+                    Console.WriteLine($"Command output is empty. Command is: {parameters}");
+                    return String.Empty;
+                }
                 processOutput = process.StandardOutput.ReadToEndAsync();
             }
             return processOutput.Result;
@@ -84,6 +89,11 @@ namespace Bird_Box.Utilities
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
+                if (process is null) 
+                {
+                    Console.WriteLine($"Command output is empty. Command is: {parameters}");
+                    return String.Empty;
+                }
                 processOutput = process.StandardOutput.ReadToEnd();
             }
             return processOutput;
