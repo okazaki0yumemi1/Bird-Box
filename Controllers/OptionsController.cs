@@ -69,12 +69,15 @@ namespace Bird_Box.Controllers
                 }
                 else
                 {
-                    var cultureInfo = Thread.CurrentThread.CurrentCulture;
-                    DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
-                    CalendarWeekRule weekRule = cultureInfo.DateTimeFormat.CalendarWeekRule;
-                    Calendar cal = cultureInfo.Calendar;
-                    result.weekOfTheYear = cal.GetWeekOfYear(DateTime.Now, weekRule, firstDay)
-                        .ToString();
+                    DateTime dt = DateTime.Now;
+				    Calendar cal = CultureInfo.CurrentCulture.Calendar;
+				    result.weekOfTheYear = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday).ToString();
+                    // var cultureInfo = Thread.CurrentThread.CurrentCulture;
+                    // DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+                    // CalendarWeekRule weekRule = cultureInfo.DateTimeFormat.CalendarWeekRule;
+                    // Calendar cal = cultureInfo.Calendar;
+                    // result.weekOfTheYear = cal.GetWeekOfYear(DateTime.Now, weekRule, firstDay)
+                    //     .ToString();
                 }
             }
             if (inputModel.sensitivity is not null)

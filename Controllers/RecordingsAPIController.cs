@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Bird_Box.Data;
@@ -12,7 +13,7 @@ namespace Bird_Box.Controllers
 	public class RecordingsAPIController : ControllerBase
 	{
 		private RecordingService _recordingService;
-		private readonly AnalyzerOptions _defaultOptions = new AnalyzerOptions();
+		private readonly AnalyzerOptions _defaultOptions;
 		private readonly IConfigurationRoot _config;
 
 		public RecordingsAPIController(RecordingService recordingService)
@@ -20,9 +21,12 @@ namespace Bird_Box.Controllers
 			_recordingService = recordingService;
 
 			// Get values from the config given their key and their target type.
-			_defaultOptions = _config
-				.GetRequiredSection("BirdNETOptions:Default")
-				.Get<AnalyzerOptions>();
+			_config = new ConfigurationBuilder()
+				.AddJsonFile("appsettings.json")
+				.AddEnvironmentVariables()
+				.Build();
+
+            _defaultOptions = _config.GetRequiredSection("BirdNETOptions:Default").Get<AnalyzerOptions>();
 		}
 
 		[HttpPost("api/results/recordings/start/{hours}")]
@@ -39,7 +43,7 @@ namespace Bird_Box.Controllers
 			}
 			else
 			{
-				options = ValidModel(optionsInput);
+				options = ValidModel(options);
 				if (options is null)
 					options = _defaultOptions;
 			}
@@ -106,12 +110,12 @@ namespace Bird_Box.Controllers
 						result.weekOfTheYear = w.ToString();
 				}
 				else
-				//{
-				//                DateTime dt = DateTime.Now;
-				//                Calendar cal = new CultureInfo.GetCurrentCulture().Calendar;
-				//                int week = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
-				//}
-					result.weekOfTheYear = ((int)DateTime.Now.Day / 7).ToString();
+				{
+				                DateTime dt = DateTime.Now;
+				                Calendar cal = CultureInfo.CurrentCulture.Calendar;
+				                w = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+				}
+					result.weekOfTheYear = w.ToString();
 			}
 			if (inputModel.sensitivity is not null)
 			{
