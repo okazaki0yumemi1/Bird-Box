@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Bird_Box</RootNamespace>
-     <DocumentationFile>Documentation/ApiDocumentation.xml</DocumentationFile>
+    <DocumentationFile>Documentation/ApiDocumentation.xml</DocumentationFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   

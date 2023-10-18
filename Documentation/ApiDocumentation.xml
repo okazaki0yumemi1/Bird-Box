@@ -109,12 +109,15 @@
             </summary>
             <param name="recordId">Detection ID</param>
             <returns></returns>
+            <response code="200">Returns the detection</response>
+            <response code="404">The detection was not found</response>
         </member>
         <member name="M:Bird_Box.Controllers.ResultsAPIController.GetAll">
             <summary>
             Get all detections in a local database
             </summary>
             <returns></returns>
+            <response code="200">Return all database content</response>
         </member>
         <member name="M:Bird_Box.Controllers.ResultsAPIController.GetAllDetectionsByDay(System.DateTime)">
             <summary>
@@ -122,6 +125,7 @@
             </summary>
             <param name="yyyyMMdd">Date in format yyyyMMdd, i.e. 2023-10-12</param>
             <returns></returns>
+            <response code="200">Return detections in a certain day</response>
         </member>
         <member name="M:Bird_Box.Controllers.ResultsAPIController.GetBirdByName(System.String)">
             <summary>
@@ -129,12 +133,15 @@
             </summary>
             <param name="birdName">An exact common name of a bird, i.e. "Eurasian blue tit" instead of "Cyanistes caeruleus"</param>
             <returns></returns>
+            <response code="200">Returns all birds with a name provided</response>
+            <response code="404">No birds with a name provided were found</response>
         </member>
         <member name="M:Bird_Box.Controllers.ResultsAPIController.ProcessResults">
             <summary>
             Process all raw results and put them to a database.
             </summary>
             <returns></returns>
+            <response code="200">Process was finished successfully</response>
         </member>
         <member name="M:Bird_Box.Controllers.ResultsAPIController.DeleteById(System.String)">
             <summary>
@@ -142,6 +149,8 @@
             </summary>
             <param name="recordId">Detection ID</param>
             <returns></returns>
+            <response code="200">The detection was deleted successfully</response>
+            <response code="204">The detection was not found</response>
         </member>
         <member name="T:Bird_Box.Migrations.InitialMigration">
             <inheritdoc />

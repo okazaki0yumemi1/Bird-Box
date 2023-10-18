@@ -35,6 +35,8 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <param name="recordId">Detection ID</param>
         /// <returns></returns>
+        /// <response code="200">Returns the detection</response>
+        /// <response code="404">The detection was not found</response>
         [HttpGet("api/results/{recordId}")]
         public async Task<IActionResult> GetByID([FromRoute] string recordId)
         {
@@ -48,6 +50,7 @@ namespace Bird_Box.Controllers
         /// Get all detections in a local database
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Return all database content</response>
         [HttpGet("api/results")]
         public async Task<IActionResult> GetAll()
         {
@@ -61,6 +64,7 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <param name="yyyyMMdd">Date in format yyyyMMdd, i.e. 2023-10-12</param>
         /// <returns></returns>
+        /// <response code="200">Return detections in a certain day</response>
         [HttpGet("api/results/days/{yyyyMMdd}")]
         public async Task<IActionResult> GetAllDetectionsByDay([FromRoute] DateTime yyyyMMdd)
         {
@@ -76,6 +80,8 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <param name="birdName">An exact common name of a bird, i.e. "Eurasian blue tit" instead of "Cyanistes caeruleus"</param>
         /// <returns></returns>
+        /// <response code="200">Returns all birds with a name provided</response>
+        /// <response code="404">No birds with a name provided were found</response>
         [HttpGet("api/results/birds/{birdName}")]
         public async Task<IActionResult> GetBirdByName([FromRoute] string birdName)
         {
@@ -89,6 +95,7 @@ namespace Bird_Box.Controllers
         /// Process all raw results and put them to a database.
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Process was finished successfully</response>
         [HttpGet("api/results/process")]
         public async Task<IActionResult> ProcessResults()
         {
@@ -102,6 +109,8 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <param name="recordId">Detection ID</param>
         /// <returns></returns>
+        /// <response code="200">The detection was deleted successfully</response>
+        /// <response code="204">The detection was not found</response>
         [HttpDelete("api/results/{recordId}")]
         public async Task<IActionResult> DeleteById([FromRoute] string recordId)
         {
