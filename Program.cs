@@ -8,7 +8,11 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(o => 
+{
+    var filePath = Path.Combine(System.Environment.CurrentDirectory, "Documentation/ApiDocumentation.xml");
+    o.IncludeXmlComments(filePath);
+});
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Bird_Box.Data.BirdBoxContext>();
 

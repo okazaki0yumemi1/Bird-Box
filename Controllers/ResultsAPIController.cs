@@ -30,6 +30,11 @@ namespace Bird_Box.Controllers
 
         }
 
+        /// <summary>
+        /// Get detection item by its ID
+        /// </summary>
+        /// <param name="recordId">Detection ID</param>
+        /// <returns></returns>
         [HttpGet("api/results/{recordId}")]
         public async Task<IActionResult> GetByID([FromRoute] string recordId)
         {
@@ -39,6 +44,10 @@ namespace Bird_Box.Controllers
             return Ok(bird);
         }
 
+        /// <summary>
+        /// Get all detections in a local database
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("api/results")]
         public async Task<IActionResult> GetAll()
         {
@@ -47,6 +56,11 @@ namespace Bird_Box.Controllers
             return Ok(results);
         }
 
+        /// <summary>
+        /// Get all detections by a certain day
+        /// </summary>
+        /// <param name="yyyyMMdd">Date in format yyyyMMdd, i.e. 2023-10-12</param>
+        /// <returns></returns>
         [HttpGet("api/results/days/{yyyyMMdd}")]
         public async Task<IActionResult> GetAllDetectionsByDay([FromRoute] DateTime yyyyMMdd)
         {
@@ -57,6 +71,11 @@ namespace Bird_Box.Controllers
             return Ok(results);
         }
 
+        /// <summary>
+        /// Get all detections of a certain species
+        /// </summary>
+        /// <param name="birdName">An exact common name of a bird, i.e. "Eurasian blue tit" instead of "Cyanistes caeruleus"</param>
+        /// <returns></returns>
         [HttpGet("api/results/birds/{birdName}")]
         public async Task<IActionResult> GetBirdByName([FromRoute] string birdName)
         {
@@ -66,6 +85,10 @@ namespace Bird_Box.Controllers
             return Ok(records);
         }
 
+        /// <summary>
+        /// Process all raw results and put them to a database.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("api/results/process")]
         public async Task<IActionResult> ProcessResults()
         {
@@ -74,6 +97,11 @@ namespace Bird_Box.Controllers
             return Ok($"Results processed successfully");
         }
 
+        /// <summary>
+        /// Delete detection by its ID
+        /// </summary>
+        /// <param name="recordId">Detection ID</param>
+        /// <returns></returns>
         [HttpDelete("api/results/{recordId}")]
         public async Task<IActionResult> DeleteById([FromRoute] string recordId)
         {

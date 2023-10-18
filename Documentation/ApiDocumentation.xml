@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bird-Box</name>
+    </assembly>
+    <members>
+        <member name="M:Bird_Box.Utilities.RecordingSchedule.RecordAndRecognize(Bird_Box.Models.AnalyzerOptions,System.Threading.CancellationToken)">
+            <summary>
+            This is a task responsible for recording and analysing audio recordings.
+            </summary>
+            <param name="options">BirdNET Analyzer parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Utilities.RecordingSchedule.Record">
+            <summary>
+            Starts recording via USB input device.
+            </summary>
+        </member>
+        <member name="M:Bird_Box.Utilities.RecordingSchedule.Record(System.String)">
+            <summary>
+            This method lets you choose mic by entering device id.
+            </summary>
+            <param name="deviceId">input device id. You can see it by running "arecord -l" in terminal</param>
+        </member>
+        <member name="M:Bird_Box.Utilities.RecordingSchedule.RecognizeBird(Bird_Box.Models.AnalyzerOptions)">
+            <summary>
+            Starts analysis of recording with passed parameters. See BirdNET Analyzer documentation for details.
+            </summary>
+            <param name="options">BirdNET Analyzer parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Utilities.CommandLine.GetAudioDevices">
+            <summary>
+            Get list of audio input devices.
+            </summary>
+            <returns>List of audio devices: device Id, device info</returns>
+        </member>
+        <member name="M:Bird_Box.Utilities.CommandLine.ExecuteCommandAsync(System.String)">
+            <summary>
+            Run a bash command asynchroniously.
+            </summary>
+            <param name="parameters">bash command</param>
+            <returns>Command output</returns>
+        </member>
+        <member name="M:Bird_Box.Utilities.CommandLine.ExecuteCommand(System.String)">
+            <summary>
+            Run a bash command.
+            </summary>
+            <param name="parameters">bash command</param>
+            <returns>Command output</returns>
+        </member>
+        <member name="M:Bird_Box.Utilities.RecognitionResultsProcessing.GetAllTextFiles">
+            <summary>
+            Get list of all text files - output of BirdNET Analyzer
+            </summary>
+            <returns>List of *.txt files</returns>
+        </member>
+        <member name="M:Bird_Box.Utilities.RecognitionResultsProcessing.ProcessTextFile(System.String)">
+             <summary>
+            Process a text file
+             </summary>
+             <param name="fileName">text file name</param>
+             <returns>List of identified birds</returns>
+        </member>
+        <member name="M:Bird_Box.Utilities.RecognitionResultsProcessing.ProcessAllFiles">
+            <summary>
+            Process all text files in a /Recordings directory
+            </summary>
+            <returns>List of birds</returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.StartRecording(Bird_Box.Models.AnalyzerOptions,System.String)">
+            <summary>
+            Start listening service by passing a BirdNET settings and a length (in hours) 
+            </summary>
+            <param name="optionsInput">BirdNET Analyzer settings</param>
+            <param name="hours">Duration, hours</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.RecordingStatus(System.Int32)">
+            <summary>
+            Get status of a listening service.
+            </summary>
+            <param name="serviceId">Listening service ID</param>
+            <returns>True if task is running, othewise return false</returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.StopRecording(System.Int32)">
+            <summary>
+            Stop listening service by its ID
+            </summary>
+            <param name="serviceId">Listening service ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.GetAllRunningServices">
+            <summary>
+            Get all running listening services
+            </summary>
+            <returns>List of IDs</returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.ValidModel(Bird_Box.Models.AnalyzerOptions)">
+            <summary>
+            Validate neural network settings
+            </summary>
+            <param name="inputModel">BirdNET Analyzer settings</param>
+            <returns>Correct settings class</returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.GetByID(System.String)">
+            <summary>
+            Get detection item by its ID
+            </summary>
+            <param name="recordId">Detection ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.GetAll">
+            <summary>
+            Get all detections in a local database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.GetAllDetectionsByDay(System.DateTime)">
+            <summary>
+            Get all detections by a certain day
+            </summary>
+            <param name="yyyyMMdd">Date in format yyyyMMdd, i.e. 2023-10-12</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.GetBirdByName(System.String)">
+            <summary>
+            Get all detections of a certain species
+            </summary>
+            <param name="birdName">An exact common name of a bird, i.e. "Eurasian blue tit" instead of "Cyanistes caeruleus"</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.ProcessResults">
+            <summary>
+            Process all raw results and put them to a database.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.DeleteById(System.String)">
+            <summary>
+            Delete detection by its ID
+            </summary>
+            <param name="recordId">Detection ID</param>
+            <returns></returns>
+        </member>
+        <member name="T:Bird_Box.Migrations.InitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Bird_Box.Migrations.FromGuidToStringPK">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.FromGuidToStringPK.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.FromGuidToStringPK.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.FromGuidToStringPK.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

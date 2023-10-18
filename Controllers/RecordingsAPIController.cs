@@ -29,6 +29,12 @@ namespace Bird_Box.Controllers
             _defaultOptions = _config.GetRequiredSection("BirdNETOptions:Default").Get<AnalyzerOptions>();
 		}
 
+		/// <summary>
+		/// Start listening service by passing a BirdNET settings and a length (in hours) 
+		/// </summary>
+		/// <param name="optionsInput">BirdNET Analyzer settings</param>
+		/// <param name="hours">Duration, hours</param>
+		/// <returns></returns>
 		[HttpPost("api/results/recordings/start/{hours}")]
 		public async Task<IActionResult> StartRecording(
 			[FromBody] AnalyzerOptions? optionsInput,
@@ -56,6 +62,11 @@ namespace Bird_Box.Controllers
 			);
 		}
 
+		/// <summary>
+		/// Get status of a listening service.
+		/// </summary>
+		/// <param name="serviceId">Listening service ID</param>
+		/// <returns>True if task is running, othewise return false</returns>
 		[HttpGet("api/recordings/status/{serviceId}")]
 		public async Task<bool> RecordingStatus([FromRoute] int serviceId)
 		{
@@ -63,18 +74,32 @@ namespace Bird_Box.Controllers
 			else return false;
 		}
 
+		/// <summary>
+		/// Stop listening service by its ID
+		/// </summary>
+		/// <param name="serviceId">Listening service ID</param>
+		/// <returns></returns>
 		[HttpGet("api/recordings/stop/{serviceId}")]
 		public async Task<bool> StopRecording([FromRoute] int serviceId)
 		{
 			return _recordingService.StopRecording(serviceId);
 		}
 
+		/// <summary>
+		/// Get all running listening services
+		/// </summary>
+		/// <returns>List of IDs</returns>
 		[HttpGet("api/recordings/")]
 		public async Task<List<int>> GetAllRunningServices()
 		{
 			return _recordingService.GetRunningRecordingServices();
 		}
 
+		/// <summary>
+		/// Validate neural network settings
+		/// </summary>
+		/// <param name="inputModel">BirdNET Analyzer settings</param>
+		/// <returns>Correct settings class</returns>
 		private AnalyzerOptions ValidModel(AnalyzerOptions inputModel)
 		{
 			var result = new AnalyzerOptions();
