@@ -131,7 +131,7 @@ namespace Bird_Box.Utilities
                 }
                 birds.Add(birdEntity);
             }
-            CommandLine.ExecuteCommand($"rm {file}");
+            CommandLine.ExecuteCommand($"rm {textResultsPath + file}");
             return birds;
         }
     }
