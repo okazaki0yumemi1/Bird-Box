@@ -47,7 +47,7 @@ namespace Bird_Box.Utilities
             try
             {
                 // Open the text file using a stream reader.
-                using (var sr = new StreamReader(fileName))
+                using (var sr = new StreamReader(textResultsPath + fileName))
                 {
                     // Read the stream as a string, and write the string to the console.
                     lines = sr.ReadToEnd();
