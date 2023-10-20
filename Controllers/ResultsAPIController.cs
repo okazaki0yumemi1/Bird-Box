@@ -101,7 +101,8 @@ namespace Bird_Box.Controllers
         {
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
             var results = rrp.ProcessAllFiles();
-            return Ok($"Results processed successfully");
+            var count = await _dbOperations.CreateRange(results);
+            return Ok($"Results processed successfully. Added {count} detections.");
         }
 
         /// <summary>
