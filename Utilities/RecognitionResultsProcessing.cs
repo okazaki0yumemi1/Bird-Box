@@ -29,7 +29,7 @@ namespace Bird_Box.Utilities
             {
                 if (line == "")
                     break;
-                var fileName = line.Replace($"{textResultsPath}/", "");
+                string fileName = line.Substring(textResultsPath.Length);
                 result.Add(fileName.Replace("\n", ""));
             }
             return result;
