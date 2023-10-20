@@ -49,7 +49,7 @@ namespace Bird_Box.Controllers
 			}
 			else
 			{
-				options = ValidModel(options);
+				options = ValidModel(optionsInput);
 				if (options is null)
 					options = _defaultOptions;
 			}
