@@ -11,42 +11,65 @@ namespace Bird_Box.Services
     public class RecordingService
     {
         private List<Task<int>> _listeningTasks = new List<Task<int>>();
-        //CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource(); 
-        private Dictionary<int, CancellationTokenSource> _tokenAndTaskIDs = new Dictionary<int, CancellationTokenSource>();
-        public RecordingService()
-        {
 
-        }
-        public void StartRecording(TimeSpan hours, AnalyzerOptions optionsInput, string? inputDeviceID = null)
+        //CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private Dictionary<int, CancellationTokenSource> _tokenAndTaskIDs =
+            new Dictionary<int, CancellationTokenSource>();
+
+        public RecordingService() { }
+
+        public void StartRecording(
+            TimeSpan hours,
+            AnalyzerOptions optionsInput,
+            string? inputDeviceID = null
+        )
         {
             RecordingSchedule scheduleRecording = new RecordingSchedule(hours);
             var tokenSource = new CancellationTokenSource();
             if (inputDeviceID is null)
-                _listeningTasks.Add(scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token));
-            else 
-                _listeningTasks.Add(scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token, inputDeviceID));
+                _listeningTasks.Add(
+                    scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token)
+                );
+            else
+                _listeningTasks.Add(
+                    scheduleRecording.RecordAndRecognize(
+                        optionsInput,
+                        tokenSource.Token,
+                        inputDeviceID
+                    )
+                );
             _tokenAndTaskIDs.Add(_listeningTasks.Last().Id, tokenSource);
         }
-        public TaskStatus RecordingStatus (int id)
+
+        public TaskStatus RecordingStatus(int id)
         {
-            if (_listeningTasks is null) return TaskStatus.Faulted;
-            else 
+            if (_listeningTasks is null)
+                return TaskStatus.Faulted;
+            else
             {
                 var task = _listeningTasks.Where(x => x.Id == id).FirstOrDefault();
-                if (task is null) return TaskStatus.Faulted;
+                if (task is null)
+                    return TaskStatus.Faulted;
                 return task.Status;
             }
-        } 
+        }
+
         public bool StopRecording(int id)
         {
-            if (_listeningTasks is null) return true;
-            var tokenSource = _tokenAndTaskIDs.Where(x => x.Key == id).Select(x => x.Value).FirstOrDefault();
-            if (tokenSource is null) return false;
+            if (_listeningTasks is null)
+                return true;
+            var tokenSource = _tokenAndTaskIDs
+                .Where(x => x.Key == id)
+                .Select(x => x.Value)
+                .FirstOrDefault();
+            if (tokenSource is null)
+                return false;
             tokenSource.Cancel();
             _tokenAndTaskIDs.Remove(id);
             tokenSource.Dispose();
             return true;
         }
+
         public List<int> GetRunningRecordingServices()
         {
             return _tokenAndTaskIDs.Select(x => x.Key).ToList();

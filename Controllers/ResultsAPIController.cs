@@ -12,6 +12,7 @@ namespace Bird_Box.Controllers
     public class ResultsAPIController : ControllerBase
     {
         private readonly BirdRepository _dbOperations;
+
         //private readonly AnalyzerOptions _defaultOptions;
         //private readonly IConfigurationRoot _config;
 
@@ -27,7 +28,6 @@ namespace Bird_Box.Controllers
             //_defaultOptions = _config
             //    .GetRequiredSection("BirdNETOptions:Default")
             //    .Get<AnalyzerOptions>();
-
         }
 
         /// <summary>
@@ -112,13 +112,18 @@ namespace Bird_Box.Controllers
         /// <returns>Number of detections</returns>
         [HttpGet("api/results/process/{inputDeviceID}")]
         public async Task<IActionResult> ProcessResults([FromRoute] int inputDeviceID)
-        {            
-            var input = CommandLine.GetAudioDevices().Where(x => x.deviceId == inputDeviceID.ToString()).FirstOrDefault();
+        {
+            var input = CommandLine
+                .GetAudioDevices()
+                .Where(x => x.deviceId == inputDeviceID.ToString())
+                .FirstOrDefault();
             if (input == null)
             {
                 return NotFound("No such input device");
             }
-            RecognitionResultsProcessing rrp = new RecognitionResultsProcessing($"Recordings/Microphone-{inputDeviceID}/");
+            RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(
+                $"Recordings/Microphone-{inputDeviceID}/"
+            );
             var results = rrp.ProcessAllFiles();
             List<DetectionModel> detections = new List<DetectionModel>();
             foreach (var result in results)
@@ -126,7 +131,7 @@ namespace Bird_Box.Controllers
                 var detection = new DetectionModel(result, input);
                 detections.Add(detection);
             }
-            
+
             //var count = await _dbOperations.CreateRange(results);
             return Ok($"Results processed successfully. Added {detections.Count} detections.");
         }

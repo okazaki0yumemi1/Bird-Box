@@ -54,6 +54,7 @@ namespace Bird_Box.Data
             _context.BirdRecords.Remove(toDelete);
             return (_context.SaveChanges());
         }
+
         public Task<int> GetRecourdsCount()
         {
             return _context.BirdRecords.CountAsync();

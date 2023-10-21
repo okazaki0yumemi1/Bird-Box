@@ -25,7 +25,10 @@ namespace Bird_Box.Utilities
         {
             var result = new List<string>();
             //CommandLine bash = new CommandLine();
-            var lines = CommandLine.ExecuteCommand($"ls -A {textResultsPath}*.txt").Split("\n").ToList();
+            var lines = CommandLine
+                .ExecuteCommand($"ls -A {textResultsPath}*.txt")
+                .Split("\n")
+                .ToList();
             ;
             foreach (var line in lines)
             {

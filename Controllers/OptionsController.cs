@@ -70,8 +70,13 @@ namespace Bird_Box.Controllers
                 else
                 {
                     DateTime dt = DateTime.Now;
-				    Calendar cal = CultureInfo.CurrentCulture.Calendar;
-				    result.weekOfTheYear = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday).ToString();
+                    Calendar cal = CultureInfo.CurrentCulture.Calendar;
+                    result.weekOfTheYear = cal.GetWeekOfYear(
+                            dt,
+                            CalendarWeekRule.FirstDay,
+                            DayOfWeek.Monday
+                        )
+                        .ToString();
                     // var cultureInfo = Thread.CurrentThread.CurrentCulture;
                     // DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
                     // CalendarWeekRule weekRule = cultureInfo.DateTimeFormat.CalendarWeekRule;

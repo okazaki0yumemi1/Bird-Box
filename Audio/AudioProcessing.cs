@@ -27,7 +27,7 @@ namespace Bird_Box.Audio
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
-                if (process is null) 
+                if (process is null)
                 {
                     Console.WriteLine($"Can't open analyze.py file, the output is null.");
                     return false;

@@ -16,7 +16,10 @@ namespace Bird_Box.Audio
             inputDevice = newInputDevice;
             settings = newSettings;
             var directoryExists = CommandLine.ExecuteCommand($"ls -l {settings.outputPath}");
-            if (directoryExists == $"ls: cannot access '{settings.outputPath}': No such file or directory")
+            if (
+                directoryExists
+                == $"ls: cannot access '{settings.outputPath}': No such file or directory"
+            )
                 CommandLine.ExecuteCommand($"mkdir {settings.outputPath}");
         }
 
@@ -31,14 +34,16 @@ namespace Bird_Box.Audio
                 );
                 return fileName + ".wav";
             }
-            else 
+            else
             {
                 var result = CommandLine.ExecuteCommand(
                     $"{settings.ffmpegExecutable} -f pulse -i default -t 10 {settings.outputPath}/{fileName}.wav"
                 );
                 return fileName + ".wav";
             }
-            throw new NotImplementedException("No microphone to record with! Check arecord -l for any input devices.");
+            throw new NotImplementedException(
+                "No microphone to record with! Check arecord -l for any input devices."
+            );
         }
 
         // public string RecordAudio(Microphone inputDevice)

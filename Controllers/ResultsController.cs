@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Bird_Box.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi=true)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ResultsController : Controller
     {
         private readonly ILogger<ResultsController> _logger;
@@ -47,7 +47,6 @@ namespace Bird_Box.Controllers
         [HttpGet("Results/Delete/{objId}")]
         public async Task<IActionResult> Delete([FromRoute] string objId)
         {
-
             if (objId == null)
             {
                 return NotFound();
@@ -61,7 +60,7 @@ namespace Bird_Box.Controllers
 
             return View(bird);
         }
-        
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Route("Results/Delete/{objId}")]
@@ -69,10 +68,9 @@ namespace Bird_Box.Controllers
         {
             var deletedItems = await _dbOperations.DeleteById(objId);
             if (deletedItems > 0)
-                return Ok("Deleted successfully");//View("Views/Results/Delete.cshtml", deletedItems);
+                return Ok("Deleted successfully"); //View("Views/Results/Delete.cshtml", deletedItems);
             else
                 return NoContent();
-            
         }
 
         [Route("Results/Details/{objId}")]
@@ -83,6 +81,5 @@ namespace Bird_Box.Controllers
                 return NoContent();
             return View("Views/Results/Details.cshtml", bird);
         }
-
     }
 }

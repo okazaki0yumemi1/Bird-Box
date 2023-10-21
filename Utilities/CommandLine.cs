@@ -23,7 +23,8 @@ namespace Bird_Box.Utilities
             var lines = resultIds.Split("\n");
 
             List<string> info = new List<string>();
-            var resultInfo = ExecuteCommand($"pacmd list-sources | grep device.description").Split(Environment.NewLine);
+            var resultInfo = ExecuteCommand($"pacmd list-sources | grep device.description")
+                .Split(Environment.NewLine);
             int i = 0;
             foreach (var line in lines)
             {
@@ -65,7 +66,7 @@ namespace Bird_Box.Utilities
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
-                if (process is null) 
+                if (process is null)
                 {
                     Console.WriteLine($"Command output is empty. Command is: {parameters}");
                     return String.Empty;
@@ -89,7 +90,7 @@ namespace Bird_Box.Utilities
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
-                if (process is null) 
+                if (process is null)
                 {
                     Console.WriteLine($"Command output is empty. Command is: {parameters}");
                     return String.Empty;

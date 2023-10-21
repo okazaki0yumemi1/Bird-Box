@@ -33,7 +33,9 @@ namespace Bird_Box.Data
 
         public async Task<Microphone> GetByName(string deviceName)
         {
-            return await _context.InputDevices.Where(x => x.deviceInfo.Contains(deviceName)).FirstOrDefaultAsync();
+            return await _context.InputDevices
+                .Where(x => x.deviceInfo.Contains(deviceName))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Microphone> GetById(string id)

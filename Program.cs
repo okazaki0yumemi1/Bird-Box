@@ -8,15 +8,22 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(o => 
+builder.Services.AddSwaggerGen(o =>
 {
-    var filePath = Path.Combine(System.Environment.CurrentDirectory, "Documentation/ApiDocumentation.xml");
+    var filePath = Path.Combine(
+        System.Environment.CurrentDirectory,
+        "Documentation/ApiDocumentation.xml"
+    );
     o.IncludeXmlComments(filePath);
 });
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Bird_Box.Data.BirdBoxContext>();
 
-builder.Services.AddSingleton<Bird_Box.Services.RecordingService, Bird_Box.Services.RecordingService>();
+builder.Services.AddSingleton<
+    Bird_Box.Services.RecordingService,
+    Bird_Box.Services.RecordingService
+>();
+
 //Database operations
 builder.Services.AddScoped<Bird_Box.Data.BirdRepository, Bird_Box.Data.BirdRepository>();
 
@@ -36,7 +43,6 @@ builder.Services.AddScoped<
     Bird_Box.Controllers.ResultsAPIController,
     Bird_Box.Controllers.ResultsAPIController
 >();
-
 
 var app = builder.Build();
 
