@@ -1,3 +1,5 @@
+using Bird_Box.Audio;
+using Bird_Box.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bird_Box.Data
@@ -17,6 +19,7 @@ namespace Bird_Box.Data
             //optionsBuilder.UseNpgsql(Configuration.GetConnectionString("ResultsDatabase"));
         }
 
-        public DbSet<Models.IdentifiedBird> BirdRecords { get; set; } = default!;
+        public DbSet<IdentifiedBird> BirdRecords { get; set; } = default!;
+        public DbSet<Microphone> InputDevices { get; set; } = default!;
     }
 }

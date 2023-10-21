@@ -62,7 +62,7 @@
             </summary>
             <returns>List of *.txt files</returns>
         </member>
-        <member name="M:Bird_Box.Utilities.RecognitionResultsProcessing.ProcessTextFile(System.String)">
+        <member name="M:Bird_Box.Utilities.RecognitionResultsProcessing.ProcessTextFile(System.String,Bird_Box.Audio.Microphone)">
              <summary>
             Process a text file
              </summary>
@@ -194,6 +194,18 @@
             <inheritdoc />
         </member>
         <member name="M:Bird_Box.Migrations.FromGuidToStringPK.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Bird_Box.Migrations.NewDbClass">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewDbClass.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewDbClass.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewDbClass.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

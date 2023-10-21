@@ -126,6 +126,7 @@ namespace Bird_Box.Controllers
                 var detection = new DetectionModel(result, input);
                 detections.Add(detection);
             }
+            
             //var count = await _dbOperations.CreateRange(results);
             return Ok($"Results processed successfully. Added {detections.Count} detections.");
         }
