@@ -1,8 +1,9 @@
+using Bird_Box.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bird_Box.Data
 {
-    public class BirdRepository : IRepository
+    public class BirdRepository : IRepository<IdentifiedBird>
     {
         private BirdBoxContext _context;
 
@@ -11,22 +12,22 @@ namespace Bird_Box.Data
             _context = context;
         }
 
-        public async Task<List<Models.IdentifiedBird>> GetAll()
+        public async Task<List<IdentifiedBird>> GetAll()
         {
             return _context.BirdRecords.ToList();
         }
 
-        public async Task<Models.IdentifiedBird> GetByGuid(string recordId)
+        public async Task<IdentifiedBird> GetByGuid(string recordId)
         {
             return _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
         }
 
-        public async Task<Models.IdentifiedBird> GetByBirdName(string speciesName)
+        public async Task<IdentifiedBird> GetByBirdName(string speciesName)
         {
             return _context.BirdRecords.FirstOrDefault(x => x.birdName == speciesName);
         }
 
-        public async Task<List<Models.IdentifiedBird>> GetByDate(DateTime exactDate)
+        public async Task<List<IdentifiedBird>> GetByDate(DateTime exactDate)
         {
             return _context.BirdRecords
                 .Where(x => (x.recodingDate.Date == exactDate.Date))

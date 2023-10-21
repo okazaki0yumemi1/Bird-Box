@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Bird_Box.Models;
 
 namespace Bird_Box.Data
 {
-    public interface IRepository
+    public interface IRepository<T> where T : IEntity
     {
-        Task<List<Models.IdentifiedBird>> GetAll();
-        Task<Models.IdentifiedBird> GetByGuid(string id);
-        Task<Models.IdentifiedBird> GetByBirdName(string species);
-        Task<int> Create(Models.IdentifiedBird bird);
-
-        //int Update(Models.IdentifiedBird bird);
+        Task<List<T>> GetAll();
+        Task<T> GetByGuid(string id);
+        Task<T> GetByBirdName(string species);
+        Task<int> Create(T bird);
         Task<int> DeleteById(string id);
     }
 }
