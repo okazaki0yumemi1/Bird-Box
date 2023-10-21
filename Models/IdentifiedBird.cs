@@ -3,7 +3,7 @@ using Bird_Box.Audio;
 
 namespace Bird_Box.Models
 {
-    public class IdentifiedBird
+    public class IdentifiedBird : IEntity
     {
         [Key]
         public string objId { get; private set; }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Bird_Box.Models;
 
 namespace Bird_Box.Audio
 {
-    public class Microphone
+    public class Microphone : IEntity
     {
         [Key]
         public string objId { get; private set; }
