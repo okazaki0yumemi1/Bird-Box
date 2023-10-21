@@ -1,11 +1,6 @@
 using System.Globalization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Bird_Box.Data;
 using Bird_Box.Models;
-using Bird_Box.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace Bird_Box.Controllers
 {
