@@ -40,7 +40,7 @@ namespace Bird_Box.Controllers
         [HttpGet("api/results/{recordId}")]
         public async Task<IActionResult> GetByID([FromRoute] string recordId)
         {
-            var bird = _dbOperations.GetByGuid(recordId);
+            var bird = _dbOperations.GetById(recordId);
             if (bird == null)
                 return NotFound();
             return Ok(bird);
@@ -83,9 +83,9 @@ namespace Bird_Box.Controllers
         /// <response code="200">Returns all birds with a name provided</response>
         /// <response code="404">No birds with a name provided were found</response>
         [HttpGet("api/results/birds/{birdName}")]
-        public async Task<IActionResult> GetBirdByName([FromRoute] string birdName)
+        public async Task<IActionResult> GetByName([FromRoute] string birdName)
         {
-            var records = _dbOperations.GetByBirdName(birdName);
+            var records = _dbOperations.GetByName(birdName);
             if (records == null)
                 return NotFound();
             return Ok(records);

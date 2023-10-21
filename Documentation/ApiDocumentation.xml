@@ -140,7 +140,7 @@
             <returns></returns>
             <response code="200">Return detections in a certain day</response>
         </member>
-        <member name="M:Bird_Box.Controllers.ResultsAPIController.GetBirdByName(System.String)">
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.GetByName(System.String)">
             <summary>
             Get all detections of a certain species
             </summary>

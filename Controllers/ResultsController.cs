@@ -53,7 +53,7 @@ namespace Bird_Box.Controllers
                 return NotFound();
             }
 
-            var bird = await _dbOperations.GetByGuid(objId);
+            var bird = await _dbOperations.GetById(objId);
             if (bird == null)
             {
                 return NotFound();
@@ -78,7 +78,7 @@ namespace Bird_Box.Controllers
         [Route("Results/Details/{objId}")]
         public async Task<IActionResult> Details([FromRoute] string objId)
         {
-            var bird = await _dbOperations.GetByGuid(objId);
+            var bird = await _dbOperations.GetById(objId);
             if (bird == null)
                 return NoContent();
             return View("Views/Results/Details.cshtml", bird);
