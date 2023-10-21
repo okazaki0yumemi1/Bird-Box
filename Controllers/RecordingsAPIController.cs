@@ -38,7 +38,7 @@ namespace Bird_Box.Controllers
 		[HttpPost("api/results/recordings/start/{hours}")]
 		public async Task<IActionResult> StartRecording(
 			[FromBody] AnalyzerOptions? optionsInput,
-			[FromRoute] string hours, [FromBody] int? inputDevice
+			[FromRoute] string hours, [FromQuery] int? inputDevice
 		)
 		{
 			Microphone device = null;
