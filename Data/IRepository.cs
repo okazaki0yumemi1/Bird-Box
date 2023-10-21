@@ -5,9 +5,9 @@ namespace Bird_Box.Data
     public interface IRepository<T> where T : IEntity
     {
         Task<List<T>> GetAll();
-        Task<T> GetByGuid(string id);
-        Task<T> GetByBirdName(string species);
-        Task<int> Create(T bird);
+        Task<T> GetById(string id);
+        Task<T> GetByName(string name);
+        Task<int> Create(T entity);
         Task<int> DeleteById(string id);
     }
 }

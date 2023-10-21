@@ -5,7 +5,7 @@ namespace Bird_Box.Data
 {
     public class BirdRepository : IRepository<IdentifiedBird>
     {
-        private BirdBoxContext _context;
+        private readonly BirdBoxContext _context;
 
         public BirdRepository(BirdBoxContext context)
         {
@@ -17,12 +17,12 @@ namespace Bird_Box.Data
             return _context.BirdRecords.ToList();
         }
 
-        public async Task<IdentifiedBird> GetByGuid(string recordId)
+        public async Task<IdentifiedBird> GetById(string recordId)
         {
             return _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
         }
 
-        public async Task<IdentifiedBird> GetByBirdName(string speciesName)
+        public async Task<IdentifiedBird> GetByName(string speciesName)
         {
             return _context.BirdRecords.FirstOrDefault(x => x.birdName == speciesName);
         }
