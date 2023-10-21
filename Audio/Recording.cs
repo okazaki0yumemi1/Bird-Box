@@ -15,6 +15,9 @@ namespace Bird_Box.Audio
         {
             inputDevice = newInputDevice;
             settings = newSettings;
+            var directoryExists = CommandLine.ExecuteCommand($"ls -l {settings.outputPath}");
+            if (directoryExists == $"ls: cannot access '{settings.outputPath}': No such file or directory")
+                CommandLine.ExecuteCommand($"mkdir {settings.outputPath}");
         }
 
         public string RecordAudio()
