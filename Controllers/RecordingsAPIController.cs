@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using Bird_Box.Audio;
 using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Services;
@@ -93,6 +94,16 @@ namespace Bird_Box.Controllers
 		public async Task<List<int>> GetAllRunningServices()
 		{
 			return _recordingService.GetRunningRecordingServices();
+		}
+
+		/// <summary>
+		/// Get all connected and available input devices to a computer
+		/// </summary>
+		/// <returns>List of input devices</returns>
+		[HttpGet("api/recordings/microphones")]
+		public List<Microphone> GetAllConnectedInputDevices()
+		{
+			return CommandLine.GetAudioDevices();
 		}
 
 		/// <summary>
