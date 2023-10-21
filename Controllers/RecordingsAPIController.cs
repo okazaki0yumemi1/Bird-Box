@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Bird_Box.Audio;
-using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Services;
 using Bird_Box.Utilities;
@@ -39,9 +38,15 @@ namespace Bird_Box.Controllers
 		[HttpPost("api/results/recordings/start/{hours}")]
 		public async Task<IActionResult> StartRecording(
 			[FromBody] AnalyzerOptions? optionsInput,
-			[FromRoute] string hours
+			[FromRoute] string hours, [FromBody] int? inputDevice
 		)
 		{
+			Microphone device = null;
+			if (inputDevice is not null)
+			{
+				var inputDevices = CommandLine.GetAudioDevices();
+				device = inputDevices.Where(x => x.deviceId == inputDevice.ToString()).FirstOrDefault();
+			}
 			TimeSpan _hours;
 			var options = new AnalyzerOptions(setWeek: true);
 			if (optionsInput is null)
@@ -57,7 +62,10 @@ namespace Bird_Box.Controllers
 
 			if (!TimeSpan.TryParse(hours, out _hours))
 				_hours = TimeSpan.FromHours(1); //default value - 1 hour
-			_recordingService.StartRecording(_hours, options);
+			if (device is not null)
+				_recordingService.StartRecording(_hours, options, device.deviceId); //using deviceId
+			else
+				_recordingService.StartRecording(_hours, options); //default input device
 			return Ok(
 				$"The task will be run for {_hours} hours.{Environment.NewLine} The options are:{Environment.NewLine} {JsonSerializer.Serialize(options)}"
 			);

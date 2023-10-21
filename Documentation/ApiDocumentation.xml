@@ -6,6 +6,13 @@
     <members>
         <member name="M:Bird_Box.Utilities.RecordingSchedule.RecordAndRecognize(Bird_Box.Models.AnalyzerOptions,System.Threading.CancellationToken)">
             <summary>
+            This is a task responsible for recording and analysing audio recordings. The system default input device will be used
+            </summary>
+            <param name="options">BirdNET Analyzer parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bird_Box.Utilities.RecordingSchedule.RecordAndRecognize(Bird_Box.Models.AnalyzerOptions,System.Threading.CancellationToken,System.String)">
+            <summary>
             This is a task responsible for recording and analysing audio recordings.
             </summary>
             <param name="options">BirdNET Analyzer parameters</param>
@@ -68,7 +75,7 @@
             </summary>
             <returns>List of birds</returns>
         </member>
-        <member name="M:Bird_Box.Controllers.RecordingsAPIController.StartRecording(Bird_Box.Models.AnalyzerOptions,System.String)">
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.StartRecording(Bird_Box.Models.AnalyzerOptions,System.String,System.Nullable{System.Int32})">
             <summary>
             Start listening service by passing a BirdNET settings and a length (in hours) 
             </summary>
@@ -95,6 +102,12 @@
             Get all running listening services
             </summary>
             <returns>List of IDs</returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.GetAllConnectedInputDevices">
+            <summary>
+            Get all connected and available input devices to a computer
+            </summary>
+            <returns>List of input devices</returns>
         </member>
         <member name="M:Bird_Box.Controllers.RecordingsAPIController.ValidModel(Bird_Box.Models.AnalyzerOptions)">
             <summary>
@@ -142,6 +155,13 @@
             </summary>
             <returns></returns>
             <response code="200">Process was finished successfully</response>
+        </member>
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.ProcessResults(System.Int32)">
+            <summary>
+            Process all results recorded from a certain input device (with provided input device ID)
+            </summary>
+            <param name="inputDeviceID">Input device ID</param>
+            <returns>Number of detections</returns>
         </member>
         <member name="M:Bird_Box.Controllers.ResultsAPIController.DeleteById(System.String)">
             <summary>

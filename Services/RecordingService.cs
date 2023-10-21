@@ -17,11 +17,14 @@ namespace Bird_Box.Services
         {
 
         }
-        public void StartRecording(TimeSpan hours, AnalyzerOptions optionsInput)
+        public void StartRecording(TimeSpan hours, AnalyzerOptions optionsInput, string? inputDeviceID = null)
         {
             RecordingSchedule scheduleRecording = new RecordingSchedule(hours);
             var tokenSource = new CancellationTokenSource();
-            _listeningTasks.Add(scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token));
+            if (inputDeviceID is null)
+                _listeningTasks.Add(scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token));
+            else 
+                _listeningTasks.Add(scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token, inputDeviceID));
             _tokenAndTaskIDs.Add(_listeningTasks.Last().Id, tokenSource);
         }
         public TaskStatus RecordingStatus (int id)

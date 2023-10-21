@@ -5,10 +5,10 @@ namespace Bird_Box.Utilities
 {
     public class RecordingSchedule
     {
-        TimeSpan timer { get; set; }
-        Queue<string> UnprocessedRecordings { get; set; } = new Queue<string>();
-        List<Task> ProcessingAudio { get; set; } = new List<Task>();
-        string recordingsPath { get; set; } = "Recordings";
+        private TimeSpan timer { get; set; }
+        private Queue<string> UnprocessedRecordings { get; set; } = new Queue<string>();
+        private List<Task> ProcessingAudio { get; set; } = new List<Task>();
+        public string recordingsPath { get; private set; } = "Recordings";
         private bool _continue = true;
 
         public RecordingSchedule(TimeSpan timespan)
@@ -23,7 +23,7 @@ namespace Bird_Box.Utilities
         }
 
         /// <summary>
-        /// This is a task responsible for recording and analysing audio recordings.
+        /// This is a task responsible for recording and analysing audio recordings. The system default input device will be used
         /// </summary>
         /// <param name="options">BirdNET Analyzer parameters</param>
         /// <returns></returns>
@@ -52,6 +52,35 @@ namespace Bird_Box.Utilities
         }
 
         /// <summary>
+        /// This is a task responsible for recording and analysing audio recordings.
+        /// </summary>
+        /// <param name="options">BirdNET Analyzer parameters</param>
+        /// <returns></returns>
+        public async Task<int> RecordAndRecognize(AnalyzerOptions options, CancellationToken ct, string deviceId)
+        {
+            //var secondsElapsed = new TimeSpan(0, 0, 0);
+            var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+            int recordingsMade = 0;
+            while (await periodicTimer.WaitForNextTickAsync())
+            {
+                if (ct.IsCancellationRequested) return recordingsMade;
+                //Remove completed tasks:
+                ProcessingAudio.RemoveAll(x => x.IsCompleted);
+                //If there are more than 5 tasks, they should be finished first:
+                if (ProcessingAudio.Count >= 5)
+                {
+                    Task.WaitAll(ProcessingAudio.ToArray());
+                }
+                Record(deviceId);
+                recordingsMade++;
+                ProcessingAudio.Add(RecognizeBird(options));
+                if ((recordingsMade * 10) >= timer.TotalSeconds)
+                    break;
+            }
+            return recordingsMade;
+        }
+
+        /// <summary>
         /// Starts recording via USB input device.
         /// </summary>
         public void Record()
@@ -60,7 +89,7 @@ namespace Bird_Box.Utilities
             var inputDevices = CommandLine.GetAudioDevices();
             Audio.Recording recordingObj = new Audio.Recording(
                 inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault()
-                    ?? inputDevices.FirstOrDefault(),
+                    ?? null,//inputDevices.FirstOrDefault(),
                 newSettings
             );
             if (recordingObj is null)
