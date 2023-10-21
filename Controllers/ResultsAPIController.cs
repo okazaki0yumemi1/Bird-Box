@@ -62,7 +62,7 @@ namespace Bird_Box.Controllers
         /// <summary>
         /// Get all detections by a certain day
         /// </summary>
-        /// <param name="yyyyMMdd">Date in format yyyyMMdd, i.e. 2023-10-12</param>
+        /// <param name="yyyyMMdd">Date in format yyyy-MM-dd, i.e. 2023-10-22</param>
         /// <returns></returns>
         /// <response code="200">Return detections in a certain day</response>
         [HttpGet("api/results/days/{yyyyMMdd}")]
