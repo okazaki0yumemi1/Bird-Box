@@ -106,6 +106,31 @@ namespace Bird_Box.Controllers
         }
 
         /// <summary>
+        /// Process all results recorded from a certain input device (with provided input device ID)
+        /// </summary>
+        /// <param name="inputDeviceID">Input device ID</param>
+        /// <returns>Number of detections</returns>
+        [HttpGet("api/results/process/{inputDeviceID}")]
+        public async Task<IActionResult> ProcessResults([FromRoute] int inputDeviceID)
+        {            
+            var input = CommandLine.GetAudioDevices().Where(x => x.deviceId == inputDeviceID.ToString()).FirstOrDefault();
+            if (input == null)
+            {
+                return NotFound("No such input device");
+            }
+            RecognitionResultsProcessing rrp = new RecognitionResultsProcessing($"Recordings/Microphone-{inputDeviceID}/");
+            var results = rrp.ProcessAllFiles();
+            List<DetectionModel> detections = new List<DetectionModel>();
+            foreach (var result in results)
+            {
+                var detection = new DetectionModel(result, input);
+                detections.Add(detection);
+            }
+            //var count = await _dbOperations.CreateRange(results);
+            return Ok($"Results processed successfully. Added {detections.Count} detections.");
+        }
+
+        /// <summary>
         /// Delete detection by its ID
         /// </summary>
         /// <param name="recordId">Detection ID</param>
