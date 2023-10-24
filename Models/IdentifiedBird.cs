@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Bird_Box.Audio;
 
 namespace Bird_Box.Models
@@ -10,7 +11,8 @@ namespace Bird_Box.Models
         public string birdName { get; private set; } = "";
         public string detectionThreshold { get; private set; } = "0";
         public DateTime recodingDate { get; set; } = DateTime.Now;
-        public Microphone recordingDevice { get; set; } = new Microphone("-1", "Unknown device");
+        [ForeignKey("InputDevices")]
+        public string recordingDeviceId { get; set; }
 
         public IdentifiedBird(string detectedBirdName)
         {
@@ -29,7 +31,7 @@ namespace Bird_Box.Models
             birdName = detectedBirdName;
             detectionThreshold = threshold;
             recodingDate = recDate;
-            recordingDevice = inputDevice;
+            recordingDeviceId = inputDevice.deviceId;
         }
 
         public IdentifiedBird()

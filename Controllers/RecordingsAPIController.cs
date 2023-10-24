@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 using Bird_Box.Audio;
+using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Services;
 using Bird_Box.Utilities;
@@ -14,11 +15,12 @@ namespace Bird_Box.Controllers
         private RecordingService _recordingService;
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
+        private readonly BirdBoxContext _context;
 
-        public RecordingsAPIController(RecordingService recordingService)
+        public RecordingsAPIController(RecordingService recordingService, BirdBoxContext context)
         {
             _recordingService = recordingService;
-
+            _context = context;
             // Get values from the config given their key and their target type.
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -50,6 +52,26 @@ namespace Bird_Box.Controllers
                 device = inputDevices
                     .Where(x => x.deviceId == inputDevice.ToString())
                     .FirstOrDefault();
+                    //if the input device is new, i.e. not in a database, then add it no a DB.
+                    //otherwise, add default device;
+                    if (device is not null)
+                    {
+                        if (_context.InputDevices.Where(x => x.deviceId == device.deviceId && x.deviceInfo == device.deviceInfo).Count() == 0)
+                        {
+                            _context.InputDevices.Add(device);
+                            _context.SaveChanges();
+                            Console.WriteLine($"New input device with ID={device.deviceId}, Info = {device.deviceInfo} and database ID={device.objId} was added to a database.");
+                        }
+                    }
+                    else
+                    {
+                        if (_context.InputDevices.Where(x => x.deviceId == "-1" && x.deviceInfo == "Default device").Count() == 0)
+                        {
+                            _context.InputDevices.Add(new Microphone("-1", "Default device"));
+                            _context.SaveChanges();
+                            Console.WriteLine($"New input device with ID={device.deviceId}, Info = {device.deviceInfo} and database ID={device.objId} was added to a database.");
+                        } 
+                    }
             }
             TimeSpan _hours;
             var options = new AnalyzerOptions(setWeek: true);

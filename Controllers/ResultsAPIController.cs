@@ -122,15 +122,16 @@ namespace Bird_Box.Controllers
                 $"Recordings/Microphone-{inputDeviceID}/"
             );
             var results = rrp.ProcessAllFiles();
-            List<DetectionModel> detections = new List<DetectionModel>();
+            List<IdentifiedBird> detections = new List<IdentifiedBird>();
             foreach (var result in results)
             {
-                var detection = new DetectionModel(result, input);
+                var detection = result;
+                detection.recordingDeviceId = input.deviceId;
                 detections.Add(detection);
             }
-
-            //var count = await _dbOperations.CreateRange(results);
-            return Ok($"Results processed successfully. Added {detections.Count} detections.");
+            
+            var count = await _dbOperations.CreateRange(detections);
+            return Ok($"Results processed successfully. Added {count} detections.");
         }
 
         /// <summary>

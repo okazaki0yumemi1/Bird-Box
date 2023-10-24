@@ -12,14 +12,20 @@ namespace Bird_Box.Data
             _context = context;
         }
 
-        Task<int> IRepository<Microphone>.Create(Microphone inputDevice)
+        public async Task<int> Create(Microphone inputDevice)
         {
-            throw new NotImplementedException();
+            _context.InputDevices.Add(inputDevice);
+            return _context.SaveChanges();
         }
 
-        Task<int> IRepository<Microphone>.DeleteById(string id)
+        public async Task<int> DeleteById(string id)
         {
-            throw new NotImplementedException();
+            var device = _context.InputDevices.FirstOrDefault(x => x.deviceId == id);
+            if (device is not null)
+            {
+                _context.InputDevices.Remove(device);
+            }
+            return _context.SaveChanges();
         }
 
         public async Task<List<Microphone>> GetAll()

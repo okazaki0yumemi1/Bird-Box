@@ -34,16 +34,16 @@ namespace Bird_Box.Data
                 .ToList();
         }
 
-        public async Task<int> Create(Models.IdentifiedBird newBird)
+        public async Task<int> Create(IdentifiedBird newBird)
         {
             _context.Add(newBird);
-            return (_context.SaveChanges());
+            return _context.SaveChanges();
         }
 
-        public async Task<int> CreateRange(List<Models.IdentifiedBird> newBirdList)
+        public async Task<int> CreateRange(List<IdentifiedBird> newBirdList)
         {
             _context.AddRange(newBirdList);
-            return (_context.SaveChanges());
+            return _context.SaveChanges();
         }
 
         public async Task<int> DeleteById(string recordId)

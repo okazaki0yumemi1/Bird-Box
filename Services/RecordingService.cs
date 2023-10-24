@@ -1,3 +1,4 @@
+using Bird_Box.Audio;
 using Bird_Box.Models;
 using Bird_Box.Utilities;
 
@@ -10,8 +11,12 @@ namespace Bird_Box.Services
         //CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private Dictionary<int, CancellationTokenSource> _tokenAndTaskIDs =
             new Dictionary<int, CancellationTokenSource>();
+        private List<Microphone> InputDevices = new List<Microphone>();
 
-        public RecordingService() { }
+        public RecordingService() 
+        { 
+            
+        }
 
         public void StartRecording(
             TimeSpan hours,
