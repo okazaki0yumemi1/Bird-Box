@@ -1,3 +1,4 @@
+using Bird_Box.Audio;
 using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Utilities;
@@ -96,10 +97,29 @@ namespace Bird_Box.Controllers
         [HttpGet("api/results/process")]
         public async Task<IActionResult> ProcessResults()
         {
-            RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
-            var results = rrp.ProcessAllFiles();
-            var count = await _dbOperations.CreateRange(results);
-            return Ok($"Results processed successfully. Added {count} detections.");
+            var devices = CommandLine.GetAudioDevices();
+            int totalResults = 0;
+            foreach (var device in devices)
+            {
+                totalResults += await ProcessResultsByDeviceId(Convert.ToInt32(device.deviceId));
+            }
+            return Ok($"Added {totalResults} detections.");
+            // RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
+            // var results = rrp.ProcessAllFiles();
+            // var resultsRange = new List<IdentifiedBird>();
+            // foreach (var result in results)
+            // {
+            //     var detection = result;
+            //     var inputDevice = CommandLine.GetAudioDevices()
+            //         .Where(x => x.deviceInfo.Contains("USB"))
+            //         .FirstOrDefault();
+            //         if (inputDevice is null)
+            //             detection.inputDevice = new Microphone("-1", "Default input device");
+            //         else detection.inputDevice = inputDevice;
+            //     resultsRange.Add(detection);
+            // }
+            // var count = await _dbOperations.CreateRange(resultsRange);
+            // return Ok($"Results processed successfully. Added {count} detections.");
         }
 
         /// <summary>
@@ -107,8 +127,8 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <param name="inputDeviceID">Input device ID</param>
         /// <returns>Number of detections</returns>
-        [HttpGet("api/results/process/{inputDeviceID}")]
-        public async Task<IActionResult> ProcessResults([FromRoute] int inputDeviceID)
+        //[HttpGet("api/results/process/{inputDeviceID}")]
+        private async Task<int> ProcessResultsByDeviceId(int inputDeviceID)
         {
             var input = CommandLine
                 .GetAudioDevices()
@@ -116,7 +136,7 @@ namespace Bird_Box.Controllers
                 .FirstOrDefault();
             if (input == null)
             {
-                return NotFound("No such input device");
+                return 0;
             }
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(
                 $"Recordings/Microphone-{inputDeviceID}/"
@@ -126,12 +146,13 @@ namespace Bird_Box.Controllers
             foreach (var result in results)
             {
                 var detection = result;
-                detection.recordingDeviceId = input.deviceId;
+                detection.inputDevice = input;
                 detections.Add(detection);
             }
             
             var count = await _dbOperations.CreateRange(detections);
-            return Ok($"Results processed successfully. Added {count} detections.");
+            Console.WriteLine($"Results from Device no. {inputDeviceID} processed successfully. Added {count} detections.");
+            return count;
         }
 
         /// <summary>

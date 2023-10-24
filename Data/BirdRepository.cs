@@ -19,7 +19,7 @@ namespace Bird_Box.Data
 
         public async Task<IdentifiedBird> GetById(string recordId)
         {
-            return _context.BirdRecords.FirstOrDefault(x => x.objId == recordId);
+            return _context.BirdRecords.Where(x => x.objId == recordId).Include(x => x.inputDevice).FirstOrDefault();
         }
 
         public async Task<IdentifiedBird> GetByName(string speciesName)

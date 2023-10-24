@@ -3,6 +3,7 @@ using System;
 using Bird_Box.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bird_Box.Migrations
 {
     [DbContext(typeof(BirdBoxContext))]
-    partial class BirdBoxContextModelSnapshot : ModelSnapshot
+    [Migration("20231024091207_NewResultsModel")]
+    partial class NewResultsModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -48,29 +51,16 @@ namespace Bird_Box.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("inputDeviceobjId")
-                        .IsRequired()
+                    b.Property<DateTime>("recodingDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("recodingDate")
+                    b.Property<string>("recordingDeviceId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("objId");
 
-                    b.HasIndex("inputDeviceobjId");
-
                     b.ToTable("BirdRecords");
-                });
-
-            modelBuilder.Entity("Bird_Box.Models.IdentifiedBird", b =>
-                {
-                    b.HasOne("Bird_Box.Audio.Microphone", "inputDevice")
-                        .WithMany()
-                        .HasForeignKey("inputDeviceobjId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("inputDevice");
                 });
 #pragma warning restore 612, 618
         }

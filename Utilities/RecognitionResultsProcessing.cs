@@ -6,7 +6,7 @@ namespace Bird_Box.Utilities
     public class RecognitionResultsProcessing
     {
         private string textResultsPath { get; set; }
-        private Microphone inputDevice { get; set; }
+        //private Microphone inputDevice { get; set; }
 
         public RecognitionResultsProcessing(string textFilesPath)
         {
@@ -41,7 +41,7 @@ namespace Bird_Box.Utilities
         /// </summary>
         /// <param name="fileName">text file name</param>
         /// <returns>List of identified birds</returns>
-        List<IdentifiedBird> ProcessTextFile(string fileName, Microphone inputDevice)
+        List<IdentifiedBird> ProcessTextFile(string fileName)//, Microphone inputDevice)
         {
             var birds = new List<IdentifiedBird>();
             string lines = "";
@@ -78,11 +78,10 @@ namespace Bird_Box.Utilities
                         "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
                         null
                     );
-                    var newBird = new Models.IdentifiedBird(
+                    var newBird = new IdentifiedBird(
                         birdName,
                         threshold.Replace("\n", ""),
-                        time.ToUniversalTime(),
-                        inputDevice
+                        time.ToUniversalTime(), null
                     );
                     birds.Add(newBird);
                     i++;
@@ -94,7 +93,7 @@ namespace Bird_Box.Utilities
         }
 
         /// <summary>
-        /// Process all text files in a /Recordings directory
+        /// Process all text files in a directory
         /// </summary>
         /// <returns>List of birds</returns>
         public List<IdentifiedBird> ProcessAllFiles()
@@ -112,7 +111,7 @@ namespace Bird_Box.Utilities
         public List<IdentifiedBird> ProcessSingleFile(string file)
         {
             var birds = new List<IdentifiedBird>();
-            var birdsInASingleFile = ProcessTextFile(file, inputDevice);
+            var birdsInASingleFile = ProcessTextFile(file);
             foreach (var birdEntity in birdsInASingleFile)
             {
                 //Filtering background noise

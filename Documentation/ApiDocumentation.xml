@@ -62,7 +62,7 @@
             </summary>
             <returns>List of *.txt files</returns>
         </member>
-        <member name="M:Bird_Box.Utilities.RecognitionResultsProcessing.ProcessTextFile(System.String,Bird_Box.Audio.Microphone)">
+        <member name="M:Bird_Box.Utilities.RecognitionResultsProcessing.ProcessTextFile(System.String)">
              <summary>
             Process a text file
              </summary>
@@ -71,7 +71,7 @@
         </member>
         <member name="M:Bird_Box.Utilities.RecognitionResultsProcessing.ProcessAllFiles">
             <summary>
-            Process all text files in a /Recordings directory
+            Process all text files in a directory
             </summary>
             <returns>List of birds</returns>
         </member>
@@ -156,7 +156,7 @@
             <returns></returns>
             <response code="200">Process was finished successfully</response>
         </member>
-        <member name="M:Bird_Box.Controllers.ResultsAPIController.ProcessResults(System.Int32)">
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.ProcessResultsByDeviceId(System.Int32)">
             <summary>
             Process all results recorded from a certain input device (with provided input device ID)
             </summary>
@@ -206,6 +206,30 @@
             <inheritdoc />
         </member>
         <member name="M:Bird_Box.Migrations.NewDbClass.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Bird_Box.Migrations.NewResultsModel">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewResultsModel.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewResultsModel.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewResultsModel.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Bird_Box.Migrations.UpdatedModels">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.UpdatedModels.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.UpdatedModels.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.UpdatedModels.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

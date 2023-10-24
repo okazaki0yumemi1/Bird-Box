@@ -11,18 +11,19 @@ namespace Bird_Box.Audio
         {
             inputDevice = newInputDevice;
             settings = newSettings;
-            var directoryExists = CommandLine.ExecuteCommand($"ls -l {settings.outputPath}");
-            if (
-                directoryExists
-                == $"ls: cannot access '{settings.outputPath}': No such file or directory"
-            )
-                CommandLine.ExecuteCommand($"mkdir {settings.outputPath}");
+            var path = settings.outputPath + "/Microphone-" + inputDevice.deviceId;
+            var directoryExists = Directory.Exists(path);
+            if (!directoryExists)
+            {
+                Console.WriteLine($"The directory {path} does not exist, creating new one.");
+                CommandLine.ExecuteCommand($"mkdir {settings.outputPath}/Microphone-{inputDevice.deviceId}");
+            }
         }
 
         public string RecordAudio()
         {
             var fileName = DateTime.Now.ToString("yyyy'-'MM'-'dd'-'HH'-'mm'-'ss"); //DateTime.Now.ToString();
-            var outputFile = settings.outputPath;
+            //var outputPath = settings.outputPath + "/Microphone-" + inputDevice.deviceId;
             if (inputDevice is not null)
             {
                 var result = CommandLine.ExecuteCommand(

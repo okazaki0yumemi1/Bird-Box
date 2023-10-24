@@ -11,8 +11,7 @@ namespace Bird_Box.Models
         public string birdName { get; private set; } = "";
         public string detectionThreshold { get; private set; } = "0";
         public DateTime recodingDate { get; set; } = DateTime.Now;
-        [ForeignKey("InputDevices")]
-        public string recordingDeviceId { get; set; }
+        public Microphone inputDevice { get; set; }
 
         public IdentifiedBird(string detectedBirdName)
         {
@@ -24,14 +23,17 @@ namespace Bird_Box.Models
             string detectedBirdName,
             string threshold,
             DateTime recDate,
-            Microphone inputDevice
+            Microphone recordingDevice
         )
         {
             objId = Guid.NewGuid().ToString();
             birdName = detectedBirdName;
             detectionThreshold = threshold;
             recodingDate = recDate;
-            recordingDeviceId = inputDevice.deviceId;
+            if (recordingDevice is not null)
+                inputDevice = new Microphone("-1", "Default input device");
+            else
+                inputDevice = recordingDevice;
         }
 
         public IdentifiedBird()

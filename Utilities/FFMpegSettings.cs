@@ -44,10 +44,16 @@ namespace Bird_Box.Audio
         {
             ffmpegExecutable = newPath;
         }
+        public void SetOutputPath(string newPath) => outputPath = newPath;
 
         public FFMpegSettings()
         {
             outputPath = "./Recordings";
+            ffmpegExecutable = "ffmpeg";
+        }
+        public FFMpegSettings(string path)
+        {
+            outputPath = path;
             ffmpegExecutable = "ffmpeg";
         }
     }

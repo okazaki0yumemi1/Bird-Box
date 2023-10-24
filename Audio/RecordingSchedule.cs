@@ -91,9 +91,14 @@ namespace Bird_Box.Utilities
         /// </summary>
         public void Record()
         {
-            Audio.FFMpegSettings newSettings = new Audio.FFMpegSettings();
             var inputDevices = CommandLine.GetAudioDevices();
-            Audio.Recording recordingObj = new Audio.Recording(
+            if (inputDevices is null) 
+            {
+                Console.WriteLine("No input devices found. Check pulseaudio."); 
+                return;
+            }
+            FFMpegSettings newSettings = new FFMpegSettings($"Recordings/");
+            Recording recordingObj = new Recording(
                 inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault() ?? null, //inputDevices.FirstOrDefault(),
                 newSettings
             );
@@ -112,8 +117,13 @@ namespace Bird_Box.Utilities
         /// <param name="deviceId">input device id. You can see it by running "arecord -l" in terminal</param>
         public void Record(string deviceId)
         {
-            FFMpegSettings newSettings = new FFMpegSettings();
+            FFMpegSettings newSettings = new FFMpegSettings($"Recordings/Microphone-{deviceId}");
             var inputDevices = CommandLine.GetAudioDevices();
+                        if (inputDevices is null) 
+            {
+                Console.WriteLine("No input devices found. Check pulseaudio."); 
+                return;
+            }
             Recording recordingObj = new Recording(
                 inputDevices.Where(x => x.deviceId == deviceId).FirstOrDefault(),
                 newSettings
