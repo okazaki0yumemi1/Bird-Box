@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using Bird_Box.Models;
 
 namespace Bird_Box.Audio
@@ -9,6 +11,8 @@ namespace Bird_Box.Audio
         public string objId { get; private set; }
         public string deviceId { get; private set; } = String.Empty;
         public string deviceInfo { get; set; } = String.Empty;
+        [NotMapped]
+        public bool inUse { get; set; } = false;
 
         public Microphone(string newDeviceId)
         {

@@ -15,7 +15,7 @@ namespace Bird_Box.Services
 
         public RecordingService() 
         { 
-            
+            InputDevices = CommandLine.GetAudioDevices();
         }
 
         public void StartRecording(
@@ -26,18 +26,26 @@ namespace Bird_Box.Services
         {
             RecordingSchedule scheduleRecording = new RecordingSchedule(hours);
             var tokenSource = new CancellationTokenSource();
-            if (inputDeviceID is null)
-                _listeningTasks.Add(
-                    scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token)
-                );
+            var device = InputDevices.Find(x => x.deviceId == inputDeviceID && x.inUse == false);
+
+            if (device is null)
+                // _listeningTasks.Add(
+                //     scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token)
+                // );
+            {
+                Console.WriteLine("The device does not exist or is busy.");
+                return;
+            }
             else
+            {
                 _listeningTasks.Add(
                     scheduleRecording.RecordAndRecognize(
                         optionsInput,
                         tokenSource.Token,
-                        inputDeviceID
+                        device.deviceId
                     )
                 );
+            }
             _tokenAndTaskIDs.Add(_listeningTasks.Last().Id, tokenSource);
         }
 

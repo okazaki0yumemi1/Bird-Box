@@ -27,30 +27,30 @@ namespace Bird_Box.Utilities
         /// </summary>
         /// <param name="options">BirdNET Analyzer parameters</param>
         /// <returns></returns>
-        public async Task<int> RecordAndRecognize(AnalyzerOptions options, CancellationToken ct)
-        {
-            //var secondsElapsed = new TimeSpan(0, 0, 0);
-            var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
-            int recordingsMade = 0;
-            while (await periodicTimer.WaitForNextTickAsync())
-            {
-                if (ct.IsCancellationRequested)
-                    return recordingsMade;
-                //Remove completed tasks:
-                ProcessingAudio.RemoveAll(x => x.IsCompleted);
-                //If there are more than 5 tasks, they should be finished first:
-                if (ProcessingAudio.Count >= 5)
-                {
-                    Task.WaitAll(ProcessingAudio.ToArray());
-                }
-                Record();
-                recordingsMade++;
-                ProcessingAudio.Add(RecognizeBird(options));
-                if ((recordingsMade * 10) >= timer.TotalSeconds)
-                    break;
-            }
-            return recordingsMade;
-        }
+        // public async Task<int> RecordAndRecognize(AnalyzerOptions options, CancellationToken ct)
+        // {
+        //     //var secondsElapsed = new TimeSpan(0, 0, 0);
+        //     var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+        //     int recordingsMade = 0;
+        //     while (await periodicTimer.WaitForNextTickAsync())
+        //     {
+        //         if (ct.IsCancellationRequested)
+        //             return recordingsMade;
+        //         //Remove completed tasks:
+        //         ProcessingAudio.RemoveAll(x => x.IsCompleted);
+        //         //If there are more than 5 tasks, they should be finished first:
+        //         if (ProcessingAudio.Count >= 5)
+        //         {
+        //             Task.WaitAll(ProcessingAudio.ToArray());
+        //         }
+        //         Record();
+        //         recordingsMade++;
+        //         ProcessingAudio.Add(RecognizeBird(options));
+        //         if ((recordingsMade * 10) >= timer.TotalSeconds)
+        //             break;
+        //     }
+        //     return recordingsMade;
+        // }
 
         /// <summary>
         /// This is a task responsible for recording and analysing audio recordings.
@@ -89,28 +89,28 @@ namespace Bird_Box.Utilities
         /// <summary>
         /// Starts recording via USB input device.
         /// </summary>
-        public void Record()
-        {
-            var inputDevices = CommandLine.GetAudioDevices();
-            if (inputDevices is null) 
-            {
-                Console.WriteLine("No input devices found. Check pulseaudio."); 
-                return;
-            }
-            FFMpegSettings newSettings = new FFMpegSettings($"Recordings/");
-            Recording recordingObj = new Recording(
-                inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault() ?? null, //inputDevices.FirstOrDefault(),
-                newSettings
-            );
-            if (recordingObj is null)
-            {
-                Console.WriteLine("No input devices detected, no tasks will be run.");
-                return;
-            }
-            Console.WriteLine($"Using input device with ID={recordingObj.inputDevice.deviceId}");
-            UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
-        }
-
+        // public void Record()
+        // {
+        //     //var inputDevices = CommandLine.GetAudioDevices();
+        //     //if (inputDevices is null) 
+        //     //{
+        //     //    Console.WriteLine("No input devices found. Check pulseaudio."); 
+        //     //    return;
+        //     //}
+        //     FFMpegSettings newSettings = new FFMpegSettings($"Recordings/");
+        //     Recording recordingObj = new Recording(
+        //         inputDevices.Where(x => x.deviceInfo.Contains("USB")).FirstOrDefault() ?? null, //inputDevices.FirstOrDefault(),
+        //         newSettings
+        //     );
+        //     if (recordingObj is null)
+        //     {
+        //         Console.WriteLine("No input devices detected, no tasks will be run.");
+        //         return;
+        //     }
+        //     Console.WriteLine($"Using input device with ID={recordingObj.inputDevice.deviceId}");
+        //     UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
+        // }
+        
         /// <summary>
         /// This method lets you choose mic by entering device id.
         /// </summary>
