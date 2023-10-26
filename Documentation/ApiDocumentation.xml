@@ -172,53 +172,5 @@
         <member name="M:Bird_Box.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:Bird_Box.Migrations.FromGuidToStringPK">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.FromGuidToStringPK.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.FromGuidToStringPK.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.FromGuidToStringPK.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:Bird_Box.Migrations.NewDbClass">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.NewDbClass.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.NewDbClass.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.NewDbClass.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:Bird_Box.Migrations.NewResultsModel">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.NewResultsModel.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.NewResultsModel.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.NewResultsModel.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:Bird_Box.Migrations.UpdatedModels">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.UpdatedModels.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.UpdatedModels.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Bird_Box.Migrations.UpdatedModels.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
     </members>
 </doc>

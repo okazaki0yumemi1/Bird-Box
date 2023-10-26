@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bird_Box.Migrations
 {
     [DbContext(typeof(BirdBoxContext))]
-    [Migration("20231024094951_UpdatedModels")]
-    partial class UpdatedModels
+    [Migration("20231026155336_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
