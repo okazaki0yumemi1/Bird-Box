@@ -2,10 +2,10 @@ name: publish
 
 on:
   push:
-    branches: [ production ]
+    branches: [ main ]
 
 env:
-  DOTNET_VERSION: '6.0.401' # The .NET SDK version to use
+  DOTNET_VERSION: '7.0.x' # The .NET SDK version to use
 
 jobs:
   publish:
@@ -29,11 +29,11 @@ jobs:
         dotnet publish -c Release -o ../Bird-Box-linux-x64 -r linux-x64 --self-contained true /p:UseAppHost=true
       
     - name: Deploy to server
-        uses: https://gitea.com/aquelle1/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "projects/Bird-Box-linux-x64"
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          TARGET: ${{ secrets.SSH_DIR }}
+      uses: https://gitea.com/aquelle1/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        ARGS: "-rlgoDzvc -i --delete"
+        SOURCE: "projects/Bird-Box-linux-x64"
+        REMOTE_HOST: ${{ secrets.SSH_HOST }}
+        REMOTE_USER: ${{ secrets.SSH_USER }}
+        TARGET: ${{ secrets.SSH_DIR }}
