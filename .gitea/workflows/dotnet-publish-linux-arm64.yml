@@ -10,7 +10,7 @@ env:
 jobs:
   publish:
 
-    runs-on: ubuntu-latest
+    runs-on: linux-arm64
 
     steps:
     - uses: actions/checkout@v3
@@ -26,14 +26,14 @@ jobs:
       run: |
         cd DotNet.WebApp
         dotnet build --configuration Release --no-restore
-        dotnet publish -c Release -o ../Bird-Box-linux-x64 -r linux-x64 --self-contained true /p:UseAppHost=true
+        dotnet publish -c Release -o ../Bird-Box-linux-arm64 -r linux-arm64 --self-contained true /p:UseAppHost=true
       
     - name: Deploy to server
         uses: https://gitea.com/aquelle1/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "projects/Bird-Box-linux-x64"
+          SOURCE: "projects/Bird-Box-arm64"
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
           TARGET: ${{ secrets.SSH_DIR }}
