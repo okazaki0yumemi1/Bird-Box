@@ -24,7 +24,7 @@ jobs:
       
     - name: Build
       run: |
-        cd DotNet.WebApp
+        cd ~/gitea/projects
         dotnet build --configuration Release --no-restore
         dotnet publish -c Release -o ../Bird-Box-linux-arm64 -r linux-arm64 --self-contained true /p:UseAppHost=true
       
