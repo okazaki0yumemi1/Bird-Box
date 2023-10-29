@@ -12,3 +12,4 @@ Bird-Box.sln
 /.vs/Bird-Box/FileContentIndex
 /.vs/Bird-Box/v17
 /.vs
+.gitea/workflows/dotnet-build.yml

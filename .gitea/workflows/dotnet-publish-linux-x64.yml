@@ -22,7 +22,7 @@ jobs:
         fi 
       
     - name: Clone repo
-      run: git clone ${{ secrets.BIRD_BOX_REPO }} ~/gitea
+      run: git clone https://git.containercat.com/m918/Bird-Box.git ~/gitea
     
     - name: Install dependencies
       run: dotnet restore
