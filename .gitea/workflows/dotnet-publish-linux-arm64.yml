@@ -32,13 +32,13 @@ jobs:
 
     - name: Clone repo
       run: |
-        git clone https://git.containercat.com/m918/Bird-Box.git ~/gitea/Bird-Box
+        git clone https://git.containercat.com/m918/Bird-Box.git ~/gitea/temp
         if test -f "~/gitea/Bird-Box"; then
           echo "Bird-Box directory already exist"          
         else
           mkdir "Bird-Box"
         fi 
-        mv temp/.git Bird-Box/.git
+        mv temp/* Bird-Box/
         rm -rf temp/* 
     
     - name: Install dependencies
