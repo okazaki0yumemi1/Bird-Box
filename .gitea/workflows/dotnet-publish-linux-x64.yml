@@ -20,16 +20,7 @@ jobs:
         else
           mkdir "gitea"
         fi 
-
-    - name: Create temp directory for code
-      run: |
-        if test -f "~/gitea/temp"; then
-          echo "Temp directory already exist"          
-        else
-          cd ~/gitea
-          mkdir "temp"
-        fi 
-
+      
     - name: Clone repo
       run: |
         git clone https://git.containercat.com/m918/Bird-Box.git ~/gitea/Bird-Box
