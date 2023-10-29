@@ -13,14 +13,16 @@ jobs:
     runs-on: linux-arm64
 
     steps:
-    - uses: actions/checkout@v3
+
+    - name: Clone repo
+      run: git clone ${{ secrets.BIRD_BOX_REPO }} ~/gitea/projects
     
     - name: Install dependencies
       run: dotnet restore
       
     - name: Build
       run: |
-        cd ~/gitea/projects
+        cd ~/gitea/projects/Bird-Box
         dotnet build --configuration Release --no-restore
         dotnet publish -c Release -o ../Bird-Box-linux-arm64 -r linux-arm64 --self-contained true /p:UseAppHost=true
       
@@ -29,7 +31,7 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         ARGS: "-rlgoDzvc -i --delete"
-        SOURCE: "projects/Bird-Box-arm64"
+        SOURCE: "~/gitea/projects/Bird-Box-arm64"
         REMOTE_HOST: ${{ secrets.SSH_HOST }}
         REMOTE_USER: ${{ secrets.SSH_USER }}
         TARGET: ${{ secrets.SSH_DIR }}
