@@ -13,9 +13,11 @@ jobs:
     runs-on: linux-arm64
 
     steps:
-
+    - name: Create directory for code
+      run: mkdir ~/gitea
+      
     - name: Clone repo
-      run: git clone ${{ secrets.BIRD_BOX_REPO }} ~/gitea/projects
+      run: git clone ${{ secrets.BIRD_BOX_REPO }} ~/gitea
     
     - name: Install dependencies
       run: dotnet restore

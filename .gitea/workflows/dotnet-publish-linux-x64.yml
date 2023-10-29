@@ -10,21 +10,21 @@ env:
 jobs:
   publish:
 
-    runs-on: ubuntu-latest
+    runs-on: linux-x64
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-
+    - name: Create directory for code
+      run: mkdir ~/gitea
+      
+    - name: Clone repo
+      run: git clone ${{ secrets.BIRD_BOX_REPO }} ~/gitea
+    
     - name: Install dependencies
       run: dotnet restore
       
     - name: Build
       run: |
-        cd DotNet.WebApp
+        cd ~/gitea/projects/Bird-Box
         dotnet build --configuration Release --no-restore
         dotnet publish -c Release -o ../Bird-Box-linux-x64 -r linux-x64 --self-contained true /p:UseAppHost=true
       
@@ -33,7 +33,7 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         ARGS: "-rlgoDzvc -i --delete"
-        SOURCE: "projects/Bird-Box-linux-x64"
+        SOURCE: "~/gitea/projects/Bird-Box-arm64"
         REMOTE_HOST: ${{ secrets.SSH_HOST }}
         REMOTE_USER: ${{ secrets.SSH_USER }}
         TARGET: ${{ secrets.SSH_DIR }}
