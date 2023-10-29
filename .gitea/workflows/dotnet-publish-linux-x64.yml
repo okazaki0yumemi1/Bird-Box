@@ -14,7 +14,12 @@ jobs:
 
     steps:
     - name: Create directory for code
-      run: mkdir ~/gitea
+      run: |
+        if test -f "~/gitea"; then
+          echo "Directory already exist"
+        else
+          mkdir "gitea"
+        fi 
       
     - name: Clone repo
       run: git clone ${{ secrets.BIRD_BOX_REPO }} ~/gitea
