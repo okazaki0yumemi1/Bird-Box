@@ -38,9 +38,14 @@ jobs:
         else
           mkdir "Bird-Box"
         fi 
-        mv -v temp/ Bird-Box/
+        mv -u temp/* Bird-Box/
         rm -rf temp/ 
-    
+
+    - name: Create necessary folders
+      run: |
+        mkdir Data
+        mkdir Recordings
+
     - name: Install dependencies
       run: dotnet restore
       
