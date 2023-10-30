@@ -23,7 +23,7 @@ jobs:
 
     - name: Create temp directory for code
       run: |
-        if test -f "~/gitea/temp"; then
+        if test -f "~/gitea/temp/"; then
           echo "Temp directory already exist"          
         else
           cd ~/gitea
