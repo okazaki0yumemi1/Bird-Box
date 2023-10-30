@@ -15,36 +15,25 @@ jobs:
     steps:
     - name: Create directory for code
       run: |
-        if test -f "~/gitea"; then
-          echo "Directory already exist"          
-        else
-          mkdir "gitea"
-        fi 
+        mkdir -p "gitea"
 
     - name: Create temp directory for code
       run: |
-        if test -f "~/gitea/temp"; then
-          echo "Temp directory already exist"          
-        else
-          cd ~/gitea
-          mkdir -p temp
+        cd ~/gitea
+        mkdir -p temp
         fi 
 
     - name: Clone repo
       run: |
         git clone https://git.containercat.com/m918/Bird-Box.git ~/gitea/temp
-        if test -f "~/gitea/Bird-Box"; then
-          echo "Bird-Box directory already exist"          
-        else
-          mkdir "Bird-Box"
-        fi 
+        mkdir -p Bird-Box
         mv -u temp/* Bird-Box/
         rm -rf temp/ 
 
     - name: Create necessary folders
       run: |
-        mkdir Data
-        mkdir Recordings
+        mkdir -p Data
+        mkdir -p Recordings
 
     - name: Install dependencies
       run: dotnet restore
