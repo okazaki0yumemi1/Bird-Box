@@ -38,8 +38,8 @@ jobs:
         else
           mkdir "Bird-Box"
         fi 
-        mv -v temp/* Bird-Box/
-        rm -rf temp/* 
+        mv -v temp/ Bird-Box/
+        rm -rf temp/ 
     
     - name: Install dependencies
       run: dotnet restore
