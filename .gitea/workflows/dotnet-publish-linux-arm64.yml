@@ -34,12 +34,12 @@ jobs:
 
     - name: Create necessary folders
       run: |
-        cd Bird-Box/
-        mkdir -p Data
-        mkdir -p Recordings
+        cd ~/gitea/Bird-Box/
+        mkdir -p "Data"
+        mkdir -p "Recordings"
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore -p Bird-Box
       
     - name: Build
       run: |
