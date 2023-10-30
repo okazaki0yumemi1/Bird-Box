@@ -45,8 +45,8 @@ jobs:
     - name: Build
       run: |
         cd ~/gitea/projects/Bird-Box
-        dotnet build --configuration Release --no-restore
-        dotnet publish -c Release -o ../Bird-Box-linux-arm64 -r linux-arm64 --self-contained true /p:UseAppHost=true
+        dotnet build ~/gitea/Bird-Box/ --configuration Release --no-restore 
+        dotnet publish -c Release -o ~gitea/projects/Bird-Box/Bird-Box-linux-arm64 -r linux-arm64 --self-contained true /p:UseAppHost=true
       
     - name: Deploy to server
       uses: https://gitea.com/aquelle1/ssh-deploy@main
