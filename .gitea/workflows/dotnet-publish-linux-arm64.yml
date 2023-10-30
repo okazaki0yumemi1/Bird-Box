@@ -25,12 +25,12 @@ jobs:
     - name: Clone repo
       run: |
         git clone https://git.containercat.com/m918/Bird-Box.git ~/gitea/temp
-        mkdir -p "Bird-Box"
+        mkdir -p Bird-Box
         
     - name: Move code to  new folder
       run: |
         mv -u ~/gitea/temp/* ~/gitea/Bird-Box/
-        rm -rf "temp" 
+        rm -rf temp
 
     - name: Create necessary folders
       run: |
@@ -39,7 +39,7 @@ jobs:
         mkdir -p "Recordings"
 
     - name: Install dependencies
-      run: dotnet restore -p ~/gitea/Bird-Box
+      run: dotnet restore
       
     - name: Build
       run: |
