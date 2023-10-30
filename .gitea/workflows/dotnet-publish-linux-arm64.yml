@@ -39,7 +39,8 @@ jobs:
         mkdir -p "Recordings"
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore ~/gitea/Bird-Box/
+
       
     - name: Build
       run: |
