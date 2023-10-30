@@ -46,14 +46,14 @@ jobs:
       run: |
         cd ~/gitea/projects/Bird-Box
         dotnet build ~/gitea/Bird-Box/ --configuration Release --no-restore 
-        dotnet publish -c Release -o ~gitea/projects/Bird-Box/Bird-Box-linux-arm64 -r linux-arm64 --self-contained true /p:UseAppHost=true
+        dotnet publish ~/gitea/Bird-Box/ -c Release -o ~gitea/projects/Bird-Box/Bird-Box-linux-arm64 -r linux-arm64 --self-contained true /p:UseAppHost=true
       
     - name: Deploy to server
       uses: https://gitea.com/aquelle1/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         ARGS: "-rlgoDzvc -i --delete"
-        SOURCE: "~/gitea/projects/Bird-Box-arm64"
+        SOURCE: "~/gitea/projects/Bird-Box/Bird-Box-linux-arm64"
         REMOTE_HOST: ${{ secrets.SSH_HOST }}
         REMOTE_USER: ${{ secrets.SSH_USER }}
         TARGET: ${{ secrets.SSH_DIR }}
