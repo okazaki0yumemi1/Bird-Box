@@ -21,7 +21,6 @@ jobs:
       run: |
         cd ~/gitea
         mkdir -p temp
-        fi 
 
     - name: Clone repo
       run: |
@@ -32,6 +31,7 @@ jobs:
 
     - name: Create necessary folders
       run: |
+        cd Bird-Box/
         mkdir -p Data
         mkdir -p Recordings
 
