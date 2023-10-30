@@ -26,6 +26,9 @@ jobs:
       run: |
         git clone https://git.containercat.com/m918/Bird-Box.git ~/gitea/temp
         mkdir -p Bird-Box
+        
+    - name: Move code to  new folder
+      run: |
         mv -u temp/* Bird-Box/
         rm -rf temp/ 
 
