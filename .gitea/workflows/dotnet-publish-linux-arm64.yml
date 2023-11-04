@@ -30,4 +30,4 @@ jobs:
           echo "${{ secrets.SSH_HOST }}" > ~/.ssh/known_hosts
       
       - name: Deploy with rsync
-        run: rsync -rav --delete build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/projects/Bird-Box/
+        run: rsync -rav --delete ./arm64 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/projects/Bird-Box/
