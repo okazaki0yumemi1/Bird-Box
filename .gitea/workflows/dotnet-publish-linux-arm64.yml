@@ -21,7 +21,7 @@ jobs:
         run: dotnet build --no-restore
       
       - name: Publish
-        run: dotnet publish -r linux-arm64 --self-contained true -o /arm64
+        run: dotnet publish -r linux-arm64 --self-contained true -o ./arm64
 
       - name: Create SSH key
         run: |
