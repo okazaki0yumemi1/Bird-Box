@@ -23,6 +23,14 @@ jobs:
       - name: Publish
         run: dotnet publish -r linux-arm64 --self-contained true -o ./arm64
 
+      - name: Create necessary folders
+        run: |
+          cd arm64
+          mkdir Data
+          mkdir Recordings
+          cd ..
+          pwd
+
       - name: Create SSH key
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
