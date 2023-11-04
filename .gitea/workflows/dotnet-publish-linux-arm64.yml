@@ -37,5 +37,12 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           echo "${{ secrets.SSH_HOST }}" > ~/.ssh/known_hosts
       
-      - name: Deploy with rsync
-        run: rsync -rav --delete ./arm64 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/projects/Bird-Box/
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "arm64"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          TARGET: ${{ secrets.SSH_DIR }}
