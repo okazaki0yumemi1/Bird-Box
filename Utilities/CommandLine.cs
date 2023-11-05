@@ -18,7 +18,9 @@ namespace Bird_Box.Utilities
             var lines = resultIds.Split("\n");
 
             List<string> info = new List<string>();
-            var resultInfo = ExecuteCommand($"pacmd list-sources | grep device.description")
+            // var resultInfo = ExecuteCommand($"pacmd list-sources | grep device.description")
+            //     .Split(Environment.NewLine);
+            var resultInfo = ExecuteCommand($"pacmd list-sources | grep alsa.long_card_name")
                 .Split(Environment.NewLine);
             int i = 0;
             foreach (var line in lines)
