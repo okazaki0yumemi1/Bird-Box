@@ -42,7 +42,7 @@ namespace Bird_Box.Services
                     scheduleRecording.RecordAndRecognize(
                         optionsInput,
                         tokenSource.Token,
-                        device.deviceId
+                        device
                     )
                 );
             }

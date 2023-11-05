@@ -60,7 +60,7 @@ namespace Bird_Box.Utilities
         public async Task<int> RecordAndRecognize(
             AnalyzerOptions options,
             CancellationToken ct,
-            string deviceId
+            Microphone inputDevice
         )
         {
             //var secondsElapsed = new TimeSpan(0, 0, 0);
@@ -77,7 +77,7 @@ namespace Bird_Box.Utilities
                 {
                     Task.WaitAll(ProcessingAudio.ToArray());
                 }
-                Record(deviceId);
+                Record(inputDevice);
                 recordingsMade++;
                 ProcessingAudio.Add(RecognizeBird(options));
                 if ((recordingsMade * 10) >= timer.TotalSeconds)
@@ -115,9 +115,9 @@ namespace Bird_Box.Utilities
         /// This method lets you choose mic by entering device id.
         /// </summary>
         /// <param name="deviceId">input device id. You can see it by running "arecord -l" in terminal</param>
-        public void Record(string deviceId)
+        public void Record(Microphone device)
         {
-            FFMpegSettings newSettings = new FFMpegSettings($"Recordings/Microphone-{deviceId}");
+            FFMpegSettings newSettings = new FFMpegSettings($"Recordings/Microphone-{device.deviceId}");
             var inputDevices = CommandLine.GetAudioDevices();
                         if (inputDevices is null) 
             {
@@ -125,7 +125,7 @@ namespace Bird_Box.Utilities
                 return;
             }
             Recording recordingObj = new Recording(
-                inputDevices.Where(x => x.deviceId == deviceId).FirstOrDefault(),
+                device,
                 newSettings
             );
             if (recordingObj is null)
