@@ -114,7 +114,7 @@ namespace Bird_Box.Utilities
         /// <summary>
         /// This method lets you choose mic by entering device id.
         /// </summary>
-        /// <param name="deviceId">input device id. You can see it by running "arecord -l" in terminal</param>
+        /// <param name="device">Input device.</param>
         public void Record(Microphone device)
         {
             FFMpegSettings newSettings = new FFMpegSettings($"Recordings/Microphone-{device.deviceId}");
