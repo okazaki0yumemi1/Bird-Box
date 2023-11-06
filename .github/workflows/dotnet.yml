@@ -10,7 +10,7 @@ env:
 jobs:
   publish:
 
-    runs-on: linux-arm64
+    runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v3
