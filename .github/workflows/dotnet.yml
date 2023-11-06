@@ -1,39 +1,49 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET web app
+name: publish
 
 on:
   push:
-    branches: [ "main" ]
-    
+    branches: [ main ]
+
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+  DOTNET_VERSION: '7.0.x' # The .NET SDK version to use
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  publish:
+
+    runs-on: linux-arm64
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Create release for aarm64
-      run: |
-          dotnet publish -r linux-arm64 --self-contained --output releases/linux-arm64
-          cd releases/linux-arm64
-          echo "ARCHIVE=$(ls /home/runner/work/Bird-Box/releases/linux-arm64/*.tar.gz)" >> $GITHUB_ENV
-          gh release create ${{ github.ref_name }} --title ${{ github.ref_name }}
-    - name: Create release for linux-x64
-      run: |
-          dotnet publish -r linux-x64 --self-contained --output releases/linux-x64
-          cd releases/linux-x64
-          echo "ARCHIVE=$(ls *.tar.gz)" >> $GITHUB_ENV
-          gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} 
-    - name: Upload archive on release
-      run: gh release upload ${{ github.ref_name }} dist/$ARCHIVE
+      - uses: actions/checkout@v3
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+      
+      - name: Publish
+        run: dotnet publish -r linux-arm64 --self-contained true -o ./arm64
+
+      - name: Create necessary folders
+        run: |
+          cd arm64
+          mkdir Data
+          mkdir Recordings
+          cd ..
+          pwd
+
+      - name: Create SSH key
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_HOST }}" > ~/.ssh/known_hosts
+      
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "arm64"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          TARGET: ${{ secrets.SSH_DIR }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
