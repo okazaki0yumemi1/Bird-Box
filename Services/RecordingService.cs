@@ -24,7 +24,6 @@ namespace Bird_Box.Services
             string? inputDeviceID = null
         )
         {
-            RecordingSchedule scheduleRecording = new RecordingSchedule(hours);
             var tokenSource = new CancellationTokenSource();
             var device = InputDevices.Find(x => x.deviceId == inputDeviceID && x.inUse == false);
 
@@ -38,6 +37,7 @@ namespace Bird_Box.Services
             }
             else
             {
+                RecordingSchedule scheduleRecording = new RecordingSchedule(hours, FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}");
                 _listeningTasks.Add(
                     scheduleRecording.RecordAndRecognize(
                         optionsInput,
