@@ -40,7 +40,7 @@ namespace Bird_Box.Audio
                 // processInfo.Arguments = $"-c \"rm {pathToAudio}/{fileName}";
                 // var process = System.Diagnostics.Process.Start(processInfo);
                 // process.WaitForExit();
-                File.Delete($"{pathToAudio}/{fileName}");
+                File.Delete($"./{pathToAudio}/{fileName}");
                 return true;
             }
             else
