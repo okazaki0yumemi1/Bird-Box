@@ -31,6 +31,11 @@ namespace Bird_Box.Controllers
             return View("Views/Results/Results.cshtml", results);
         }
 
+        public async Task<IActionResult> RedirectToSwagger()
+        {
+            return RedirectPermanent("~/api/swagger");
+        }
+
         [Route("~/Error")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
