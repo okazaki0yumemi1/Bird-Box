@@ -9,7 +9,7 @@ namespace Bird_Box.Audio
 
         public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
         {
-            pathToAudio = recordingsPath;
+            pathToAudio = "Recordings" + recordingsPath;
             options = _options;
         }
 
@@ -23,7 +23,7 @@ namespace Bird_Box.Audio
                 + $"--min_conf {options.minimumConfidence} --sensitivity {options.sensitivity} --threads {options.cpuThreads} "
                 + $"--lat {options.latitude} --lon {options.longitude} --week {options.weekOfTheYear} --overlap {options.overlapSegments} "
                 + $"--batchsize {options.processingBatchSize} --locale {options.locale} --sf_thresh {options.speciesFrequencyThreshold} "
-                + $"--i Recordings/{fileName} --o Recordings/{fileName}-result.txt";
+                + $"--i {pathToAudio}/{fileName} --o {pathToAudio}/{fileName}-result.txt";
             processInfo.RedirectStandardOutput = true;
             using (var process = System.Diagnostics.Process.Start(processInfo))
             {
