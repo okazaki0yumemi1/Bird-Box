@@ -2,15 +2,16 @@
 
 The following project is a WIP. 
 
-The main goal of this app is to use it as a lightweight app to recognize bird species by voice.
+The main goal of this app is to use it as a lightweight app to recognize bird species by their voices.
 
-Right now this application as a way to capture audio via USB microphone and pass it to the BirdNET Analyzer, and then to identify neural model output and store it in SQLite.
+You can choose the microphone (input device) for recording, but expect a lot of bugs and messy stuff - I am really inexperienced software developer.
 
 This ASP NET Core project consists of Web API + Swagger to control recording and neural model paramenetrs and to retreive data from BD via said web API. 
 
 The current problems are:
-- User is unable to select microphone, only first USB micro is being used.
-- The BirdNET output processing is slow and should be changed somehow.
+- Lack of documentation
+- Lack of tests with 2+ input devices
+- General lack of good coding practices
 
 How to use:
 
@@ -21,4 +22,4 @@ How to use:
    ffmpeg, resampy, librosa
 3. Clone BirdNET Analyzer to Bird-Box.
 4. Start the binary file via ./Bird-Box command.
-5. Navigate to localhost:5001 - you should see Swagger web page with endpoints.
+5. Navigate to localhost:5001 - you should see list of connected audio devices. Click on the "Swagger Web UI" link on the left top corner to get to the web UI.
