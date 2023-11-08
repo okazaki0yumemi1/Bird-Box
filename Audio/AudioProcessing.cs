@@ -37,9 +37,10 @@ namespace Bird_Box.Audio
             if (processOutput.Contains("Finished"))
             {
                 //Remove successfully decoded audio recording
-                processInfo.Arguments = $"-c \"rm Recordings/{fileName}";
-                var process = System.Diagnostics.Process.Start(processInfo);
-                process.WaitForExit();
+                // processInfo.Arguments = $"-c \"rm {pathToAudio}/{fileName}";
+                // var process = System.Diagnostics.Process.Start(processInfo);
+                // process.WaitForExit();
+                File.Delete($"{pathToAudio}/{fileName}");
                 return true;
             }
             else
