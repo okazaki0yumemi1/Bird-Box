@@ -38,7 +38,7 @@ namespace Bird_Box.Controllers
         [HttpGet("api/results/{recordId}")]
         public async Task<IActionResult> GetByID([FromRoute] string recordId)
         {
-            var bird = _dbOperations.GetById(recordId);
+            var bird = await _dbOperations.GetById(recordId);
             if (bird == null)
                 return NotFound();
             return Ok(bird);
@@ -139,7 +139,7 @@ namespace Bird_Box.Controllers
                 return 0;
             }
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(
-                FFMpegSettings.outputPath + $"/Microphone-{inputDeviceID}/"
+                $"Recordings/Microphone-{inputDeviceID}/"
             );
             var results = rrp.ProcessAllFiles();
             List<IdentifiedBird> detections = new List<IdentifiedBird>();
@@ -148,8 +148,8 @@ namespace Bird_Box.Controllers
                 var detection = result;
                 detection.inputDevice = input;
                 detections.Add(detection);
+                Console.WriteLine($"Input device: {input.deviceInfo} {input.deviceId}");
             }
-            
             var count = await _dbOperations.CreateRange(detections);
             Console.WriteLine($"Results from Device no. {inputDeviceID} processed successfully. Added {count} detections.");
             return count;
