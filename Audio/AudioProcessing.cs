@@ -9,7 +9,7 @@ namespace Bird_Box.Audio
 
         public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
         {
-            pathToAudio = "Recordings" + recordingsPath;
+            pathToAudio = recordingsPath;
             options = _options;
         }
 

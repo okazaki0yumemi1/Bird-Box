@@ -3,8 +3,7 @@ namespace Bird_Box.Audio
     public struct FFMpegSettings
     {
         public string ffmpegExecutable { get; private set; }
-        public static string outputPath { get; set; }
-
+        public static string outputPath { get; set; } = "./Recordings";
         public void FindFFmpegExecPath()
         {
             var processOutput = "";
