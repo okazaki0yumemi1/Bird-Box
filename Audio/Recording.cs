@@ -11,12 +11,13 @@ namespace Bird_Box.Audio
         {
             inputDevice = newInputDevice;
             settings = newSettings;
-            var path = settings.outputPath + "/Microphone-" + inputDevice.deviceId;
+            var path = settings.outputPath;// + "/Microphone-" + inputDevice.deviceId;
             var directoryExists = Directory.Exists(path);
             if (!directoryExists)
             {
                 Console.WriteLine($"The directory {path} does not exist, creating new one.");
-                CommandLine.ExecuteCommand($"mkdir {settings.outputPath}/Microphone-{inputDevice.deviceId}");
+                Directory.CreateDirectory($"{settings.outputPath}/Microphone-{inputDevice.deviceId}");
+                //CommandLine.ExecuteCommand($"mkdir {settings.outputPath}/Microphone-{inputDevice.deviceId}");
             }
         }
 
