@@ -105,6 +105,7 @@ namespace Bird_Box.Utilities
                 var birdsInAFile = ProcessSingleFile(file);
                 birds.AddRange(birdsInAFile);
             }
+            Directory.Delete($"Recordings/{textResultsPath}");
             return birds;
         }
 
@@ -132,7 +133,7 @@ namespace Bird_Box.Utilities
                 }
                 birds.Add(birdEntity);
             }
-            CommandLine.ExecuteCommand($"rm {textResultsPath + file}");
+            File.Delete($"{textResultsPath + file}");
             return birds;
         }
     }
