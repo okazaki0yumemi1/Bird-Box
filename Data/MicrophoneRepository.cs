@@ -20,7 +20,7 @@ namespace Bird_Box.Data
 
         public async Task<int> DeleteById(string id)
         {
-            var device = _context.InputDevices.FirstOrDefault(x => x.deviceId == id);
+            var device = await _context.InputDevices.FirstOrDefaultAsync(x => x.deviceId == id);
             if (device is not null)
             {
                 _context.InputDevices.Remove(device);
