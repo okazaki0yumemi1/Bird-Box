@@ -14,7 +14,7 @@ namespace Bird_Box.Data
 
         public async Task<int> Create(Microphone inputDevice)
         {
-            _context.InputDevices.Add(inputDevice);
+            await _context.InputDevices.AddAsync(inputDevice);
             return _context.SaveChanges();
         }
 
