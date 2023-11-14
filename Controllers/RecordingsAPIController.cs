@@ -16,6 +16,7 @@ namespace Bird_Box.Controllers
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
         private readonly BirdBoxContext _context;
+        private readonly MicrophoneRepository _dbOperations;
 
         public RecordingsAPIController(RecordingService recordingService, BirdBoxContext context)
         {
@@ -56,21 +57,16 @@ namespace Bird_Box.Controllers
                     //otherwise, add default device;
                     if (device is not null)
                     {
-                        if (_context.InputDevices.Where(x => x.deviceId == device.deviceId && x.deviceInfo == device.deviceInfo).Count() == 0)
+                        if (_dbOperations.GetById(device.deviceId) is null)
                         {
-                            _context.InputDevices.Add(device);
-                            _context.SaveChanges();
+                            await _dbOperations.Create(device);
                             Console.WriteLine($"New input device with ID={device.deviceId}, Info = {device.deviceInfo} and database ID={device.objId} was added to a database.");
                         }
                     }
-                    else
+                    else if (_dbOperations.GetById("-1") is null)
                     {
-                        if (_context.InputDevices.Where(x => x.deviceId == "-1" && x.deviceInfo == "Default device").Count() == 0)
-                        {
-                            _context.InputDevices.Add(new Microphone("-1", "Default device"));
-                            _context.SaveChanges();
-                            Console.WriteLine($"New input device with ID={device.deviceId}, Info = {device.deviceInfo} and database ID={device.objId} was added to a database.");
-                        } 
+                        await _dbOperations.Create(new Microphone("-1", "Default device"));
+                        Console.WriteLine($"Added default input device with ID = \"-1\".");
                     }
             }
             TimeSpan _hours;
