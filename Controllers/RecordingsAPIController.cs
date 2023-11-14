@@ -15,13 +15,11 @@ namespace Bird_Box.Controllers
         private RecordingService _recordingService;
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
-        private readonly BirdBoxContext _context;
         private readonly MicrophoneRepository _dbOperations;
 
-        public RecordingsAPIController(RecordingService recordingService, BirdBoxContext context)
+        public RecordingsAPIController(RecordingService recordingService)
         {
             _recordingService = recordingService;
-            _context = context;
             // Get values from the config given their key and their target type.
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
