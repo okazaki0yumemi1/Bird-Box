@@ -21,11 +21,16 @@ namespace Bird_Box.Utilities
         {
             var result = new List<string>();
             //CommandLine bash = new CommandLine();
-            var lines = CommandLine
-                .ExecuteCommand($"ls -A {textResultsPath}*.txt")
-                .Split("\n")
-                .ToList();
-            ;
+            // var lines = CommandLine
+            //     .ExecuteCommand($"ls -A {textResultsPath}*.txt")
+            //     .Split("\n")
+            //     .ToList();
+            if (!Directory.Exists(textResultsPath))
+            {
+                //Early return - directory does not exist
+                return result;
+            }
+            var lines = Directory.GetFiles(textResultsPath);
             foreach (var line in lines)
             {
                 if (line == "")
@@ -100,6 +105,11 @@ namespace Bird_Box.Utilities
         {
             var birds = new List<IdentifiedBird>();
             var files = GetAllTextFiles();
+            if (!Directory.Exists(textResultsPath))
+            {
+                //Early return - directory does not exist
+                return birds;
+            }
             foreach (var file in files)
             {
                 var birdsInAFile = ProcessSingleFile(file);
