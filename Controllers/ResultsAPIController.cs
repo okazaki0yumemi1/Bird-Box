@@ -139,7 +139,7 @@ namespace Bird_Box.Controllers
                 return 0;
             }
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(
-                $"Recordings/Microphone-{inputDeviceID}/"
+                $"/Microphone-{inputDeviceID}/"
             );
             var results = rrp.ProcessAllFiles();
             List<IdentifiedBird> detections = new List<IdentifiedBird>();
