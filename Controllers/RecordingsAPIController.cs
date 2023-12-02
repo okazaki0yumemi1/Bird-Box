@@ -135,7 +135,8 @@ namespace Bird_Box.Controllers
         [HttpGet("api/recordings/microphones")]
         public List<Microphone> GetAllConnectedInputDevices()
         {
-            return CommandLine.GetAudioDevices();
+            var devices = _recordingService.GetInputDevices();
+            return devices;
         }
 
         /// <summary>

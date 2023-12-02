@@ -69,7 +69,10 @@ namespace Bird_Box.Utilities
             while (await periodicTimer.WaitForNextTickAsync())
             {
                 if (ct.IsCancellationRequested)
+                {
+                    inputDevice.inUse = false;
                     return recordingsMade;
+                }
                 //Remove completed tasks:
                 ProcessingAudio.RemoveAll(x => x.IsCompleted);
                 //If there are more than 5 tasks, they should be finished first:

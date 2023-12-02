@@ -45,6 +45,9 @@ namespace Bird_Box.Services
                         device
                     )
                 );
+                //Set status "In use"
+                //Check if it works!!
+                device.inUse = true;
             }
             _tokenAndTaskIDs.Add(_listeningTasks.Last().Id, tokenSource);
         }
@@ -72,6 +75,7 @@ namespace Bird_Box.Services
                 .FirstOrDefault();
             if (tokenSource is null)
                 return false;
+
             tokenSource.Cancel();
             _tokenAndTaskIDs.Remove(id);
             tokenSource.Dispose();
@@ -81,6 +85,11 @@ namespace Bird_Box.Services
         public List<int> GetRunningRecordingServices()
         {
             return _tokenAndTaskIDs.Select(x => x.Key).ToList();
+        }
+
+        public List<Microphone> GetInputDevices()
+        {
+            return InputDevices;
         }
     }
 }
