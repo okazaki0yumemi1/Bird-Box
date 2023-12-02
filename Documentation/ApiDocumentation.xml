@@ -144,7 +144,7 @@
             <returns></returns>
             <response code="200">Process was finished successfully</response>
         </member>
-        <member name="M:Bird_Box.Controllers.ResultsAPIController.ProcessResultsByDeviceId(System.Int32)">
+        <member name="M:Bird_Box.Controllers.ResultsAPIController.ProcessResultsByDevice(Bird_Box.Audio.Microphone)">
             <summary>
             Process all results recorded from a certain input device (with provided input device ID)
             </summary>

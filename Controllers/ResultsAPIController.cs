@@ -17,15 +17,6 @@ namespace Bird_Box.Controllers
         public ResultsAPIController(BirdRepository dbOperations)
         {
             _dbOperations = dbOperations;
-            //_config = new ConfigurationBuilder()
-            //    .AddJsonFile("appsettings.json")
-            //    .AddEnvironmentVariables()
-            //    .Build();
-
-            //// Get values from the config given their key and their target type.
-            //_defaultOptions = _config
-            //    .GetRequiredSection("BirdNETOptions:Default")
-            //    .Get<AnalyzerOptions>();
         }
 
         /// <summary>
@@ -101,7 +92,7 @@ namespace Bird_Box.Controllers
             int totalResults = 0;
             foreach (var device in devices)
             {
-                totalResults += await ProcessResultsByDeviceId(Convert.ToInt32(device.deviceId));
+                totalResults += await ProcessResultsByDevice(device);
             }
             return Ok($"Added {totalResults} detections.");
             // RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
@@ -128,30 +119,29 @@ namespace Bird_Box.Controllers
         /// <param name="inputDeviceID">Input device ID</param>
         /// <returns>Number of detections</returns>
         //[HttpGet("api/results/process/{inputDeviceID}")]
-        private async Task<int> ProcessResultsByDeviceId(int inputDeviceID)
+        private async Task<int> ProcessResultsByDevice(Microphone inputDevice)
         {
-            var input = CommandLine
-                .GetAudioDevices()
-                .Where(x => x.deviceId == inputDeviceID.ToString())
-                .FirstOrDefault();
-            if (input == null)
-            {
-                return 0;
-            }
+            //var input = CommandLine
+            //    .GetAudioDevices();
+            //input = input.FirstOrDefault(x => x.deviceId == inputDeviceID.ToString());
+            //if (input == null)
+            //{
+            //    return 0;
+            //}
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(
-                $"/Microphone-{inputDeviceID}/"
+                $"/Microphone-{inputDevice.objId}/"
             );
             var results = rrp.ProcessAllFiles();
             List<IdentifiedBird> detections = new List<IdentifiedBird>();
             foreach (var result in results)
             {
                 var detection = result;
-                detection.inputDevice = input;
+                detection.inputDevice = inputDevice;
                 detections.Add(detection);
-                Console.WriteLine($"Input device: {input.deviceInfo} {input.deviceId}");
+                Console.WriteLine($"Input device: {inputDevice.deviceInfo} {inputDevice.deviceId}");
             }
             var count = await _dbOperations.CreateRange(detections);
-            Console.WriteLine($"Results from Device no. {inputDeviceID} processed successfully. Added {count} detections.");
+            Console.WriteLine($"Results from Device no. {inputDevice.objId} processed successfully. Added {count} detections.");
             return count;
         }
 
