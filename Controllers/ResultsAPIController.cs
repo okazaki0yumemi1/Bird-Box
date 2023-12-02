@@ -141,7 +141,7 @@ namespace Bird_Box.Controllers
                 Console.WriteLine($"Input device: {inputDevice.deviceInfo} {inputDevice.deviceId}");
             }
             var count = await _dbOperations.CreateRange(detections);
-            Console.WriteLine($"Results from Device no. {inputDevice.objId} processed successfully. Added {count} detections.");
+            Console.WriteLine($"Results from Device no. {inputDevice.deviceId} processed successfully. Added {count} detections.");
             return count;
         }
 
