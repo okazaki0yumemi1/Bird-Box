@@ -11,41 +11,39 @@ namespace Bird_Box.Utilities
         public static List<Audio.Microphone> GetAudioDevices()
         {
             var devices = new List<Audio.Microphone>();
-            //var result = ExecuteCommand("arecord -l | grep -o 'card [0-99]'").Replace("card ", "");
-            var resultIds = ExecuteCommand("pacmd list-sources | grep 'index'");
-            if (String.IsNullOrEmpty(resultIds))
-                return devices;
-            var lines = resultIds.Split("\n");
 
-            List<string> info = new List<string>();
-            // var resultInfo = ExecuteCommand($"pacmd list-sources | grep device.description")
-            //     .Split(Environment.NewLine);
-            var resultInfo = ExecuteCommand($"pacmd list-sources | grep alsa.long_card_name")
+            var devId = "hw:";
+            var deviceInfo = string.Empty;
+
+            var resultInfo = ExecuteCommand($"arecord -l | grep card")
                 .Split(Environment.NewLine);
-            int i = 0;
-            foreach (var line in lines)
-            {
-                if (line == "")
-                    return devices;
-                if (resultInfo.Count() == 0)
-                    return devices;
-                //Read only index
-                var devId = line.Split(':').Last().TrimStart(' ');
 
-                var tmp = resultInfo[i].Split(" = ");
-                var deviceInfo = tmp.Last();
-                i++;
-                Console.WriteLine($"Added input device: {devId} with following info: {deviceInfo}");
-                // line.Trim();
-                // string info = ExecuteCommand($"pacmd list-sources | grep alsa.card_name")
-                //     .Replace(Environment.NewLine, "");
-                // var devId = ExecuteCommand($"arecord -l | grep -o 'card {line}' | grep -o '[0-9]'");
-                // devId = devId.Replace(Environment.NewLine, "");
-                // devId = ExecuteCommand($"arecord -l | grep -o 'card {line}' | grep -o '[1-9]'")
-                //     .Replace(Environment.NewLine, "");
-                devices.Add(new Audio.Microphone(devId, deviceInfo));
-                // //Test devices here!
+            foreach (var line in resultInfo)
+            {
+                if (line == "") break;
+                int i = 0;
+                //card number
+                while (line[i] != ' ') i++;
+                int j = i;
+                while (line[j] != ':') j++;
+                devId += line[++i..j];
+
+                //skip card info
+                while (line[i] != ',') i++;
+                i+=2;
+
+                //device number
+                while (line[i] != ' ') i++;
+                j = i;
+                while (line[j] != ':') j++;
+                
+                devId += ',' + line[++i..j];
+                j += 2;
+                //device info
+                deviceInfo = line[j..line.Length];
             }
+            Console.WriteLine($"Added input device: {devId} with following info: {deviceInfo}");
+            devices.Add(new Audio.Microphone(devId, deviceInfo));
             return devices;
         }
 
