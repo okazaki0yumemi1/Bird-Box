@@ -41,14 +41,14 @@ namespace Bird_Box.Controllers
         public async Task<IActionResult> StartRecording(
             [FromBody] AnalyzerOptions? optionsInput,
             [FromRoute] string hours,
-            [FromQuery] int? inputDevice
+            [FromQuery] string? inputDevice
         )
         {
             Microphone device = null;
             if (inputDevice is not null)
             {
                 var inputDevices = CommandLine.GetAudioDevices();
-                device = inputDevices.FirstOrDefault(x => x.deviceId == inputDevice.ToString());
+                device = inputDevices.FirstOrDefault(x => x.deviceId == "hw:" + inputDevice);
                     //if the input device is new, i.e. not in a database, then add it no a DB.
                     //otherwise, add default device;
                     // if (device is not null)

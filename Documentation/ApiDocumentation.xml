@@ -63,7 +63,7 @@
             </summary>
             <returns>List of birds</returns>
         </member>
-        <member name="M:Bird_Box.Controllers.RecordingsAPIController.StartRecording(Bird_Box.Models.AnalyzerOptions,System.String,System.Nullable{System.Int32})">
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.StartRecording(Bird_Box.Models.AnalyzerOptions,System.String,System.String)">
             <summary>
             Start listening service by passing a BirdNET settings and a length (in hours)
             </summary>
