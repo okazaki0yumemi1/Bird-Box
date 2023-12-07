@@ -115,7 +115,7 @@ namespace Bird_Box.Controllers
         [HttpGet("api/recordings/stop/{serviceId}")]
         public async Task<bool> StopRecording([FromRoute] int serviceId)
         {
-            return _recordingService.StopRecording(serviceId);
+            return await _recordingService.StopRecording(serviceId);
         }
 
         /// <summary>

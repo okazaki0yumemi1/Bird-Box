@@ -57,7 +57,7 @@ namespace Bird_Box.Utilities
         /// </summary>
         /// <param name="options">BirdNET Analyzer parameters</param>
         /// <returns></returns>
-        public async Task<int> RecordAndRecognize(
+        public async Task<string> RecordAndRecognize(
             AnalyzerOptions options,
             CancellationToken ct,
             Microphone inputDevice
@@ -71,7 +71,7 @@ namespace Bird_Box.Utilities
                 if (ct.IsCancellationRequested)
                 {
                     inputDevice.inUse = false;
-                    return recordingsMade;
+                    return inputDevice.objId;
                 }
                 //Remove completed tasks:
                 ProcessingAudio.RemoveAll(x => x.IsCompleted);
@@ -86,7 +86,7 @@ namespace Bird_Box.Utilities
                 if ((recordingsMade * 10) >= timer.TotalSeconds)
                     break;
             }
-            return recordingsMade;
+            return inputDevice.objId;
         }
 
         /// <summary>

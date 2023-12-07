@@ -6,7 +6,7 @@ namespace Bird_Box.Services
 {
     public class RecordingService
     {
-        private List<Task<int>> _listeningTasks = new List<Task<int>>();
+        private List<Task<string>> _listeningTasks = new List<Task<string>>();
 
         //CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private Dictionary<int, CancellationTokenSource> _tokenAndTaskIDs =
@@ -65,7 +65,7 @@ namespace Bird_Box.Services
             }
         }
 
-        public bool StopRecording(int id)
+        public async Task<bool> StopRecording(int id)
         {
             if (_listeningTasks is null)
                 return true;
@@ -76,9 +76,21 @@ namespace Bird_Box.Services
             if (tokenSource is null)
                 return false;
 
+            //Stop the task & set input device "in use" status to false 
             tokenSource.Cancel();
+
+            var deviceObjId = await _listeningTasks.First(x => x.Id == id);
             _tokenAndTaskIDs.Remove(id);
             tokenSource.Dispose();
+
+            var device = InputDevices.FirstOrDefault(x => x.objId == deviceObjId);
+            if (device is null)
+            {
+                Console.WriteLine($"Task {id} was stopped successfully, but the attempt to set flag \"inUse\" to false is failed.");
+                return true;
+            }
+            device.inUse = false;
+
             return true;
         }
 
