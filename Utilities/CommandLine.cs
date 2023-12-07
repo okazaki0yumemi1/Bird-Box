@@ -12,7 +12,7 @@ namespace Bird_Box.Utilities
         {
             var devices = new List<Audio.Microphone>();
 
-            var devId = "hw:";
+            var devId = string.Empty;
             var deviceInfo = string.Empty;
 
             var resultInfo = ExecuteCommand($"arecord -l | grep card")
@@ -26,6 +26,7 @@ namespace Bird_Box.Utilities
                 while (line[i] != ' ') i++;
                 int j = i;
                 while (line[j] != ':') j++;
+                devId = "hw:";
                 devId += line[++i..j];
 
                 //skip card info
@@ -41,9 +42,10 @@ namespace Bird_Box.Utilities
                 j += 2;
                 //device info
                 deviceInfo = line[j..line.Length];
+
+                Console.WriteLine($"Added input device: {devId} with following info: {deviceInfo}");
+                devices.Add(new Audio.Microphone(devId, deviceInfo));
             }
-            Console.WriteLine($"Added input device: {devId} with following info: {deviceInfo}");
-            devices.Add(new Audio.Microphone(devId, deviceInfo));
             return devices;
         }
 
