@@ -10,7 +10,7 @@ namespace Bird_Box.Utilities
 
         public RecognitionResultsProcessing(string textFilesPath)
         {
-            textResultsPath = textFilesPath;
+            textResultsPath = textFilesPath.Replace("/", "");
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Bird_Box.Utilities
         {
             var birds = new List<IdentifiedBird>();
             var files = GetAllTextFiles();
-            if (!Directory.Exists(textResultsPath))
+            if (!Directory.Exists($"Recordings/{textResultsPath}"))
             {
                 //Early return - directory does not exist
                 return birds;
