@@ -4,7 +4,9 @@ using Bird_Box.Utilities;
 
 namespace Bird_Box.Services
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class RecordingService
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
         private List<Task<string>> _listeningTasks = new List<Task<string>>();
 
@@ -13,12 +15,16 @@ namespace Bird_Box.Services
             new Dictionary<int, CancellationTokenSource>();
         private List<Microphone> InputDevices = new List<Microphone>();
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public RecordingService() 
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         { 
             InputDevices = CommandLine.GetAudioDevices();
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public void StartRecording(
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             TimeSpan hours,
             AnalyzerOptions optionsInput,
             string? inputDeviceID = null
@@ -52,7 +58,9 @@ namespace Bird_Box.Services
             _tokenAndTaskIDs.Add(_listeningTasks.Last().Id, tokenSource);
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public TaskStatus RecordingStatus(int id)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             if (_listeningTasks is null)
                 return TaskStatus.Faulted;
@@ -65,7 +73,9 @@ namespace Bird_Box.Services
             }
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public async Task<bool> StopRecording(int id)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             if (_listeningTasks is null)
                 return true;
@@ -94,12 +104,16 @@ namespace Bird_Box.Services
             return true;
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public List<int> GetRunningRecordingServices()
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             return _tokenAndTaskIDs.Select(x => x.Key).ToList();
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public List<Microphone> GetInputDevices()
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             return InputDevices;
         }

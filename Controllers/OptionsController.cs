@@ -6,12 +6,16 @@ namespace Bird_Box.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class OptionsController : ControllerBase
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
         IConfigurationRoot _config;
         AnalyzerOptions? _options;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public OptionsController()
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -23,7 +27,9 @@ namespace Bird_Box.Controllers
         }
 
         [HttpGet]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public AnalyzerOptions? GetBirdNETOptions()
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             return _options;
         }

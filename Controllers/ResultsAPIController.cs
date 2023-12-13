@@ -7,14 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class ResultsAPIController : ControllerBase
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
         private readonly BirdRepository _dbOperations;
 
         //private readonly AnalyzerOptions _defaultOptions;
         //private readonly IConfigurationRoot _config;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public ResultsAPIController(BirdRepository dbOperations)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             _dbOperations = dbOperations;
         }
@@ -74,7 +78,7 @@ namespace Bird_Box.Controllers
         [HttpGet("api/results/birds/{birdName}")]
         public async Task<IActionResult> GetByName([FromRoute] string birdName)
         {
-            var records = _dbOperations.GetByName(birdName);
+            var records = await _dbOperations.GetByName(birdName);
             if (records == null)
                 return NotFound();
             return Ok(records);

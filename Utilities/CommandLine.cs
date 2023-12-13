@@ -1,8 +1,12 @@
 namespace Bird_Box.Utilities
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class CommandLine
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public CommandLine() { }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Get list of audio input devices.
@@ -56,7 +60,7 @@ namespace Bird_Box.Utilities
         /// <returns>Command output</returns>
         public static async Task<string> ExecuteCommandAsync(string parameters)
         {
-            Task<string> processOutput;
+            string processOutput;
             var processInfo = new System.Diagnostics.ProcessStartInfo();
             processInfo.FileName = "/bin/bash";
             processInfo.Arguments = $"-c \"{parameters}";
@@ -68,9 +72,9 @@ namespace Bird_Box.Utilities
                     Console.WriteLine($"Command output is empty. Command is: {parameters}");
                     return String.Empty;
                 }
-                processOutput = process.StandardOutput.ReadToEndAsync();
+                processOutput = await process.StandardOutput.ReadToEndAsync();
             }
-            return processOutput.Result;
+            return processOutput;
         }
 
         /// <summary>
