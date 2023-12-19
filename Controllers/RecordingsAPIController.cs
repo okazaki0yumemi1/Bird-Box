@@ -41,30 +41,39 @@ namespace Bird_Box.Controllers
         public async Task<IActionResult> StartRecording(
             [FromBody] AnalyzerOptions? optionsInput,
             [FromRoute] string hours,
-            [FromQuery] string? inputDevice
+            [FromQuery] string inputDevice
         )
         {
-            Microphone device = null;
-            if (inputDevice is not null)
+            if (inputDevice is null || inputDevice == string.Empty)
+            return BadRequest("No input device provided.");
+            
+            Microphone? device;
+            if (MicrophoneExist(inputDevice))
             {
-                var inputDevices = CommandLine.GetAudioDevices();
-                device = inputDevices.FirstOrDefault(x => x.deviceId == "hw:" + inputDevice);
-                    //if the input device is new, i.e. not in a database, then add it no a DB.
-                    //otherwise, add default device;
-                    // if (device is not null)
-                    // {
-                    //     if (await _dbOperations.GetById(device.deviceId) is null)
-                    //     {
-                    //         await _dbOperations.Create(device);
-                    //         Console.WriteLine($"New input device with ID={device.deviceId}, Info = {device.deviceInfo} and database ID={device.objId} was added to a database.");
-                    //     }
-                    // }
-                    // else if (await _dbOperations.GetById("-1") is null)
-                    // {
-                    //     await _dbOperations.Create(new Microphone("-1", "Default device"));
-                    //     Console.WriteLine($"Added default input device with ID = \"-1\".");
-                    // }
+                device = CommandLine.GetAudioDevices().FirstOrDefault(x => x.deviceId == inputDevice);
             }
+            else return BadRequest($"No device with id {inputDevice} found!");
+            // Microphone device = null;
+            // if (inputDevice is not null)
+            // {
+            //     var inputDevices = CommandLine.GetAudioDevices();
+            //     device = inputDevices.FirstOrDefault(x => x.deviceId == "hw:" + inputDevice);
+            //         //if the input device is new, i.e. not in a database, then add it no a DB.
+            //         //otherwise, add default device;
+            //         // if (device is not null)
+            //         // {
+            //         //     if (await _dbOperations.GetById(device.deviceId) is null)
+            //         //     {
+            //         //         await _dbOperations.Create(device);
+            //         //         Console.WriteLine($"New input device with ID={device.deviceId}, Info = {device.deviceInfo} and database ID={device.objId} was added to a database.");
+            //         //     }
+            //         // }
+            //         // else if (await _dbOperations.GetById("-1") is null)
+            //         // {
+            //         //     await _dbOperations.Create(new Microphone("-1", "Default device"));
+            //         //     Console.WriteLine($"Added default input device with ID = \"-1\".");
+            //         // }
+            // }
             TimeSpan _hours;
             var options = new AnalyzerOptions(setWeek: true);
             if (optionsInput is null)
@@ -246,6 +255,12 @@ namespace Bird_Box.Controllers
                 }
             }
             return result;
+        }
+        private bool MicrophoneExist(string deviceId)
+        {
+            var device = CommandLine.GetAudioDevices().FirstOrDefault(x => x.deviceId == deviceId);
+            if (device is null) return false;
+            else return true;
         }
     }
 }
