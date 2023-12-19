@@ -3,17 +3,13 @@ using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class RecognitionResultsProcessing
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-    {
+     public class RecognitionResultsProcessing
+     {
         private string textResultsPath { get; set; }
         //private Microphone inputDevice { get; set; }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public RecognitionResultsProcessing(string textFilesPath)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public RecognitionResultsProcessing(string textFilesPath)
+         {
             textResultsPath = textFilesPath.Replace("/", "");
         }
 
@@ -123,10 +119,8 @@ namespace Bird_Box.Utilities
             return birds;
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public List<IdentifiedBird> ProcessSingleFile(string file)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public List<IdentifiedBird> ProcessSingleFile(string file)
+         {
             var birds = new List<IdentifiedBird>();
             var birdsInASingleFile = ProcessTextFile(file);
             foreach (var birdEntity in birdsInASingleFile)

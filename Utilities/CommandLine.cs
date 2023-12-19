@@ -1,13 +1,9 @@
 namespace Bird_Box.Utilities
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class CommandLine
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-    {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public CommandLine() { }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-
+     public class CommandLine
+     {
+         public CommandLine() { }
+ 
         /// <summary>
         /// Get list of audio input devices.
         /// </summary>

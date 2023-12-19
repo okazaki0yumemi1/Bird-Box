@@ -10,19 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class RecordingsAPIController : ControllerBase
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-    {
+     public class RecordingsAPIController : ControllerBase
+     {
         private RecordingService _recordingService;
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
         private readonly MicrophoneRepository _dbOperations;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public RecordingsAPIController(RecordingService recordingService)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public RecordingsAPIController(RecordingService recordingService)
+         {
             _recordingService = recordingService;
             // Get values from the config given their key and their target type.
             _config = new ConfigurationBuilder()

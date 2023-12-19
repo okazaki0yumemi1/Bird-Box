@@ -2,25 +2,19 @@ using Bird_Box.Models;
 
 namespace Bird_Box.Audio
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class AudioProcessing
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-    {
+     public class AudioProcessing
+     {
         readonly AnalyzerOptions options;
         string pathToAudio { get; set; }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
+         {
             pathToAudio = recordingsPath;
             options = _options;
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public async Task<bool> ProcessAudioAsync(string fileName)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public async Task<bool> ProcessAudioAsync(string fileName)
+         {
             string processOutput = "";
             var processInfo = new System.Diagnostics.ProcessStartInfo();
             processInfo.FileName = "/bin/bash";

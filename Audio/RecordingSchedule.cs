@@ -3,29 +3,21 @@ using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class RecordingSchedule
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-    {
+     public class RecordingSchedule
+     {
         private TimeSpan timer { get; set; }
         private Queue<string> UnprocessedRecordings { get; set; } = new Queue<string>();
         private List<Task> ProcessingAudio { get; set; } = new List<Task>();
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public string recordingsPath { get; private set; } = "Recordings";
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        private bool _continue = true;
+         public string recordingsPath { get; private set; } = "Recordings";
+         private bool _continue = true;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public RecordingSchedule(TimeSpan timespan)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public RecordingSchedule(TimeSpan timespan)
+         {
             timer = timespan;
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public RecordingSchedule(TimeSpan timespan, string resultsPath)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public RecordingSchedule(TimeSpan timespan, string resultsPath)
+         {
             timer = timespan;
             recordingsPath = resultsPath;
         }
@@ -171,8 +163,6 @@ namespace Bird_Box.Utilities
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public void StopTask() => _continue = false;
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-    }
+         public void StopTask() => _continue = false;
+     }
 }

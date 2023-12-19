@@ -4,39 +4,23 @@ using Bird_Box.Audio;
 
 namespace Bird_Box.Models
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class IdentifiedBird : IEntity
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-    {
+     public class IdentifiedBird : IEntity
+     {
         [Key]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public string objId { get; private set; }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public string birdName { get; private set; } = "";
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public string detectionThreshold { get; private set; } = "0";
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public DateTime recodingDate { get; set; } = DateTime.Now;
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public Microphone inputDevice { get; set; }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public IdentifiedBird(string detectedBirdName)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public string objId { get; private set; }
+          public string birdName { get; private set; } = "";
+          public string detectionThreshold { get; private set; } = "0";
+          public DateTime recodingDate { get; set; } = DateTime.Now;
+          public Microphone inputDevice { get; set; }
+ 
+         public IdentifiedBird(string detectedBirdName)
+         {
             objId = Guid.NewGuid().ToString();
             birdName = detectedBirdName;
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public IdentifiedBird(
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-            string detectedBirdName,
+         public IdentifiedBird(
+             string detectedBirdName,
             string threshold,
             DateTime recDate,
             Microphone recordingDevice
@@ -52,10 +36,8 @@ namespace Bird_Box.Models
                 inputDevice = recordingDevice;
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public IdentifiedBird()
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
+         public IdentifiedBird()
+         {
             objId = Guid.NewGuid().ToString();
         }
     }
