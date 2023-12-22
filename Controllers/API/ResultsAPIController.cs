@@ -95,22 +95,6 @@ namespace Bird_Box.Controllers
                 totalResults += await ProcessResultsByDevice(device);
             }
             return Ok($"Added {totalResults} detections.");
-            // RecognitionResultsProcessing rrp = new RecognitionResultsProcessing("Recordings/");
-            // var results = rrp.ProcessAllFiles();
-            // var resultsRange = new List<IdentifiedBird>();
-            // foreach (var result in results)
-            // {
-            //     var detection = result;
-            //     var inputDevice = CommandLine.GetAudioDevices()
-            //         .Where(x => x.deviceInfo.Contains("USB"))
-            //         .FirstOrDefault();
-            //         if (inputDevice is null)
-            //             detection.inputDevice = new Microphone("-1", "Default input device");
-            //         else detection.inputDevice = inputDevice;
-            //     resultsRange.Add(detection);
-            // }
-            // var count = await _dbOperations.CreateRange(resultsRange);
-            // return Ok($"Results processed successfully. Added {count} detections.");
         }
 
         /// <summary>
@@ -121,13 +105,6 @@ namespace Bird_Box.Controllers
         //[HttpGet("api/results/process/{inputDeviceID}")]
         private async Task<int> ProcessResultsByDevice(Microphone inputDevice)
         {
-            //var input = CommandLine
-            //    .GetAudioDevices();
-            //input = input.FirstOrDefault(x => x.deviceId == inputDeviceID.ToString());
-            //if (input == null)
-            //{
-            //    return 0;
-            //}
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(
                 $"/Microphone-{inputDevice.deviceId}/"
             );
