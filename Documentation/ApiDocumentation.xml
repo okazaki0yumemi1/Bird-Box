@@ -69,6 +69,7 @@
             </summary>
             <param name="optionsInput">BirdNET Analyzer settings</param>
             <param name="hours">Duration, hours</param>
+            <param name="inputDevice">Input device ID</param>
             <returns></returns>
         </member>
         <member name="M:Bird_Box.Controllers.RecordingsAPIController.RecordingStatus(System.Int32)">

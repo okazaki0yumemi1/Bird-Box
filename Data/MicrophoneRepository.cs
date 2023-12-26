@@ -12,9 +12,12 @@ namespace Bird_Box.Data
             _context = context;
         }
 
-         public async Task<int> Create(Microphone inputDevice)
-         {
-            await _context.InputDevices.AddAsync(inputDevice);
+        public async Task<int> Create(Microphone inputDevice)
+        {
+            var devices = await GetAll();
+            if (devices.FirstOrDefault(inputDevice) is null)
+                await _context.InputDevices.AddAsync(inputDevice);
+            else return 0;
             return _context.SaveChanges();
         }
 
