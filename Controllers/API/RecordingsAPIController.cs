@@ -5,6 +5,7 @@ using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Services;
 using Bird_Box.Utilities;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bird_Box.Controllers
@@ -50,22 +51,25 @@ namespace Bird_Box.Controllers
             {
                 var inputDevices = CommandLine.GetAudioDevices();
                 device = inputDevices.FirstOrDefault(x => x.deviceId == "hw:" + inputDevice);
-                    //if the input device is new, i.e. not in a database, then add it no a DB.
-                    //otherwise, add default device;
-                    // if (device is not null)
-                    // {
-                    //     if (await _dbOperations.GetById(device.deviceId) is null)
-                    //     {
-                    //         await _dbOperations.Create(device);
-                    //         Console.WriteLine($"New input device with ID={device.deviceId}, Info = {device.deviceInfo} and database ID={device.objId} was added to a database.");
-                    //     }
-                    // }
-                    // else if (await _dbOperations.GetById("-1") is null)
-                    // {
-                    //     await _dbOperations.Create(new Microphone("-1", "Default device"));
-                    //     Console.WriteLine($"Added default input device with ID = \"-1\".");
-                    // }
+                if (device == null) return BadRequest($"Can't find input device with provided id: {inputDevice}");
+                //if the input device is new, i.e. not in a database, then add it no a DB.
+                //otherwise, add default device;
+                // if (device is not null)
+                // {
+                //     if (await _dbOperations.GetById(device.deviceId) is null)
+                //     {
+                //         await _dbOperations.Create(device);
+                //         Console.WriteLine($"New input device with ID={device.deviceId}, Info = {device.deviceInfo} and database ID={device.objId} was added to a database.");
+                //     }
+                // }
+                // else if (await _dbOperations.GetById("-1") is null)
+                // {
+                //     await _dbOperations.Create(new Microphone("-1", "Default device"));
+                //     Console.WriteLine($"Added default input device with ID = \"-1\".");
+                // }
             }
+            else return BadRequest($"Can't find input device with provided id: {inputDevice}");
+
             TimeSpan _hours;
             var options = new AnalyzerOptions(setWeek: true);
             if (optionsInput is null)
@@ -81,14 +85,9 @@ namespace Bird_Box.Controllers
 
             if (!TimeSpan.TryParse(hours, out _hours))
                 _hours = TimeSpan.FromHours(1); //default value - 1 hour
-            if (device is not null)
-            {
-                Console.WriteLine($"Using input device ID={device.deviceId}...");
-                _recordingService.StartRecording(_hours, options, device.deviceId); //using deviceId
-            }
-
-            else
-                _recordingService.StartRecording(_hours, options, null); //default input device
+            Console.WriteLine($"Using input device ID={device.deviceId}...");
+            _recordingService.StartRecording(_hours, options, device.deviceId); //using deviceId
+            
             return Ok(
                 $"The task will be run for {_hours} hours.{Environment.NewLine} The options are:{Environment.NewLine} {JsonSerializer.Serialize(options)}"
             );
