@@ -36,12 +36,13 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <param name="optionsInput">BirdNET Analyzer settings</param>
         /// <param name="hours">Duration, hours</param>
+        /// <param name="inputDevice">Input device ID</param>
         /// <returns></returns>
         [HttpPost("api/results/recordings/start/{hours}")]
         public async Task<IActionResult> StartRecording(
             [FromBody] AnalyzerOptions? optionsInput,
-            [FromRoute] string hours,
-            [FromQuery] string? inputDevice
+            [FromRoute] string inputDevice,
+            [FromQuery] string? hours
         )
         {
             Microphone device = null;
