@@ -1,11 +1,11 @@
 namespace Bird_Box.Audio
 {
-    public struct FFMpegSettings
-    {
-        public string ffmpegExecutable { get; private set; }
-        public static string outputPath { get; set; } = "./Recordings";
-        public void FindFFmpegExecPath()
-        {
+     public struct FFMpegSettings
+     {
+         public string ffmpegExecutable { get; private set; }
+          public static string outputPath { get; set; } = "./Recordings";
+          public void FindFFmpegExecPath()
+         {
             var processOutput = "";
             var processInfo = new System.Diagnostics.ProcessStartInfo();
             processInfo.FileName = "/bin/bash";
@@ -39,19 +39,19 @@ namespace Bird_Box.Audio
             return;
         }
 
-        public void SetFFmpegExecPath(string newPath)
-        {
+         public void SetFFmpegExecPath(string newPath)
+         {
             ffmpegExecutable = newPath;
         }
-        public void SetOutputPath(string newPath) => outputPath = newPath;
-
-        public FFMpegSettings()
-        {
+         public void SetOutputPath(string newPath) => outputPath = newPath;
+ 
+         public FFMpegSettings()
+         {
             outputPath = "./Recordings";
             ffmpegExecutable = "ffmpeg";
         }
-        public FFMpegSettings(string path)
-        {
+         public FFMpegSettings(string path)
+         {
             outputPath = path;
             ffmpegExecutable = "ffmpeg";
         }

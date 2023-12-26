@@ -2,13 +2,13 @@ using Bird_Box.Utilities;
 
 namespace Bird_Box.Audio
 {
-    public class Recording
-    {
+     public class Recording
+     {
         private FFMpegSettings settings { get; set; }
-        public Microphone inputDevice { get; private set; }
-
-        public Recording(Microphone newInputDevice, FFMpegSettings newSettings)
-        {
+         public Microphone inputDevice { get; private set; }
+ 
+         public Recording(Microphone newInputDevice, FFMpegSettings newSettings)
+         {
             inputDevice = newInputDevice;
             settings = newSettings;
             var directoryExists = Directory.Exists(FFMpegSettings.outputPath);
@@ -19,8 +19,8 @@ namespace Bird_Box.Audio
             }
         }
 
-        public string RecordAudio()
-        {
+         public string RecordAudio()
+         {
             var fileName = DateTime.Now.ToString("yyyy'-'MM'-'dd'-'HH'-'mm'-'ss"); //DateTime.Now.ToString();
             //var outputPath = settings.outputPath + "/Microphone-" + inputDevice.deviceId;
             if (inputDevice is not null)

@@ -3,13 +3,13 @@ using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
 {
-    public class RecognitionResultsProcessing
-    {
+     public class RecognitionResultsProcessing
+     {
         private string textResultsPath { get; set; }
         //private Microphone inputDevice { get; set; }
 
-        public RecognitionResultsProcessing(string textFilesPath)
-        {
+         public RecognitionResultsProcessing(string textFilesPath)
+         {
             textResultsPath = textFilesPath.Replace("/", "");
         }
 
@@ -119,8 +119,8 @@ namespace Bird_Box.Utilities
             return birds;
         }
 
-        public List<IdentifiedBird> ProcessSingleFile(string file)
-        {
+         public List<IdentifiedBird> ProcessSingleFile(string file)
+         {
             var birds = new List<IdentifiedBird>();
             var birdsInASingleFile = ProcessTextFile(file);
             foreach (var birdEntity in birdsInASingleFile)

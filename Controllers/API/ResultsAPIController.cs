@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
-    public class ResultsAPIController : ControllerBase
-    {
+     public class ResultsAPIController : ControllerBase
+     {
         private readonly BirdRepository _dbOperations;
 
         //private readonly AnalyzerOptions _defaultOptions;
         //private readonly IConfigurationRoot _config;
 
-        public ResultsAPIController(BirdRepository dbOperations)
-        {
+         public ResultsAPIController(BirdRepository dbOperations)
+         {
             _dbOperations = dbOperations;
         }
 
@@ -74,7 +74,7 @@ namespace Bird_Box.Controllers
         [HttpGet("api/results/birds/{birdName}")]
         public async Task<IActionResult> GetByName([FromRoute] string birdName)
         {
-            var records = _dbOperations.GetByName(birdName);
+            var records = await _dbOperations.GetByName(birdName);
             if (records == null)
                 return NotFound();
             return Ok(records);

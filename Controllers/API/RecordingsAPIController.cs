@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
-    public class RecordingsAPIController : ControllerBase
-    {
+     public class RecordingsAPIController : ControllerBase
+     {
         private RecordingService _recordingService;
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
@@ -47,8 +47,11 @@ namespace Bird_Box.Controllers
             [FromQuery] string? hours
         )
         {
-            Microphone device = null;
-            if (inputDevice is not null)
+            if (inputDevice is null || inputDevice == string.Empty)
+            return BadRequest("No input device provided.");
+            
+            Microphone? device;
+            if (MicrophoneExist(inputDevice))
             {
                 var inputDevices = CommandLine.GetAudioDevices();
                 device = inputDevices.FirstOrDefault(x => x.deviceId == "hw:" + inputDevice);
@@ -248,6 +251,12 @@ namespace Bird_Box.Controllers
                 }
             }
             return result;
+        }
+        private bool MicrophoneExist(string deviceId)
+        {
+            var device = CommandLine.GetAudioDevices().FirstOrDefault(x => x.deviceId == deviceId);
+            if (device is null) return false;
+            else return true;
         }
     }
 }

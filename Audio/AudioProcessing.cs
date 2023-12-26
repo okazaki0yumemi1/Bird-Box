@@ -2,19 +2,19 @@ using Bird_Box.Models;
 
 namespace Bird_Box.Audio
 {
-    public class AudioProcessing
-    {
+     public class AudioProcessing
+     {
         readonly AnalyzerOptions options;
         string pathToAudio { get; set; }
 
-        public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
-        {
+         public AudioProcessing(string recordingsPath, AnalyzerOptions _options)
+         {
             pathToAudio = recordingsPath;
             options = _options;
         }
 
-        public async Task<bool> ProcessAudioAsync(string fileName)
-        {
+         public async Task<bool> ProcessAudioAsync(string fileName)
+         {
             string processOutput = "";
             var processInfo = new System.Diagnostics.ProcessStartInfo();
             processInfo.FileName = "/bin/bash";

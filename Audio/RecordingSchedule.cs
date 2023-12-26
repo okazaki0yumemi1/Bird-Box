@@ -3,21 +3,21 @@ using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
 {
-    public class RecordingSchedule
-    {
+     public class RecordingSchedule
+     {
         private TimeSpan timer { get; set; }
         private Queue<string> UnprocessedRecordings { get; set; } = new Queue<string>();
         private List<Task> ProcessingAudio { get; set; } = new List<Task>();
-        public string recordingsPath { get; private set; } = "Recordings";
-        private bool _continue = true;
+         public string recordingsPath { get; private set; } = "Recordings";
+         private bool _continue = true;
 
-        public RecordingSchedule(TimeSpan timespan)
-        {
+         public RecordingSchedule(TimeSpan timespan)
+         {
             timer = timespan;
         }
 
-        public RecordingSchedule(TimeSpan timespan, string resultsPath)
-        {
+         public RecordingSchedule(TimeSpan timespan, string resultsPath)
+         {
             timer = timespan;
             recordingsPath = resultsPath;
         }
@@ -163,6 +163,6 @@ namespace Bird_Box.Utilities
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
 
-        public void StopTask() => _continue = false;
-    }
+         public void StopTask() => _continue = false;
+     }
 }
