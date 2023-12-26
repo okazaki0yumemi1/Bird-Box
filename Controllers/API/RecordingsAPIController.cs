@@ -16,11 +16,12 @@ namespace Bird_Box.Controllers
         private RecordingService _recordingService;
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
-        private readonly MicrophoneRepository _dbOperations;
+        private readonly MicrophoneRepository _microphoneContext;
 
-        public RecordingsAPIController(RecordingService recordingService)
+        public RecordingsAPIController(RecordingService recordingService, MicrophoneRepository microphoneContext)
         {
             _recordingService = recordingService;
+            _microphoneContext = microphoneContext;
             // Get values from the config given their key and their target type.
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -52,6 +53,7 @@ namespace Bird_Box.Controllers
                 var inputDevices = CommandLine.GetAudioDevices();
                 device = inputDevices.FirstOrDefault(x => x.deviceId == "hw:" + inputDevice);
                 if (device == null) return BadRequest($"Can't find input device with provided id: {inputDevice}");
+                _microphoneContext.Create(device);
                 //if the input device is new, i.e. not in a database, then add it no a DB.
                 //otherwise, add default device;
                 // if (device is not null)
