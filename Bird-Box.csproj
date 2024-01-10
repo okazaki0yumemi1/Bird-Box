@@ -7,6 +7,7 @@
     <RootNamespace>Bird_Box</RootNamespace>
     <DocumentationFile>Documentation/ApiDocumentation.xml</DocumentationFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <UserSecretsId>a78336b8-ace1-4b7a-a98b-fdc919e4a6e2</UserSecretsId>
   </PropertyGroup>
   
 
