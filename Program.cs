@@ -1,3 +1,6 @@
+using Bird_Box.Audio;
+using Bird_Box.Data;
+using Bird_Box.Models;
 using Bird_Box.Utilities;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +28,8 @@ builder.Services.AddSingleton<
 >();
 
 //Database operations
-builder.Services.AddScoped<Bird_Box.Data.BirdRepository, Bird_Box.Data.BirdRepository>();
+builder.Services.AddScoped<BirdRepository, BirdRepository>();
+builder.Services.AddScoped<MicrophoneRepository, MicrophoneRepository>();
 
 //Options for BirdNET Analyzer
 builder.Services.AddScoped<
