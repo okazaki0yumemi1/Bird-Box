@@ -26,6 +26,8 @@ builder.Services.AddSingleton<
 
 //Database operations
 builder.Services.AddScoped<Bird_Box.Data.BirdRepository, Bird_Box.Data.BirdRepository>();
+builder.Services.AddScoped<Bird_Box.Data.MicrophoneRepository, Bird_Box.Data.MicrophoneRepository>();
+
 
 //Options for BirdNET Analyzer
 builder.Services.AddScoped<
