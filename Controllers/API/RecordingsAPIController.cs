@@ -40,7 +40,7 @@ namespace Bird_Box.Controllers
         /// <param name="hours">Duration, hours</param>
         /// <param name="inputDevice">Input device ID</param>
         /// <returns></returns>
-        [HttpPost("api/results/recordings/start/{hours}")]
+        [HttpPost("api/results/recordings/start/{inputDevice}")]
         public async Task<IActionResult> StartRecording(
             [FromBody] AnalyzerOptions? optionsInput,
             [FromRoute] string inputDevice,
@@ -50,13 +50,13 @@ namespace Bird_Box.Controllers
             if (inputDevice is null || inputDevice == string.Empty)
             return BadRequest("No input device provided.");
             
-            Microphone? device;
-            if (MicrophoneExist(inputDevice))
+            Microphone? device = GetMicrophoneByID(inputDevice);
+            if (device is not null)
             {
-                var inputDevices = CommandLine.GetAudioDevices();
-                device = inputDevices.FirstOrDefault(x => x.deviceId == "hw:" + inputDevice);
-                if (device == null) return BadRequest($"Can't find input device with provided id: {inputDevice}");
-                _microphoneContext.Create(device);
+                //var inputDevices = CommandLine.GetAudioDevices();
+                //device = inputDevices.FirstOrDefault(x => x.deviceId == "hw:" + inputDevice);
+                //if (device == null) return BadRequest($"Can't find input device with provided id: {inputDevice}");
+                await _microphoneContext.Create(device);
                 //if the input device is new, i.e. not in a database, then add it no a DB.
                 //otherwise, add default device;
                 // if (device is not null)
@@ -252,11 +252,11 @@ namespace Bird_Box.Controllers
             }
             return result;
         }
-        private bool MicrophoneExist(string deviceId)
+        private Microphone? GetMicrophoneByID(string deviceId)
         {
             var device = CommandLine.GetAudioDevices().FirstOrDefault(x => x.deviceId == deviceId);
-            if (device is null) return false;
-            else return true;
+            if (device is null) return null;
+            else return device;
         }
     }
 }
