@@ -26,14 +26,14 @@ namespace Bird_Box.Audio
             if (inputDevice is not null)
             {
                 var result = CommandLine.ExecuteCommand(
-                    $"{settings.ffmpegExecutable} -loglevel warning -f alsa -i {inputDevice.deviceId} -t 10 {FFMpegSettings.outputPath}/{fileName}.wav"
+                    $"{settings.ffmpegExecutable} -loglevel warning -f alsa -channels 1 -sample_rate 44100 -i {inputDevice.deviceId} -t 10 {FFMpegSettings.outputPath}/{fileName}.wav"
                 );
                 return fileName + ".wav";
             }
             else
             {
                 var result = CommandLine.ExecuteCommand(
-                    $"{settings.ffmpegExecutable} -f alsa -i default -t 10 {FFMpegSettings.outputPath}/{fileName}.wav"
+                    $"{settings.ffmpegExecutable} -f alsa -channels 1 -sample_rate 44100 -i default -t 10 {FFMpegSettings.outputPath}/{fileName}.wav"
                 );
                 return fileName + ".wav";
             }
