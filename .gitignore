@@ -10,7 +10,7 @@
 
 #Exclude Recordings & BirdNET-Analyzer folders
 ./Recordings/*
-./BirdNET-Analyzer
+./BirdNET-Analyzer/
 
 #Exclude .wav files
 *.wav
