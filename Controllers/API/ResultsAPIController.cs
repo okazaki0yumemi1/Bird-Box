@@ -106,7 +106,7 @@ namespace Bird_Box.Controllers
         private async Task<int> ProcessResultsByDevice(Microphone inputDevice)
         {
             RecognitionResultsProcessing rrp = new RecognitionResultsProcessing(
-                $"/Microphone-{inputDevice.deviceId}/"
+                $"Microphone-{inputDevice.deviceId}/"
             );
             var results = rrp.ProcessAllFiles();
             List<IdentifiedBird> detections = new List<IdentifiedBird>();
