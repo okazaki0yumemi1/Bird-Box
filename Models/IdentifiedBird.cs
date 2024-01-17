@@ -30,7 +30,7 @@ namespace Bird_Box.Models
             birdName = detectedBirdName;
             detectionThreshold = threshold;
             recodingDate = recDate;
-            if (recordingDevice is not null)
+            if (recordingDevice is null)
                 inputDevice = new Microphone("-1", "Default input device");
             else
                 inputDevice = recordingDevice;
