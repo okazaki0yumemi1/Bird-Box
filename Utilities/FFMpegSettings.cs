@@ -19,7 +19,7 @@ namespace Bird_Box.Audio
             var paths = processOutput.Split(" ").ToList();
             foreach (var path in paths)
             {
-                //Execute ffmpeg path --version , then get first lind, first column.
+                //Execute ffmpeg path --version , then get first line, first column.
                 //If ffmpeg is available, it should print "ffmpeg"
                 processInfo.Arguments = $"-c \"{path} -version | head -n 1  | awk '{{print $1}}'\"";
                 processInfo.RedirectStandardOutput = true;
@@ -34,7 +34,8 @@ namespace Bird_Box.Audio
             if (ffmpegExecutable == "")
             {
                 //no ffmpeg found, falling back to ffmpeg
-                ffmpegExecutable = "ffmpeg";
+                //ffmpegExecutable = "ffmpeg";
+                throw new FileNotFoundException("Unable to find ffmpeg! Please check PATH env variables.");
             }
             return;
         }
