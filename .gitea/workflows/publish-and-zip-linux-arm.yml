@@ -15,6 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
   
+      - name: Install zip package
+        run:  apk add zip
+
+      - name: Install rsync package
+        run:  apk add rsync
+  
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
@@ -36,9 +42,6 @@ jobs:
           mkdir Recordings
           cd ..
           pwd
-
-      - name: Install zip package
-        run:  apk add zip
 
       - name: Create zip archive
         run: |
