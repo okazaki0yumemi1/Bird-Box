@@ -1,0 +1,46 @@
+name: publish
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  DOTNET_VERSION: '7.0.x' # The .NET SDK version to use
+
+jobs:
+  publish:
+
+    runs-on: linux-arm64
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+      
+      - name: Publish
+        run: dotnet publish -r linux-arm64 --self-contained true -o ./linux-arm64
+
+      - name: Create necessary folders
+        run: |
+          cd linux-arm64
+          mkdir Data
+          mkdir Recordings
+          cd ..
+          pwd
+
+      - name: Create zip archive
+        run: |
+          zip -r Bird-Box-linux-arm64.zip linux-arm64
+      
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-avz -i --delete"
+          SOURCE: "Bird-Box-linux-arm64.zip"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          TARGET: ${{ secrets.SSH_ZIP_DIR }}
