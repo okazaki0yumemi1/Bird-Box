@@ -9,8 +9,8 @@
 *.db-wal
 
 #Exclude Recordings & BirdNET-Analyzer folders
-./Recordings/*
-./BirdNET-Analyzer
+Recordings/*
+BirdNET-Analyzer/
 
 #Exclude .wav files
 *.wav

@@ -14,7 +14,7 @@ namespace Bird_Box.Data
 
          public async Task<List<IdentifiedBird>> GetAll()
          {
-            return _context.BirdRecords.ToList();
+            return _context.BirdRecords.Include(x => x.inputDevice).ToList();
         }
 
          public async Task<IdentifiedBird> GetById(string recordId)
@@ -24,13 +24,14 @@ namespace Bird_Box.Data
 
          public async Task<IdentifiedBird> GetByName(string speciesName)
          {
-            return _context.BirdRecords.FirstOrDefault(x => x.birdName == speciesName);
+            return _context.BirdRecords.Include(x => x.inputDevice).FirstOrDefault(x => x.birdName == speciesName);
         }
 
          public async Task<List<IdentifiedBird>> GetByDate(DateTime exactDate)
          {
             return _context.BirdRecords
                 .Where(x => (x.recodingDate.Date == exactDate.Date))
+                .Include(x => x.inputDevice)
                 .ToList();
         }
 

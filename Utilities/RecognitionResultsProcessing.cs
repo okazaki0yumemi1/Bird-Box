@@ -8,9 +8,9 @@ namespace Bird_Box.Utilities
         private string textResultsPath { get; set; }
         //private Microphone inputDevice { get; set; }
 
-         public RecognitionResultsProcessing(string textFilesPath)
+         public RecognitionResultsProcessing(string path)
          {
-            textResultsPath = textFilesPath.Replace("/", "");
+            textResultsPath = "Recordings/" + path;
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Bird_Box.Utilities
                 {
                     var birdName = linesTotal[i + 7];
                     var threshold = linesTotal[i + 8];
-                    var fileNameTrimmed = fileName.Replace("Recordings/", "").Substring(0, 19);
+                    var fileNameTrimmed = fileName.Replace("Recordings", "").Substring(0, 19);
                     var time = DateTime.ParseExact(
                         fileNameTrimmed,
                         "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
@@ -105,7 +105,7 @@ namespace Bird_Box.Utilities
         {
             var birds = new List<IdentifiedBird>();
             var files = GetAllTextFiles();
-            if (!Directory.Exists($"Recordings/{textResultsPath}"))
+            if (!Directory.Exists(textResultsPath))
             {
                 //Early return - directory does not exist
                 return birds;
@@ -115,7 +115,7 @@ namespace Bird_Box.Utilities
                 var birdsInAFile = ProcessSingleFile(file);
                 birds.AddRange(birdsInAFile);
             }
-            Directory.Delete($"Recordings/{textResultsPath}");
+            Directory.Delete(textResultsPath);
             return birds;
         }
 
