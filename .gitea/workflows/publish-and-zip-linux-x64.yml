@@ -19,7 +19,7 @@ jobs:
         run:  apk add zip
 
       - name: Install rsync and ssh packages
-        run:  apk add rsync ssh
+        run:  apk add rsync openssh
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
