@@ -37,6 +37,9 @@ jobs:
           cd ..
           pwd
 
+      - name: Install zip package
+        run: apt-get install zip
+
       - name: Create zip archive
         run: |
           zip -r Bird-Box-linux-arm64.zip linux-arm64
