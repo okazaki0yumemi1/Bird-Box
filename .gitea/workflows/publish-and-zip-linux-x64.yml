@@ -44,9 +44,9 @@ jobs:
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_STORAGE_PRIVATE_KEY }}
           ARGS: "-avz -i --delete"
           SOURCE: "Bird-Box-linux-x64.zip"
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_HOST: ${{ secrets.SSH_STORAGE_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_STORAGE_USER }}
           TARGET: ${{ secrets.SSH_ZIP_DIR }}
