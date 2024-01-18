@@ -38,7 +38,7 @@ jobs:
           pwd
 
       - name: Install zip package
-        run: apt-get install zip
+        run:  apk add zip
 
       - name: Create zip archive
         run: |
