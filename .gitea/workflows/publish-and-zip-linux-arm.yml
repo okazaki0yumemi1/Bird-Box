@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
   
+      - name: Create installation cache
+        run: apt-get update
+
       - name: Install zip package
         run:  apt-get install zip
 
