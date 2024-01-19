@@ -10,7 +10,7 @@ env:
 jobs:
   publish:
 
-    runs-on: linux-arm64
+    runs-on: orangepizero2
 
     steps:
       - uses: actions/checkout@v3
