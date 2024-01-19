@@ -22,7 +22,7 @@ jobs:
         run:  apt-get install zip
 
       - name: Install rsync and ssh packages
-        run:  apt-get install rsync openssh
+        run:  apt-get install rsync openssh-client
   
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
