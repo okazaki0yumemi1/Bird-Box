@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Bird_Box.Models
 {
-    public class ListeningTask 
+    public class ListeningTask : IEntity
     {
+        public string objId { get; init; } = Guid.NewGuid().ToString();
         public string OutputFolder { get; private set; }
         public int Hours { get; private set; }
         public Microphone InputDevice {  get; private set; } 
