@@ -9,11 +9,12 @@ namespace Bird_Box.Models
         [Key]
         public string objId { get; init; } = Guid.NewGuid().ToString();
         public string OutputFolder { get; private set; }
-        public int Hours { get; private set; }
+        public TimeSpan Hours { get; private set; }
         public Microphone InputDevice {  get; private set; } 
         public AnalyzerOptions Options { get; private set; }
+        public DateTime WhenAddedDateTime { get; init; } = DateTime.Now;
         public ListeningTask() { }
-        public ListeningTask(string outputFolder, int hours, Microphone inputDevice, AnalyzerOptions options)
+        public ListeningTask(string outputFolder, TimeSpan hours, Microphone inputDevice, AnalyzerOptions options)
         {
             OutputFolder = outputFolder;
             Hours = hours;
