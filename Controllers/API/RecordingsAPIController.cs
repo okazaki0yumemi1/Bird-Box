@@ -17,11 +17,14 @@ namespace Bird_Box.Controllers
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
         private readonly MicrophoneRepository _microphoneContext;
+        private readonly ListeningTasksRepository _listeningTasksRepository;
+        private List<ListeningTask> _unfinishedListeningTasks;
 
-        public RecordingsAPIController(RecordingService recordingService, MicrophoneRepository microphoneContext)
+        public RecordingsAPIController(RecordingService recordingService, MicrophoneRepository microphoneContext, ListeningTasksRepository tasksRepository)
         {
             _recordingService = recordingService;
             _microphoneContext = microphoneContext;
+            _listeningTasksRepository = tasksRepository;
             // Get values from the config given their key and their target type.
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -31,6 +34,17 @@ namespace Bird_Box.Controllers
             _defaultOptions = _config
                 .GetRequiredSection("BirdNETOptions:Default")
                 .Get<AnalyzerOptions>();
+            var taskObjs = _listeningTasksRepository.GetAll().Result;
+            foreach (var taskObj in taskObjs)
+            {
+                if (taskObj.WhenAddedDateTime.Add(taskObj.Hours) > DateTime.Now)
+                    _unfinishedListeningTasks.Add(taskObj);
+            }
+            foreach (var taskObj in _unfinishedListeningTasks.DistinctBy(x => x.InputDevice))
+            {
+                //Restore all unfinished tasks
+                StartRecording(taskObj.Options, taskObj.InputDevice.deviceId, taskObj.Hours.ToString());
+            }
         }
 
         /// <summary>
@@ -92,7 +106,13 @@ namespace Bird_Box.Controllers
                 _hours = TimeSpan.FromHours(1); //default value - 1 hour
             Console.WriteLine($"Using input device ID={device.deviceId}...");
             _recordingService.StartRecording(_hours, options, device.deviceId); //using deviceId
-            
+            _listeningTasksRepository.Create(new ListeningTask(
+                    FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}",
+                    _hours,
+                    device,
+                    options
+                ));
+            Console.WriteLine("Task added to DB and will be removed after comletion or cancellation.");
             return Ok(
                 $"The task will be run for {_hours} hours.{Environment.NewLine} The options are:{Environment.NewLine} {JsonSerializer.Serialize(options)}"
             );
