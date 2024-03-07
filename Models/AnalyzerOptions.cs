@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 namespace Bird_Box.Models
 {
      public class AnalyzerOptions
      {
+        [Key]
+        public string objId { get; init; } = Guid.NewGuid().ToString();
         //Locales:
          public List<string> Locales = new List<string>
          {
