@@ -45,7 +45,8 @@ namespace Bird_Box.Controllers
                 foreach (var taskObj in _unfinishedListeningTasks.DistinctBy(x => x.InputDevice))
                 {
                     //Restore all unfinished tasks
-                    StartRecording(taskObj.Options, taskObj.InputDevice.deviceId, taskObj.Hours.ToString());
+                    _recordingService.StartRecording(taskObj.Hours, taskObj.Options, taskObj.InputDevice.deviceId);
+                    //StartRecording(taskObj.Options, taskObj.InputDevice.deviceId, taskObj.Hours.ToString());
                 }
             }
 
@@ -168,6 +169,11 @@ namespace Bird_Box.Controllers
             return devices;
         }
 
+        [HttpGet("api/recordings/clear-tasks")]
+        public int ClearAllCachedTasks()
+        {
+            return _listeningTasksRepository.Clear();
+        }
         /// <summary>
         /// Validate neural network settings
         /// </summary>

@@ -7,6 +7,12 @@ namespace Bird_Box.Data
     public class ListeningTasksRepository : IRepository<ListeningTask>
     {
         private readonly BirdBoxContext _context;
+        public int Clear()
+        {
+            var tasks = GetAll().Result;
+            _context.RemoveRange(tasks);
+            return _context.SaveChanges();
+        }
         public ListeningTasksRepository(BirdBoxContext context)
         {
             _context = context;
@@ -28,18 +34,18 @@ namespace Bird_Box.Data
 
         public async Task<List<ListeningTask>> GetAll()
         {
-            return _context.ListeningTasks.ToList();
+            return _context.ListeningTasks.Include(x => x.InputDevice).Include(x => x.Options).ToList();
         }
 
         public async Task<ListeningTask> GetById(string id)
         {
-            return _context.ListeningTasks.Where(x => x.objId == id).FirstOrDefault();
+            return _context.ListeningTasks.Where(x => x.objId == id).Include(x => x.InputDevice).Include(x => x.Options).FirstOrDefault();
         }
 
         //Makes no sense.
         public async Task<ListeningTask> GetByName(string inputDeviceName)
         {
-            return _context.ListeningTasks.Include(x => x.InputDevice)
+            return _context.ListeningTasks.Include(x => x.InputDevice).Include(x => x.Options)
                 .FirstOrDefault(x => x.InputDevice.deviceInfo == inputDeviceName);
         }
     }

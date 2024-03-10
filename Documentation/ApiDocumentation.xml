@@ -161,6 +161,18 @@
             <response code="200">The detection was deleted successfully</response>
             <response code="204">The detection was not found</response>
         </member>
+        <member name="T:Bird_Box.Migrations.NewTableMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewTableMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewTableMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Bird_Box.Migrations.NewTableMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:Bird_Box.Migrations.InitialMigration">
             <inheritdoc />
         </member>
