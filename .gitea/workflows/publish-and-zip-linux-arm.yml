@@ -43,6 +43,8 @@ jobs:
           cd linux-arm
           mkdir Data
           mkdir Recordings
+          mkdir Documentation
+          mv ApiDocumentation.xml ./Documentation/
           cd ..
           pwd
 
