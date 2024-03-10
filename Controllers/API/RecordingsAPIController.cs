@@ -18,7 +18,7 @@ namespace Bird_Box.Controllers
         private readonly IConfigurationRoot _config;
         private readonly MicrophoneRepository _microphoneContext;
         private readonly ListeningTasksRepository _listeningTasksRepository;
-        private List<ListeningTask> _unfinishedListeningTasks;
+        private List<ListeningTask> _unfinishedListeningTasks = new();
 
         public RecordingsAPIController(RecordingService recordingService, MicrophoneRepository microphoneContext, ListeningTasksRepository tasksRepository)
         {
@@ -40,11 +40,15 @@ namespace Bird_Box.Controllers
                 if (taskObj.WhenAddedDateTime.Add(taskObj.Hours) > DateTime.Now)
                     _unfinishedListeningTasks.Add(taskObj);
             }
-            foreach (var taskObj in _unfinishedListeningTasks.DistinctBy(x => x.InputDevice))
-            {
-                //Restore all unfinished tasks
-                StartRecording(taskObj.Options, taskObj.InputDevice.deviceId, taskObj.Hours.ToString());
+            if (_unfinishedListeningTasks.Count != 0)
+            {             
+                foreach (var taskObj in _unfinishedListeningTasks.DistinctBy(x => x.InputDevice))
+                {
+                    //Restore all unfinished tasks
+                    StartRecording(taskObj.Options, taskObj.InputDevice.deviceId, taskObj.Hours.ToString());
+                }
             }
+
         }
 
         /// <summary>
