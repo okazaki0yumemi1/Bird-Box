@@ -58,12 +58,14 @@ namespace Bird_Box.Controllers
         /// <param name="optionsInput">BirdNET Analyzer settings</param>
         /// <param name="hours">Duration, hours</param>
         /// <param name="inputDevice">Input device ID</param>
+        /// <param name="restoreAfterShutdown">True if that task should be restored after power or app failure</param>
         /// <returns></returns>
         [HttpPost("api/results/recordings/start/{inputDevice}")]
         public async Task<IActionResult> StartRecording(
             [FromBody] AnalyzerOptions? optionsInput,
             [FromRoute] string inputDevice,
-            [FromQuery] string? hours
+            [FromQuery] string? hours,
+            [FromQuery] bool? restoreAfterShutdown
         )
         {
             if (inputDevice is null || inputDevice == string.Empty)
@@ -111,12 +113,15 @@ namespace Bird_Box.Controllers
                 _hours = TimeSpan.FromHours(1); //default value - 1 hour
             Console.WriteLine($"Using input device ID={device.deviceId}...");
             _recordingService.StartRecording(_hours, options, device.deviceId); //using deviceId
-            _listeningTasksRepository.Create(new ListeningTask(
-                    FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}",
-                    _hours,
-                    device,
-                    options
-                ));
+            if (restoreAfterShutdown)
+            {
+                _listeningTasksRepository.Create(new ListeningTask(
+                        FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}",
+                        _hours,
+                        device,
+                        options
+                    ));
+            }
             Console.WriteLine("Task added to DB and will be removed after comletion or cancellation.");
             return Ok(
                 $"The task will be run for {_hours} hours.{Environment.NewLine} The options are:{Environment.NewLine} {JsonSerializer.Serialize(options)}"
