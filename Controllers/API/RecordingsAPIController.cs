@@ -174,7 +174,7 @@ namespace Bird_Box.Controllers
             return devices;
         }
 
-        [HttpGet("api/recordings/clear-tasks")]
+        [HttpGet("api/recordings/clear-cached-tasks")]
         public int ClearAllCachedTasks()
         {
             return _listeningTasksRepository.Clear();
