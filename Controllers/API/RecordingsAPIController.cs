@@ -174,6 +174,10 @@ namespace Bird_Box.Controllers
             return devices;
         }
 
+        /// <summary>
+        /// Request to this endpoint will clear all persistent tasks (i.e. tasks that will be restored after any shutdown) in database.
+        /// </summary>
+        /// <returns>Number of deleted presistent tasks</returns>
         [HttpGet("api/recordings/clear-cached-tasks")]
         public int ClearAllCachedTasks()
         {
