@@ -113,7 +113,7 @@ namespace Bird_Box.Controllers
                 _hours = TimeSpan.FromHours(1); //default value - 1 hour
             Console.WriteLine($"Using input device ID={device.deviceId}...");
             _recordingService.StartRecording(_hours, options, device.deviceId); //using deviceId
-            if (restoreAfterShutdown)
+            if (restoreAfterShutdown is not null && restoreAfterShutdown == true)
             {
                 _listeningTasksRepository.Create(new ListeningTask(
                         FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}",
