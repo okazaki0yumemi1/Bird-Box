@@ -63,13 +63,14 @@
             </summary>
             <returns>List of birds</returns>
         </member>
-        <member name="M:Bird_Box.Controllers.RecordingsAPIController.StartRecording(Bird_Box.Models.AnalyzerOptions,System.String,System.String)">
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.StartRecording(Bird_Box.Models.AnalyzerOptions,System.String,System.String,System.Nullable{System.Boolean})">
             <summary>
             Start listening service by passing a BirdNET settings and a length (in hours)
             </summary>
             <param name="optionsInput">BirdNET Analyzer settings</param>
             <param name="hours">Duration, hours</param>
             <param name="inputDevice">Input device ID</param>
+            <param name="restoreAfterShutdown">True if that task should be restored after power or app failure</param>
             <returns></returns>
         </member>
         <member name="M:Bird_Box.Controllers.RecordingsAPIController.RecordingStatus(System.Int32)">
@@ -97,6 +98,12 @@
             Get all connected and available input devices to a computer
             </summary>
             <returns>List of input devices</returns>
+        </member>
+        <member name="M:Bird_Box.Controllers.RecordingsAPIController.ClearAllCachedTasks">
+            <summary>
+            Request to this endpoint will clear all persistent tasks (i.e. tasks that will be restored after any shutdown) in database.
+            </summary>
+            <returns>Number of deleted presistent tasks</returns>
         </member>
         <member name="M:Bird_Box.Controllers.RecordingsAPIController.ValidModel(Bird_Box.Models.AnalyzerOptions)">
             <summary>
