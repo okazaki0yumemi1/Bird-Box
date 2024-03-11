@@ -1,7 +1,9 @@
 using Bird_Box.Audio;
+using Bird_Box.Controllers;
 using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Utilities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -82,4 +84,22 @@ app.UseSwaggerUI(options =>
 app.MapControllers();
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Results}/{action=Index}/{id?}");
-app.Run();
+
+await app.StartAsync();
+
+//Make GET request to API to restore tasks
+var requestApiToRestoreTasks = CommandLine.ExecuteCommand($"curl -X GET localhost:5001/api/recordings/");
+Console.WriteLine($"Cached tasks have been restored. There are {requestApiToRestoreTasks} tasks running right now.");
+
+await app.WaitForShutdownAsync();
+//app.Run();
+// using (var host = app)
+// {
+//     host.Start();
+//     var requestApiToRestoreTasks = CommandLine.ExecuteCommand($"curl -X GET localhost:5001/api/recordings/");
+//     Console.WriteLine($"Cached tasks have been restored. There are {requestApiToRestoreTasks} tasks running right now.");
+//     host.
+// }
+// //app.Start();
+
+
