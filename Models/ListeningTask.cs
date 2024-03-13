@@ -9,7 +9,7 @@ namespace Bird_Box.Models
         [Key]
         public string objId { get; init; } = Guid.NewGuid().ToString();
         public string OutputFolder { get; private set; }
-        public TimeSpan Hours { get; private set; }
+        public TimeSpan Hours { get; set; }
         public Microphone InputDevice {  get; private set; } 
         public AnalyzerOptions Options { get; private set; }
         public DateTime WhenAddedDateTime { get; init; } = DateTime.Now;

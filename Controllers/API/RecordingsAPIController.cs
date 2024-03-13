@@ -38,7 +38,10 @@ namespace Bird_Box.Controllers
             foreach (var taskObj in taskObjs)
             {
                 if (taskObj.WhenAddedDateTime.Add(taskObj.Hours) > DateTime.Now)
+                {
+                    taskObj.Hours = taskObj.WhenAddedDateTime.Add(taskObj.Hours) - DateTime.Now;
                     _unfinishedListeningTasks.Add(taskObj);
+                }
             }
             if (_unfinishedListeningTasks.Count != 0)
             {             
