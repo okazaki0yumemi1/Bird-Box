@@ -137,6 +137,7 @@ namespace Bird_Box.Utilities
                     || (birdEntity.birdName == "Fireworks")
                     || (birdEntity.birdName == "Environmental")
                     || (birdEntity.birdName == "Noise")
+                    || (birdEntity.birdName == "nocall")
                 )
                 {
                     break;
