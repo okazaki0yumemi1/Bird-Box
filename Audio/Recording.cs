@@ -31,7 +31,7 @@ namespace Bird_Box.Audio
                 if (result.Contains("Invalid argument)"))
                 {
                     result = CommandLine.ExecuteCommand(
-                    $"{settings.ffmpegExecutable} -loglevel warning -f alsa -channels 1 -sample_rate 48000 -i {inputDevice.deviceId} -t 10 {FFMpegSettings.outputPath}/{fileName}.wav"
+                    $"{settings.ffmpegExecutable} -loglevel warning -f alsa -channels 1 -sample_rate 48000 -i {inputDevice.deviceId} -t 10 {FFMpegSettings.outputPath}/{fileName}.wav");
                 }
                 return fileName + ".wav";
             }
