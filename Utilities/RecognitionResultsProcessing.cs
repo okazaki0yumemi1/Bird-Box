@@ -75,8 +75,8 @@ namespace Bird_Box.Utilities
             {
                 if (linesTotal[i].Contains("Spectrogram"))
                 {
-                    var birdName = linesTotal[i + 7];
-                    var threshold = linesTotal[i + 8];
+                    var birdName = linesTotal[i + 8];
+                    var threshold = linesTotal[i + 9];
                     var fileNameTrimmed = fileName.Replace("Recordings", "").Substring(0, 19);
                     var time = DateTime.ParseExact(
                         fileNameTrimmed,
