@@ -5,6 +5,7 @@ using Bird_Box.Data;
 using Bird_Box.Models;
 using Bird_Box.Services;
 using Bird_Box.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -70,6 +71,7 @@ namespace Bird_Box.Controllers
         /// <param name="inputDevice">Input device ID</param>
         /// <param name="restoreAfterShutdown">True if that task should be restored after power or app failure</param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpPost("api/results/recordings/start/{inputDevice}")]
         public async Task<IActionResult> StartRecording(
             [FromBody] AnalyzerOptions? optionsInput,
@@ -148,6 +150,7 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <param name="serviceId">Listening service ID</param>
         /// <returns>True if task is running, othewise return false</returns>
+        [Authorize]
         [HttpGet("api/recordings/status/{serviceId}")]
         public async Task<bool> RecordingStatus([FromRoute] int serviceId)
         {
@@ -163,6 +166,7 @@ namespace Bird_Box.Controllers
         /// <param name="serviceId">Listening service ID</param>
         /// <returns></returns>
         [HttpGet("api/recordings/stop/{serviceId}")]
+        [Authorize]
         public async Task<bool> StopRecording([FromRoute] int serviceId)
         {
             return await _recordingService.StopRecording(serviceId);
@@ -173,6 +177,7 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <returns>List of IDs</returns>
         [HttpGet("api/recordings/")]
+        [Authorize]
         public async Task<List<int>> GetAllRunningServices()
         {
             return _recordingService.GetRunningRecordingServices();
@@ -183,6 +188,7 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <returns>List of input devices</returns>
         [HttpGet("api/recordings/microphones")]
+        [Authorize]
         public List<Microphone> GetAllConnectedInputDevices()
         {
             var devices = _recordingService.GetInputDevices();
@@ -194,6 +200,7 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <returns>Number of deleted presistent tasks</returns>
         [HttpGet("api/recordings/clear-cached-tasks")]
+        [Authorize]
         public int ClearAllCachedTasks()
         {
             return _listeningTasksRepository.Clear();

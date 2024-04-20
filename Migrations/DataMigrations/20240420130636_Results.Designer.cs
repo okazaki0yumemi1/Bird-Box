@@ -3,19 +3,22 @@ using System;
 using Bird_Box.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Bird_Box.Migrations
+namespace Bird_Box.Migrations.DataMigrations
 {
     [DbContext(typeof(BirdBoxContext))]
-    partial class BirdBoxContextModelSnapshot : ModelSnapshot
+    [Migration("20240420130636_Results")]
+    partial class Results
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.18");
 
             modelBuilder.Entity("Bird_Box.Audio.Microphone", b =>
                 {

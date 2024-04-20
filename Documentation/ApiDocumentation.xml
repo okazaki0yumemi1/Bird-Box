@@ -168,28 +168,28 @@
             <response code="200">The detection was deleted successfully</response>
             <response code="204">The detection was not found</response>
         </member>
-        <member name="T:Bird_Box.Migrations.NewTableMigration">
+        <member name="T:Bird_Box.Migrations.AuthMigrations.Auth">
             <inheritdoc />
         </member>
-        <member name="M:Bird_Box.Migrations.NewTableMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:Bird_Box.Migrations.AuthMigrations.Auth.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:Bird_Box.Migrations.NewTableMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:Bird_Box.Migrations.AuthMigrations.Auth.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:Bird_Box.Migrations.NewTableMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:Bird_Box.Migrations.AuthMigrations.Auth.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:Bird_Box.Migrations.InitialMigration">
+        <member name="T:Bird_Box.Migrations.DataMigrations.Results">
             <inheritdoc />
         </member>
-        <member name="M:Bird_Box.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:Bird_Box.Migrations.DataMigrations.Results.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:Bird_Box.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:Bird_Box.Migrations.DataMigrations.Results.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:Bird_Box.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:Bird_Box.Migrations.DataMigrations.Results.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

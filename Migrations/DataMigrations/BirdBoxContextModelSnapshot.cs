@@ -3,22 +3,19 @@ using System;
 using Bird_Box.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Bird_Box.Migrations
+namespace Bird_Box.Migrations.DataMigrations
 {
     [DbContext(typeof(BirdBoxContext))]
-    [Migration("20240307190828_NewTableMigration")]
-    partial class NewTableMigration
+    partial class BirdBoxContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.18");
 
             modelBuilder.Entity("Bird_Box.Audio.Microphone", b =>
                 {
@@ -116,8 +113,8 @@ namespace Bird_Box.Migrations
                     b.Property<string>("objId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Hours")
-                        .HasColumnType("INTEGER");
+                    b.Property<TimeSpan>("Hours")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("InputDeviceobjId")
                         .HasColumnType("TEXT");
@@ -128,6 +125,9 @@ namespace Bird_Box.Migrations
 
                     b.Property<string>("OutputFolder")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("WhenAddedDateTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("objId");

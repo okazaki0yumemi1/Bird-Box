@@ -1,5 +1,6 @@
 using Bird_Box.Data;
 using Bird_Box.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bird_Box.Controllers
@@ -42,7 +43,8 @@ namespace Bird_Box.Controllers
         {
             return View("Error!");
         }
-
+        
+        [Authorize(Roles = "ApplicationUser")]
         [HttpGet("Results/Delete/{objId}")]
         public async Task<IActionResult> Delete([FromRoute] string objId)
         {
