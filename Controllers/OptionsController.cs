@@ -6,13 +6,13 @@ namespace Bird_Box.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-     public class OptionsController : ControllerBase
-     {
+    public class OptionsController : ControllerBase
+    {
         IConfigurationRoot _config;
         AnalyzerOptions? _options;
 
-         public OptionsController()
-         {
+        public OptionsController()
+        {
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
@@ -23,8 +23,8 @@ namespace Bird_Box.Controllers
         }
 
         [HttpGet]
-         public AnalyzerOptions? GetBirdNETOptions()
-         {
+        public AnalyzerOptions? GetBirdNETOptions()
+        {
             return _options;
         }
 

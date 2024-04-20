@@ -3,21 +3,21 @@ using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
 {
-     public class RecordingSchedule
-     {
+    public class RecordingSchedule
+    {
         private TimeSpan timer { get; set; }
         private Queue<string> UnprocessedRecordings { get; set; } = new Queue<string>();
         private List<Task> ProcessingAudio { get; set; } = new List<Task>();
-         public string recordingsPath { get; private set; } = "Recordings";
-         private bool _continue = true;
+        public string recordingsPath { get; private set; } = "Recordings";
+        private bool _continue = true;
 
-         public RecordingSchedule(TimeSpan timespan)
-         {
+        public RecordingSchedule(TimeSpan timespan)
+        {
             timer = timespan;
         }
 
-         public RecordingSchedule(TimeSpan timespan, string resultsPath)
-         {
+        public RecordingSchedule(TimeSpan timespan, string resultsPath)
+        {
             timer = timespan;
             recordingsPath = resultsPath;
         }
@@ -95,9 +95,9 @@ namespace Bird_Box.Utilities
         // public void Record()
         // {
         //     //var inputDevices = CommandLine.GetAudioDevices();
-        //     //if (inputDevices is null) 
+        //     //if (inputDevices is null)
         //     //{
-        //     //    Console.WriteLine("No input devices found. Check pulseaudio."); 
+        //     //    Console.WriteLine("No input devices found. Check pulseaudio.");
         //     //    return;
         //     //}
         //     FFMpegSettings newSettings = new FFMpegSettings($"Recordings/");
@@ -113,24 +113,23 @@ namespace Bird_Box.Utilities
         //     Console.WriteLine($"Using input device with ID={recordingObj.inputDevice.deviceId}");
         //     UnprocessedRecordings.Enqueue(recordingObj.RecordAudio());
         // }
-        
+
         /// <summary>
         /// This method lets you choose mic by entering device id.
         /// </summary>
         /// <param name="device">Input device.</param>
         public void Record(Microphone device)
         {
-            FFMpegSettings newSettings = new FFMpegSettings($"Recordings/Microphone-{device.deviceId}");
+            FFMpegSettings newSettings = new FFMpegSettings(
+                $"Recordings/Microphone-{device.deviceId}"
+            );
             var inputDevices = CommandLine.GetAudioDevices();
-                        if (inputDevices is null) 
+            if (inputDevices is null)
             {
-                Console.WriteLine("No input devices found. Check pulseaudio."); 
+                Console.WriteLine("No input devices found. Check pulseaudio.");
                 return;
             }
-            Recording recordingObj = new Recording(
-                device,
-                newSettings
-            );
+            Recording recordingObj = new Recording(device, newSettings);
             if (recordingObj is null)
             {
                 Console.WriteLine("No input devices detected, no tasks will be run.");
@@ -163,6 +162,6 @@ namespace Bird_Box.Utilities
             return audio.ProcessAudioAsync(UnprocessedRecordings.Dequeue());
         }
 
-         public void StopTask() => _continue = false;
-     }
+        public void StopTask() => _continue = false;
+    }
 }

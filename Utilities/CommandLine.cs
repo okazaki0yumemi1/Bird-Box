@@ -1,9 +1,9 @@
 namespace Bird_Box.Utilities
 {
-     public class CommandLine
-     {
-         public CommandLine() { }
- 
+    public class CommandLine
+    {
+        public CommandLine() { }
+
         /// <summary>
         /// Get list of audio input devices.
         /// </summary>
@@ -15,29 +15,34 @@ namespace Bird_Box.Utilities
             var devId = string.Empty;
             var deviceInfo = string.Empty;
 
-            var resultInfo = ExecuteCommand($"arecord -l | grep card")
-                .Split(Environment.NewLine);
+            var resultInfo = ExecuteCommand($"arecord -l | grep card").Split(Environment.NewLine);
 
             foreach (var line in resultInfo)
             {
-                if (line == "") break;
+                if (line == "")
+                    break;
                 int i = 0;
                 //card number
-                while (line[i] != ' ') i++;
+                while (line[i] != ' ')
+                    i++;
                 int j = i;
-                while (line[j] != ':') j++;
+                while (line[j] != ':')
+                    j++;
                 devId = "hw:";
                 devId += line[++i..j];
 
                 //skip card info
-                while (line[i] != ',') i++;
-                i+=2;
+                while (line[i] != ',')
+                    i++;
+                i += 2;
 
                 //device number
-                while (line[i] != ' ') i++;
+                while (line[i] != ' ')
+                    i++;
                 j = i;
-                while (line[j] != ':') j++;
-                
+                while (line[j] != ':')
+                    j++;
+
                 devId += ',' + line[++i..j];
                 j += 2;
                 //device info

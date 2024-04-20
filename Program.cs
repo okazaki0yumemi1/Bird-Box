@@ -88,8 +88,12 @@ app.MapControllerRoute(name: "default", pattern: "{controller=Results}/{action=I
 await app.StartAsync();
 
 //Make GET request to API to restore tasks
-var requestApiToRestoreTasks = CommandLine.ExecuteCommand($"curl -X GET localhost:5001/api/recordings/");
-Console.WriteLine($"Cached tasks have been restored. There are {requestApiToRestoreTasks} tasks running right now.");
+var requestApiToRestoreTasks = CommandLine.ExecuteCommand(
+    $"curl -X GET localhost:5001/api/recordings/"
+);
+Console.WriteLine(
+    $"Cached tasks have been restored. There are {requestApiToRestoreTasks} tasks running right now."
+);
 
 await app.WaitForShutdownAsync();
 //app.Run();
@@ -101,5 +105,3 @@ await app.WaitForShutdownAsync();
 //     host.
 // }
 // //app.Start();
-
-

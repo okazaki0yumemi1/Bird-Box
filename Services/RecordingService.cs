@@ -4,8 +4,8 @@ using Bird_Box.Utilities;
 
 namespace Bird_Box.Services
 {
-     public class RecordingService
-     {
+    public class RecordingService
+    {
         private List<Task<string>> _listeningTasks = new List<Task<string>>();
 
         //CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
@@ -13,13 +13,13 @@ namespace Bird_Box.Services
             new Dictionary<int, CancellationTokenSource>();
         private List<Microphone> InputDevices = new List<Microphone>();
 
-         public RecordingService() 
-         { 
+        public RecordingService()
+        {
             InputDevices = CommandLine.GetAudioDevices();
         }
 
-         public void StartRecording(
-             TimeSpan hours,
+        public void StartRecording(
+            TimeSpan hours,
             AnalyzerOptions optionsInput,
             string? inputDeviceID = null
         )
@@ -28,22 +28,21 @@ namespace Bird_Box.Services
             var device = InputDevices.Find(x => x.deviceId == inputDeviceID && x.inUse == false);
 
             if (device is null)
-                // _listeningTasks.Add(
-                //     scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token)
-                // );
+            // _listeningTasks.Add(
+            //     scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token)
+            // );
             {
                 Console.WriteLine("The device does not exist or is busy.");
                 return;
             }
             else
             {
-                RecordingSchedule scheduleRecording = new RecordingSchedule(hours, FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}");
+                RecordingSchedule scheduleRecording = new RecordingSchedule(
+                    hours,
+                    FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}"
+                );
                 _listeningTasks.Add(
-                    scheduleRecording.RecordAndRecognize(
-                        optionsInput,
-                        tokenSource.Token,
-                        device
-                    )
+                    scheduleRecording.RecordAndRecognize(optionsInput, tokenSource.Token, device)
                 );
                 //Set status "In use"
                 //Check if it works!!
@@ -52,8 +51,8 @@ namespace Bird_Box.Services
             _tokenAndTaskIDs.Add(_listeningTasks.Last().Id, tokenSource);
         }
 
-         public TaskStatus RecordingStatus(int id)
-         {
+        public TaskStatus RecordingStatus(int id)
+        {
             if (_listeningTasks is null)
                 return TaskStatus.Faulted;
             else
@@ -65,8 +64,8 @@ namespace Bird_Box.Services
             }
         }
 
-         public async Task<bool> StopRecording(int id)
-         {
+        public async Task<bool> StopRecording(int id)
+        {
             if (_listeningTasks is null)
                 return true;
             var tokenSource = _tokenAndTaskIDs
@@ -76,7 +75,7 @@ namespace Bird_Box.Services
             if (tokenSource is null)
                 return false;
 
-            //Stop the task & set input device "in use" status to false 
+            //Stop the task & set input device "in use" status to false
             tokenSource.Cancel();
 
             var deviceObjId = await _listeningTasks.First(x => x.Id == id);
@@ -86,7 +85,9 @@ namespace Bird_Box.Services
             var device = InputDevices.FirstOrDefault(x => x.objId == deviceObjId);
             if (device is null)
             {
-                Console.WriteLine($"Task {id} was stopped successfully, but the attempt to set flag \"inUse\" to false is failed.");
+                Console.WriteLine(
+                    $"Task {id} was stopped successfully, but the attempt to set flag \"inUse\" to false is failed."
+                );
                 return true;
             }
             device.inUse = false;
@@ -94,13 +95,13 @@ namespace Bird_Box.Services
             return true;
         }
 
-         public List<int> GetRunningRecordingServices()
-         {
+        public List<int> GetRunningRecordingServices()
+        {
             return _tokenAndTaskIDs.Select(x => x.Key).ToList();
         }
 
-         public List<Microphone> GetInputDevices()
-         {
+        public List<Microphone> GetInputDevices()
+        {
             return InputDevices;
         }
     }

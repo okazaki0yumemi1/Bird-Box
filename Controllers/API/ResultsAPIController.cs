@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
-     public class ResultsAPIController : ControllerBase
-     {
+    public class ResultsAPIController : ControllerBase
+    {
         private readonly BirdRepository _dbOperations;
 
         //private readonly AnalyzerOptions _defaultOptions;
         //private readonly IConfigurationRoot _config;
 
-         public ResultsAPIController(BirdRepository dbOperations)
-         {
+        public ResultsAPIController(BirdRepository dbOperations)
+        {
             _dbOperations = dbOperations;
         }
 
@@ -118,7 +118,9 @@ namespace Bird_Box.Controllers
                 Console.WriteLine($"Input device: {inputDevice.deviceInfo} {inputDevice.deviceId}");
             }
             var count = await _dbOperations.CreateRange(detections);
-            Console.WriteLine($"Results from Device no. {inputDevice.deviceId} processed successfully. Added {count} detections.");
+            Console.WriteLine(
+                $"Results from Device no. {inputDevice.deviceId} processed successfully. Added {count} detections."
+            );
             return count;
         }
 

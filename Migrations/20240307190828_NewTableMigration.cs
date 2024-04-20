@@ -32,7 +32,8 @@ namespace Bird_Box.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AnalyzerOptions", x => x.objId);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "InputDevices",
@@ -45,7 +46,8 @@ namespace Bird_Box.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InputDevices", x => x.objId);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "BirdRecords",
@@ -65,8 +67,10 @@ namespace Bird_Box.Migrations
                         column: x => x.inputDeviceobjId,
                         principalTable: "InputDevices",
                         principalColumn: "objId",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "ListeningTasks",
@@ -86,44 +90,46 @@ namespace Bird_Box.Migrations
                         column: x => x.OptionsobjId,
                         principalTable: "AnalyzerOptions",
                         principalColumn: "objId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade
+                    );
                     table.ForeignKey(
                         name: "FK_ListeningTasks_InputDevices_InputDeviceobjId",
                         column: x => x.InputDeviceobjId,
                         principalTable: "InputDevices",
-                        principalColumn: "objId");
-                });
+                        principalColumn: "objId"
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_BirdRecords_inputDeviceobjId",
                 table: "BirdRecords",
-                column: "inputDeviceobjId");
+                column: "inputDeviceobjId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_ListeningTasks_InputDeviceobjId",
                 table: "ListeningTasks",
-                column: "InputDeviceobjId");
+                column: "InputDeviceobjId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_ListeningTasks_OptionsobjId",
                 table: "ListeningTasks",
-                column: "OptionsobjId");
+                column: "OptionsobjId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "BirdRecords");
+            migrationBuilder.DropTable(name: "BirdRecords");
 
-            migrationBuilder.DropTable(
-                name: "ListeningTasks");
+            migrationBuilder.DropTable(name: "ListeningTasks");
 
-            migrationBuilder.DropTable(
-                name: "AnalyzerOptions");
+            migrationBuilder.DropTable(name: "AnalyzerOptions");
 
-            migrationBuilder.DropTable(
-                name: "InputDevices");
+            migrationBuilder.DropTable(name: "InputDevices");
         }
     }
 }

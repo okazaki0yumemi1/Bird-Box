@@ -494,3 +494,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+.config/dotnet-tools.json

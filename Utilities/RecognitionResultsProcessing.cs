@@ -3,13 +3,14 @@ using Bird_Box.Models;
 
 namespace Bird_Box.Utilities
 {
-     public class RecognitionResultsProcessing
-     {
+    public class RecognitionResultsProcessing
+    {
         private string textResultsPath { get; set; }
+
         //private Microphone inputDevice { get; set; }
 
-         public RecognitionResultsProcessing(string path)
-         {
+        public RecognitionResultsProcessing(string path)
+        {
             textResultsPath = "Recordings/" + path;
         }
 
@@ -46,7 +47,7 @@ namespace Bird_Box.Utilities
         /// </summary>
         /// <param name="fileName">text file name</param>
         /// <returns>List of identified birds</returns>
-        List<IdentifiedBird> ProcessTextFile(string fileName)//, Microphone inputDevice)
+        List<IdentifiedBird> ProcessTextFile(string fileName) //, Microphone inputDevice)
         {
             var birds = new List<IdentifiedBird>();
             string lines = "";
@@ -86,7 +87,8 @@ namespace Bird_Box.Utilities
                     var newBird = new IdentifiedBird(
                         birdName,
                         threshold.Replace("\n", ""),
-                        time.ToUniversalTime(), null
+                        time.ToUniversalTime(),
+                        null
                     );
                     birds.Add(newBird);
                     i++;
@@ -119,8 +121,8 @@ namespace Bird_Box.Utilities
             return birds;
         }
 
-         public List<IdentifiedBird> ProcessSingleFile(string file)
-         {
+        public List<IdentifiedBird> ProcessSingleFile(string file)
+        {
             var birds = new List<IdentifiedBird>();
             var birdsInASingleFile = ProcessTextFile(file);
             foreach (var birdEntity in birdsInASingleFile)

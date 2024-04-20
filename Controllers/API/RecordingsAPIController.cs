@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bird_Box.Controllers
 {
     [ApiController]
-     public class RecordingsAPIController : ControllerBase
-     {
+    public class RecordingsAPIController : ControllerBase
+    {
         private RecordingService _recordingService;
         private readonly AnalyzerOptions _defaultOptions;
         private readonly IConfigurationRoot _config;
@@ -20,7 +20,11 @@ namespace Bird_Box.Controllers
         private readonly ListeningTasksRepository _listeningTasksRepository;
         private List<ListeningTask> _unfinishedListeningTasks = new();
 
-        public RecordingsAPIController(RecordingService recordingService, MicrophoneRepository microphoneContext, ListeningTasksRepository tasksRepository)
+        public RecordingsAPIController(
+            RecordingService recordingService,
+            MicrophoneRepository microphoneContext,
+            ListeningTasksRepository tasksRepository
+        )
         {
             _recordingService = recordingService;
             _microphoneContext = microphoneContext;
@@ -44,15 +48,18 @@ namespace Bird_Box.Controllers
                 }
             }
             if (_unfinishedListeningTasks.Count != 0)
-            {             
+            {
                 foreach (var taskObj in _unfinishedListeningTasks.DistinctBy(x => x.InputDevice))
                 {
                     //Restore all unfinished tasks
-                    _recordingService.StartRecording(taskObj.Hours, taskObj.Options, taskObj.InputDevice.deviceId);
+                    _recordingService.StartRecording(
+                        taskObj.Hours,
+                        taskObj.Options,
+                        taskObj.InputDevice.deviceId
+                    );
                     //StartRecording(taskObj.Options, taskObj.InputDevice.deviceId, taskObj.Hours.ToString());
                 }
             }
-
         }
 
         /// <summary>
@@ -72,8 +79,8 @@ namespace Bird_Box.Controllers
         )
         {
             if (inputDevice is null || inputDevice == string.Empty)
-            return BadRequest("No input device provided.");
-            
+                return BadRequest("No input device provided.");
+
             Microphone? device = GetMicrophoneByID(inputDevice);
             if (device is not null)
             {
@@ -97,7 +104,8 @@ namespace Bird_Box.Controllers
                 //     Console.WriteLine($"Added default input device with ID = \"-1\".");
                 // }
             }
-            else return BadRequest($"Can't find input device with provided id: {inputDevice}");
+            else
+                return BadRequest($"Can't find input device with provided id: {inputDevice}");
 
             TimeSpan _hours;
             var options = new AnalyzerOptions(setWeek: true);
@@ -118,14 +126,18 @@ namespace Bird_Box.Controllers
             _recordingService.StartRecording(_hours, options, device.deviceId); //using deviceId
             if (restoreAfterShutdown is not null && restoreAfterShutdown == true)
             {
-                _listeningTasksRepository.Create(new ListeningTask(
+                _listeningTasksRepository.Create(
+                    new ListeningTask(
                         FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}",
                         _hours,
                         device,
                         options
-                    ));
+                    )
+                );
             }
-            Console.WriteLine("Task added to DB and will be removed after comletion or cancellation.");
+            Console.WriteLine(
+                "Task added to DB and will be removed after comletion or cancellation."
+            );
             return Ok(
                 $"The task will be run for {_hours} hours.{Environment.NewLine} The options are:{Environment.NewLine} {JsonSerializer.Serialize(options)}"
             );
@@ -186,6 +198,7 @@ namespace Bird_Box.Controllers
         {
             return _listeningTasksRepository.Clear();
         }
+
         /// <summary>
         /// Validate neural network settings
         /// </summary>
@@ -294,11 +307,14 @@ namespace Bird_Box.Controllers
             }
             return result;
         }
+
         private Microphone? GetMicrophoneByID(string deviceId)
         {
             var device = CommandLine.GetAudioDevices().FirstOrDefault(x => x.deviceId == deviceId);
-            if (device is null) return null;
-            else return device;
+            if (device is null)
+                return null;
+            else
+                return device;
         }
     }
 }

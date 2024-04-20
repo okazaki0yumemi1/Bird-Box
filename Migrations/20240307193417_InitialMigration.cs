@@ -17,22 +17,22 @@ namespace Bird_Box.Migrations
                 type: "TEXT",
                 nullable: false,
                 oldClrType: typeof(int),
-                oldType: "INTEGER");
+                oldType: "INTEGER"
+            );
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "WhenAddedDateTime",
                 table: "ListeningTasks",
                 type: "TEXT",
                 nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "WhenAddedDateTime",
-                table: "ListeningTasks");
+            migrationBuilder.DropColumn(name: "WhenAddedDateTime", table: "ListeningTasks");
 
             migrationBuilder.AlterColumn<int>(
                 name: "Hours",
@@ -40,7 +40,8 @@ namespace Bird_Box.Migrations
                 type: "INTEGER",
                 nullable: false,
                 oldClrType: typeof(TimeSpan),
-                oldType: "TEXT");
+                oldType: "TEXT"
+            );
         }
     }
 }

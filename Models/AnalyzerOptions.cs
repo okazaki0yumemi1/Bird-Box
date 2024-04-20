@@ -3,13 +3,14 @@ using System.Globalization;
 
 namespace Bird_Box.Models
 {
-     public class AnalyzerOptions
-     {
+    public class AnalyzerOptions
+    {
         [Key]
         public string objId { get; init; } = Guid.NewGuid().ToString();
+
         //Locales:
-         public List<string> Locales = new List<string>
-         {
+        public List<string> Locales = new List<string>
+        {
             "af",
             "ar",
             "cs",
@@ -38,47 +39,47 @@ namespace Bird_Box.Models
         };
 
         //--lat, Recording location latitude. Set -1 to ignore.
-         public string? latitude { get; set; } = "-1";
- 
+        public string? latitude { get; set; } = "-1";
+
         //-lon, Recording location longitude. Set -1 to ignore.
-         public string? longitude { get; set; } = "-1";
- 
+        public string? longitude { get; set; } = "-1";
+
         //--week, Week of the year when the recording was made. Values in [1, 48] (4 weeks per month).
         //Set -1 for year-round species list.
-         public string? weekOfTheYear { get; set; } = "-1";
- 
+        public string? weekOfTheYear { get; set; } = "-1";
+
         //--slist, Path to species list file or folder. If folder is provided, species list needs to be named "species_list.txt".
         //If lat and lon are provided, this list will be ignored.
-         public string? slist { get; set; }
- 
+        public string? slist { get; set; }
+
         //--sensitivity, Detection sensitivity; Higher values result in higher sensitivity.
         //Values in [0.5, 1.5]. Defaults to 1.0.
 
-         public string? sensitivity { get; set; } = "1";
- 
+        public string? sensitivity { get; set; } = "1";
+
         //--min_conf, Minimum confidence threshold. Values in [0.01, 0.99]. Defaults to 0.1.
-         public string? minimumConfidence { get; set; } = "0.1";
- 
+        public string? minimumConfidence { get; set; } = "0.1";
+
         //--overlap, Overlap of prediction segments. Values in [0.0, 2.9]. Defaults to 0.0.
-         public string? overlapSegments { get; set; } = "0";
- 
+        public string? overlapSegments { get; set; } = "0";
+
         //--threads, Number of CPU threads.
-         public string? cpuThreads { get; set; } = Environment.ProcessorCount.ToString();
- 
+        public string? cpuThreads { get; set; } = Environment.ProcessorCount.ToString();
+
         //--batchsize, Number of samples to process at the same time. Defaults to 1.
-         public string? processingBatchSize { get; set; } = "1";
- 
+        public string? processingBatchSize { get; set; } = "1";
+
         //--locale, Locale for translated species common names. Values in ['af', 'de', 'it', ...] Defaults to 'en'.
-         public string? locale { get; set; } = "en";
- 
+        public string? locale { get; set; } = "en";
+
         //--sf_thresh, Minimum species occurrence frequency threshold for location filter. Values in [0.01, 0.99]. Defaults to 0.03.
-         public string? speciesFrequencyThreshold { get; set; } = "0.03";
- 
+        public string? speciesFrequencyThreshold { get; set; } = "0.03";
+
         //--classifier, Path to custom trained classifier. Defaults to None. If set, --lat, --lon and --locale are ignored.
-         public string? classifier { get; set; } = string.Empty;
- 
-         public AnalyzerOptions(bool setWeek, bool? setThreads = true)
-         {
+        public string? classifier { get; set; } = string.Empty;
+
+        public AnalyzerOptions(bool setWeek, bool? setThreads = true)
+        {
             //Set CPU threads:
             if (setThreads == true)
             {
@@ -95,12 +96,16 @@ namespace Bird_Box.Models
                 }
 
                 // Return the week of our adjusted day
-                weekOfTheYear = CultureInfo.InvariantCulture.Calendar
-                    .GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
+                weekOfTheYear = CultureInfo
+                    .InvariantCulture.Calendar.GetWeekOfYear(
+                        time,
+                        CalendarWeekRule.FirstFourDayWeek,
+                        DayOfWeek.Monday
+                    )
                     .ToString();
             }
         }
 
-         public AnalyzerOptions() { }
-     }
+        public AnalyzerOptions() { }
+    }
 }

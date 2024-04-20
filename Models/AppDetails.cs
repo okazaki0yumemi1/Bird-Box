@@ -4,22 +4,22 @@ using Bird_Box.Utilities;
 
 namespace Bird_Box.Models
 {
-     public class AppDetails
-     {
+    public class AppDetails
+    {
         private readonly BirdRepository _db;
-         public List<Microphone> Microphones { get; private set; }
-          public int ResultsInDb { get; private set; }
-          public List<string> UniqueSpecies { get; private set; }
- 
-         public AppDetails(BirdRepository db)
-         {
+        public List<Microphone> Microphones { get; private set; }
+        public int ResultsInDb { get; private set; }
+        public List<string> UniqueSpecies { get; private set; }
+
+        public AppDetails(BirdRepository db)
+        {
             _db = db;
             UniqueSpecies = new List<string>();
             UpdateDetails();
         }
 
-         public async void UpdateDetails()
-         {
+        public async void UpdateDetails()
+        {
             Microphones = CommandLine.GetAudioDevices();
             ResultsInDb = await _db.GetRecourdsCount();
             GetUniqueBirdsList();
