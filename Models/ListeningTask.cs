@@ -7,7 +7,7 @@ namespace Bird_Box.Models
     public class ListeningTask : IEntity
     {
         [Key]
-        public string objId { get; init; } = Guid.NewGuid().ToString();
+        public string objId { get; private set; } = Guid.NewGuid().ToString();
         public string OutputFolder { get; private set; }
         public TimeSpan Hours { get; set; }
         public Microphone InputDevice { get; private set; }

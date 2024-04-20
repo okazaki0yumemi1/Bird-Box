@@ -10,13 +10,15 @@ namespace Bird_Box.Controllers
     public class ResultsAPIController : ControllerBase
     {
         private readonly BirdRepository _dbOperations;
+        private readonly MicrophoneRepository _microphoneDbOperations;
 
         //private readonly AnalyzerOptions _defaultOptions;
         //private readonly IConfigurationRoot _config;
 
-        public ResultsAPIController(BirdRepository dbOperations)
+        public ResultsAPIController(BirdRepository dbOperations, MicrophoneRepository mics)
         {
             _dbOperations = dbOperations;
+            _microphoneDbOperations = mics;
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace Bird_Box.Controllers
         [HttpGet("api/results/process")]
         public async Task<IActionResult> ProcessResults()
         {
-            var devices = CommandLine.GetAudioDevices();
+            var devices = await _microphoneDbOperations.GetAll(); //CommandLine.GetAudioDevices();
             int totalResults = 0;
             foreach (var device in devices)
             {
