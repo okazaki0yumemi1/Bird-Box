@@ -70,6 +70,7 @@ namespace Bird_Box.Utilities
             linesTotal = linesTotal.Skip(1).ToList();
             foreach (var line in linesTotal)
             {
+                if (line == "") return birds;
                 var entity = line.Split("\t");
                 var birdName = entity[entity.Length - 2];
                 var threshold = entity[entity.Length - 1];
