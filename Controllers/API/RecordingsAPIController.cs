@@ -34,7 +34,7 @@ namespace Bird_Box.Controllers
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
-                .Build();
+                .Build();    
 
             _defaultOptions = _config
                 .GetRequiredSection("BirdNETOptions:Default")

@@ -114,7 +114,16 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<BirdBoxContext>();
     dbContext.Database.Migrate();
     dbContext.Database.EnsureCreated();
+    //detect audio devices:
+    var devices = CommandLine.GetAudioDevices();
+    var empty = !dbContext.InputDevices.Any();
+    if (empty)
+    {
+        dbContext.InputDevices.AddRange(devices);
+        dbContext.SaveChanges();
+    }
 
+    
     var authContext = scope.ServiceProvider.GetRequiredService<BirdBoxAuthContext>();
     authContext.Database.Migrate();
     authContext.Database.EnsureCreated();

@@ -1,5 +1,6 @@
 using Bird_Box.Audio;
 using Bird_Box.Models;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace Bird_Box.Utilities
 {
@@ -65,37 +66,57 @@ namespace Bird_Box.Utilities
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
             }
-            var linesTotal = lines.Split("\t");
-            if (linesTotal.Length < 10)
+            var linesTotal = lines.Split(Environment.NewLine).ToList();
+            linesTotal = linesTotal.Skip(1).ToList();
+            foreach (var line in linesTotal)
             {
-                birds.Add(new IdentifiedBird("No detection"));
-                return birds;
-            }
-            int i = 10;
-            while (linesTotal.Length > i)
-            {
-                if (linesTotal[i].Contains("Spectrogram"))
-                {
-                    var birdName = linesTotal[i + 9];
-                    var threshold = linesTotal[i + 10];
-                    var fileNameTrimmed = fileName.Replace("Recordings", "").Substring(0, 19);
-                    var time = DateTime.ParseExact(
-                        fileNameTrimmed,
-                        "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
-                        null
-                    );
-                    var newBird = new IdentifiedBird(
+                var entity = line.Split("\t");
+                var birdName = entity[entity.Length - 2];
+                var threshold = entity[entity.Length - 1];
+                var fileNameTrimmed = fileName.Replace("Recordings", "").Substring(0, 19);
+                var time = DateTime.ParseExact(
+                    fileNameTrimmed,
+                    "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
+                    null 
+                );
+                var newBird = new IdentifiedBird(
                         birdName,
                         threshold.Replace("\n", ""),
                         time.ToUniversalTime(),
                         null
-                    );
-                    birds.Add(newBird);
-                    i++;
-                }
-                else
-                    i++;
+                     );
+                birds.Add(newBird);
             }
+            // if (linesTotal.Length < 10)
+            // {
+            //     birds.Add(new IdentifiedBird("No detection"));
+            //     return birds;
+            // }
+            // int i = 10;
+            // while (linesTotal.Length > i)
+            // {
+            //     if (linesTotal[i].Contains("Spectrogram"))
+            //     {
+            //         var birdName = linesTotal[i + 9];
+            //         var threshold = linesTotal[i + 10];
+            //         var fileNameTrimmed = fileName.Replace("Recordings", "").Substring(0, 19);
+            //         var time = DateTime.ParseExact(
+            //             fileNameTrimmed,
+            //             "yyyy'-'MM'-'dd'-'HH'-'mm'-'ss",
+            //             null
+            //         );
+            //         var newBird = new IdentifiedBird(
+            //             birdName,
+            //             threshold.Replace("\n", ""),
+            //             time.ToUniversalTime(),
+            //             null
+            //         );
+            //         birds.Add(newBird);
+            //         i++;
+            //     }
+            //     else
+            //         i++;
+            // }
             return birds;
         }
 
