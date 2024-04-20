@@ -67,6 +67,7 @@ namespace Bird_Box.Utilities
                 Console.WriteLine(e.Message);
             }
             var linesTotal = lines.Split(Environment.NewLine).ToList();
+            if (linesTotal.Count == 1) return birds;
             linesTotal = linesTotal.Skip(1).ToList();
             foreach (var line in linesTotal)
             {
