@@ -89,7 +89,7 @@ namespace Bird_Box.Controllers
         /// <returns></returns>
         /// <response code="200">Process was finished successfully</response>
         [HttpGet("api/results/process")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ProcessResults()
         {
             var devices = await _microphoneDbOperations.GetAll(); //CommandLine.GetAudioDevices();
@@ -136,7 +136,7 @@ namespace Bird_Box.Controllers
         /// <response code="200">The detection was deleted successfully</response>
         /// <response code="204">The detection was not found</response>
         [HttpDelete("api/results/{recordId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteById([FromRoute] string recordId)
         {
             var deletedItems = await _dbOperations.DeleteById(recordId);

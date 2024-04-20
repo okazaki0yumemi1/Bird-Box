@@ -3,7 +3,6 @@ using Bird_Box.Data;
 using Bird_Box.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -88,46 +87,7 @@ builder.Services.AddSwaggerGen(o =>
             new string[]{}
         }
     });
-//         In = ParameterLocation.Header, 
-//         Description = "Please insert JWT with Bearer into field",
-//         Name = "Authorization",
-//         Type = SecuritySchemeType.ApiKey 
-//     });
-//         o.AddSecurityRequirement(new OpenApiSecurityRequirement {
-//     { 
-//         new OpenApiSecurityScheme 
-//         { 
-//         Reference = new OpenApiReference 
-//         { 
-//             Type = ReferenceType.SecurityScheme,
-//             Id = "Bearer" 
-//         } 
-//         },
-//       new string[] { } 
-//     } 
-//   });
 });
-// builder.Services.AddAuthentication(options =>
-//             {
-//                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-//             })
-
-//             // Adding Jwt Bearer
-//             .AddJwtBearer(options =>
-//             {
-//                 options.SaveToken = true;
-//                 options.RequireHttpsMetadata = false;
-//                 options.TokenValidationParameters = new TokenValidationParameters()
-//                 {
-//                     ValidateIssuer = true,
-//                     ValidateAudience = true,
-//                     ValidAudience = _config["JWT:ValidAudience"],
-//                     ValidIssuer = _config["JWT:ValidIssuer"],
-//                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Secret"]))
-//                 };
-//             });
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

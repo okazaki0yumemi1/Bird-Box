@@ -166,7 +166,7 @@ namespace Bird_Box.Controllers
         /// <param name="serviceId">Listening service ID</param>
         /// <returns></returns>
         [HttpGet("api/recordings/stop/{serviceId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<bool> StopRecording([FromRoute] int serviceId)
         {
             return await _recordingService.StopRecording(serviceId);
@@ -200,6 +200,7 @@ namespace Bird_Box.Controllers
         /// </summary>
         /// <returns>Number of deleted presistent tasks</returns>
         [HttpGet("api/recordings/clear-cached-tasks")]
+        [Authorize(Roles = "Admin")]        
         [Authorize]
         public int ClearAllCachedTasks()
         {

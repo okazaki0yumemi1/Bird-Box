@@ -85,14 +85,16 @@ namespace Bird_Box.Controllers
 
         [HttpPost]
         [Route("register-admin")]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             var userExists = await userManager.FindByNameAsync(model.Username);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-
+            var roleExists = await userManager.GetUsersInRoleAsync("Admin");
+            if (roleExists is null || roleExists.Count < 4)
+            {
+                return Unauthorized("Only one admin can exist at a time.");
+            }
             ApplicationUser user = new ApplicationUser()
             {
                 Email = model.Email,
