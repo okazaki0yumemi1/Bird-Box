@@ -91,7 +91,7 @@ namespace Bird_Box.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
             var roleExists = await userManager.GetUsersInRoleAsync("Admin");
-            if (roleExists is null || roleExists.Count < 4)
+            if (roleExists is null || roleExists.Count != 1)
             {
                 return Unauthorized("Only one admin can exist at a time.");
             }
