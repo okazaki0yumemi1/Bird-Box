@@ -67,13 +67,12 @@ namespace Bird_Box.Utilities
                 Console.WriteLine(e.Message);
             }
             var linesTotal = lines.Split(Environment.NewLine).ToList();
-            if (linesTotal.Count == 1) return birds;
-            if (fileName.Contains(".wav")) return birds;
+            //if (linesTotal.Count == 1) return birds;
+            if (fileName.EndsWith(".wav")) return birds;
             linesTotal = linesTotal.Skip(1).ToList();
             foreach (var line in linesTotal)
             {
                 if (line == "") return birds;
-                if (line.Length <= 1) return birds;
                 var entity = line.Split("\t");
                 var birdName = entity[entity.Length - 2];
                 var threshold = entity[entity.Length - 1];
