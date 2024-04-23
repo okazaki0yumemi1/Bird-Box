@@ -130,7 +130,7 @@ namespace Bird_Box.Controllers
             {
                 _listeningTasksRepository.Create(
                     new ListeningTask(
-                        FFMpegSettings.outputPath + $"/Microphone-{device.deviceId}",
+                        FFMpegSettings.outputPath,
                         _hours,
                         device,
                         options
