@@ -81,11 +81,11 @@ jobs:
 
       - name: Create zip archive (arm64)
         run: |
-          zip -r Bird-Box-linux-arm.zip linux-arm64
+          zip -r Bird-Box-linux-arm64.zip linux-arm64
       
       - name: Create zip archive (x64)
         run: |
-          zip -r Bird-Box-linux-arm.zip linux-x64
+          zip -r Bird-Box-linux-x64.zip linux-x64
       
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@main
