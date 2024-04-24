@@ -141,7 +141,7 @@ namespace Bird_Box.Utilities
                 var birdsInAFile = ProcessSingleFile(file);
                 birds.AddRange(birdsInAFile);
             }
-            Directory.Delete(textResultsPath);
+            Directory.Delete(textResultsPath, true);
             return birds;
         }
 
