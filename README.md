@@ -51,7 +51,8 @@ To process results, make a GET-request to ``` localhost:5001/api/results/process
 5. Navigate to your server's IP address (you can see it by running ```hostname -I```) and port 5001, i.e. 192.168.88.200:5001, if your server ip is 192.168.88.200.
 
 # Can I try it?
-Sure. Go to birds.containercat.com (birds.containercat.com/api/swagger/index.html for Swagger Web UI) and try following endpoints:
+Sure. 
+Go to https://birds.containercat.com (https://birds.containercat.com/api/swagger/index.html for Swagger Web UI) and try following endpoints:
    /api/results
    You can also check these to get results for specific day or to get a specific type of bird:
    /api/results/days/
