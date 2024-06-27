@@ -91,7 +91,11 @@ namespace Bird_Box.Services
                 return true;
             }
             device.inUse = false;
-
+            //Check if deviceId contains additional path info: 
+            if (device.deviceId.Contains("Microphone-"))
+            {
+                device.deviceId.Replace("Microphone-", String.Empty);
+            }
             return true;
         }
 
