@@ -12,14 +12,15 @@ All you need is a single-board PC (ARM64 or ARM) or pretty much any PC (x86_64) 
 
 1. Download the latest release for Linux for ARM, ARM64 or x86_64, depends on your CPU architecture
 2. Unzip, change directory to Bird-Box, then go to ``` https://github.com/kahst/BirdNET-Analyzer ``` and follow the instructions to install:
-3. Install following packages:
+3. Install following packages via pip3:
    ```
-   python3
    tensorflow or TFLite
-   ffmpeg, resampy, librosa
+   resampy, librosa
    ```
-5. Clone BirdNET Analyzer to Bird-Box folder via 'git clone' command.
-6. Start the binary file via ./Bird-Box command.
+   Also make sure that you have ```ffmpeg``` installed!
+
+5. Clone BirdNET Analyzer repository to the Bird-Box folder via 'git clone' command.
+6. Start the binary file via ```./Bird-Box``` or ```/your/path/to/Bird-Box``` command.
 7. Navigate to ``` localhost:5001 ``` - you should see list of connected audio devices. Click on the "Swagger Web UI" link on the left top corner to get to the Swagger UI. 
 
 To start the recording, you need to create POST-request with settings for BirdNET, duration (in hours) and an input device. The most important options are: confidence (can be between 0 & 1, but I use 0.7) and sensitivity (1 is standart, 1.5 is max), also longtitude and latitude (your location, basically).
